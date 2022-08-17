@@ -7,7 +7,7 @@ export function manipulate(source: string, vistors: TraverseOptions) {
     traverse(ast, vistors);
 
     return expect(
-        generate(ast, { retainLines: false, jsescOption: { minimal: true } })
+        generate(ast, { concise: true, jsescOption: { minimal: true } })
             .code
     );
 }
