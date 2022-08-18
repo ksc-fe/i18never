@@ -4,7 +4,7 @@
   "description": "Deal with the internationalization (i18n) automatically.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [
     "i18n"
