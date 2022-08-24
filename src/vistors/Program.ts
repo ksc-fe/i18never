@@ -12,7 +12,7 @@ export function skipStringLiteral(value: string) {
 }
 
 export function Program(path: NodePath<t.Program>) {
-    const identifier = t.identifier('{_$}');
+    const identifier = t.identifier('{ _$ }');
     const importDefaultSpecifier = t.importDefaultSpecifier(identifier);
     const importDeclaration = t.importDeclaration(
         [importDefaultSpecifier],

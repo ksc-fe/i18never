@@ -1,0 +1,12 @@
+query QueryOrCreateDicts($source: String!, $values: [ValueArg!]!) {
+    dicts(source: $source, values: $values) {
+        key
+        translations {
+            language
+            tags {
+                name
+                value
+            }
+        }
+    }
+}

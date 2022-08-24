@@ -4,7 +4,7 @@ import generate from '@babel/generator';
 
 export function manipulate(source: string, vistors: TraverseOptions) {
     const ast = parse(source, { sourceType: 'module' });
-    traverse(ast, vistors);
+    traverse(ast, vistors, undefined, { test: 1 });
 
     return expect(
         generate(ast, { concise: true, jsescOption: { minimal: true } }).code

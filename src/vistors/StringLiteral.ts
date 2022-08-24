@@ -26,7 +26,7 @@ export function StringLiteral(
     path.skip();
 }
 
-const parseRegexp = /^\[i18never:([\d\w\-_]*)\](.*)/;
+const parseRegexp = /^\[i18never:([^\]]*)\](.*)/;
 export function parseString(str: string) {
     const matches = str.match(parseRegexp);
     if (!matches) return [null, str];

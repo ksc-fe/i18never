@@ -15,7 +15,7 @@ test('should ignore empty string', () => {
 
 test('should not manipulate string that is created by i18never', () => {
     manipulate(``, { Program, StringLiteral }).toBe(
-        `import {_$} from "i18never";`
+        `import { _$ } from "i18never";`
     );
 });
 
@@ -55,5 +55,11 @@ test('should wrap tag string correctly', () => {
 test('empty tag string should be considered as default tag string', () => {
     manipulate(`const a = '[i18never:]测试'`, { StringLiteral }).toBe(
         `const a = _$("测试");`
+    );
+});
+
+test('should ignore tag even if it is chinese', () => {
+    manipulate(`const a = '[i18never:动词]测试'`, { StringLiteral }).toBe(
+        `const a = _$("测试", "动词");`
     );
 });
