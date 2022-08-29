@@ -43,9 +43,17 @@ test('should wrap tag string correctly', () => {
     );
 });
 
-test('empty tag string should be considered as default tag string', () => {
+test('empty tag string should be considered as default tag string and should be ignored', () => {
     manipulate(`const a = '[i18never:]测试'`, { StringLiteral }).toBe(
         `const a = _$("测试");`
+    );
+
+    manipulate(`const a = '[i18never:en]测试'`, { StringLiteral }).toBe(
+        `const a = _$("测试");`
+    );
+
+    manipulate(`const a = '[i18never:en,jp=n]测试'`, { StringLiteral }).toBe(
+        `const a = _$("测试", { "jp": "n" });`
     );
 });
 

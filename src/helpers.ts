@@ -44,13 +44,24 @@ export function parseString(str: string): KeyWithTags {
 export function getTagsParam(tags: Tags) {
     const languages = Object.keys(tags);
     if (languages.length) {
-        const properties = languages.map((language) => {
+        const properties = languages.reduce((memo, language) => {
             const tagName = tags[language];
-            return t.objectProperty(
-                t.stringLiteral(language),
-                tagName === null ? t.nullLiteral() : t.stringLiteral(tagName)
+            if (!tagName) return memo;
+
+            memo.push(
+                t.objectProperty(
+                    t.stringLiteral(language),
+                    tagName === null
+                        ? t.nullLiteral()
+                        : t.stringLiteral(tagName)
+                )
             );
-        });
-        return t.objectExpression(properties);
+
+            return memo;
+        }, [] as t.ObjectProperty[]);
+
+        if (properties.length) {
+            return t.objectExpression(properties);
+        }
     }
 }
