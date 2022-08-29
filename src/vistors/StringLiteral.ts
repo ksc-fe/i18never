@@ -25,6 +25,8 @@ export function StringLiteral(
         }
     }
 
+    path.skip();
+
     this.keys.push({
         key,
         tags,
@@ -32,6 +34,4 @@ export function StringLiteral(
             path.replaceWith(t.callExpression(t.identifier('_$'), params));
         },
     });
-
-    path.skip();
 }

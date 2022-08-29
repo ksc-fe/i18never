@@ -6,6 +6,7 @@ import { Context, KeyItem } from '../helpers';
 export function manipulate(source: string, vistors: TraverseOptions<Context>) {
     const ast = parse(source, { sourceType: 'module' });
     const allKeys: KeyItem[] = [];
+
     traverse(ast, vistors, undefined, {
         keys: allKeys,
     });

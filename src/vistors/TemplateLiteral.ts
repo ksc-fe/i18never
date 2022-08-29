@@ -1,9 +1,12 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import { skipStringLiteral } from './Program';
-import { parseString, getTagsParam, Tags } from '../helpers';
+import { parseString, getTagsParam, Tags, Context } from '../helpers';
 
-export function TemplateLiteral(path: NodePath<t.TemplateLiteral>) {
+export function TemplateLiteral(
+    this: Context,
+    path: NodePath<t.TemplateLiteral>
+) {
     const node = path.node;
     const expressions = node.expressions as t.Expression[];
     const strings: string[] = [];
@@ -28,8 +31,9 @@ export function TemplateLiteral(path: NodePath<t.TemplateLiteral>) {
         }
     });
 
+    const key = strings.join('');
     const params: t.Expression[] = [
-        skipStringLiteral(strings.join('')),
+        skipStringLiteral(key),
         t.arrayExpression(expressions),
     ];
 
@@ -40,5 +44,17 @@ export function TemplateLiteral(path: NodePath<t.TemplateLiteral>) {
         }
     }
 
-    path.replaceWith(t.callExpression(t.identifier('_$'), params));
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const visitor = require('./index').visitor;
+    path.traverse(visitor, this);
+
+    path.skip();
+
+    this.keys.push({
+        key,
+        tags,
+        callback() {
+            path.replaceWith(t.callExpression(t.identifier('_$'), params));
+        },
+    });
 }
