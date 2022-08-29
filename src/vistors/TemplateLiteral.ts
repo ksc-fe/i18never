@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import { skipStringLiteral } from './Program';
-import { parseString } from './StringLiteral';
+import { parseString, getTagsParam, Tags } from '../helpers';
 
 export function TemplateLiteral(path: NodePath<t.TemplateLiteral>) {
     const node = path.node;
@@ -9,16 +9,16 @@ export function TemplateLiteral(path: NodePath<t.TemplateLiteral>) {
     const strings: string[] = [];
 
     let index = 0;
-    let tag = '';
+    let tags: Tags | null = null;
     node.quasis.forEach((elem, idx) => {
         let raw = elem.value.raw;
         if (raw) {
             if (idx === 0) {
                 // if this is the first quasi, check whether it has tag or not
-                const [_tag, str] = parseString(raw);
-                if (_tag !== null) {
-                    raw = str!;
-                    tag = _tag;
+                const { key, tags: _tags } = parseString(raw);
+                if (_tags !== null) {
+                    raw = key;
+                    tags = _tags;
                 }
             }
             strings.push(raw);
@@ -33,7 +33,12 @@ export function TemplateLiteral(path: NodePath<t.TemplateLiteral>) {
         t.arrayExpression(expressions),
     ];
 
-    if (tag) params.push(t.stringLiteral(tag));
+    if (tags) {
+        const tagsParam = getTagsParam(tags);
+        if (tagsParam) {
+            params.push(tagsParam);
+        }
+    }
 
     path.replaceWith(t.callExpression(t.identifier('_$'), params));
 }

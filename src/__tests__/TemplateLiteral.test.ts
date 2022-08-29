@@ -25,7 +25,7 @@ test('should handle string literal as parameter in template correctly', () => {
 });
 
 test('should handle tag in template string', () => {
-    manipulate('`[i18never:v]购买${a}台`', { TemplateLiteral }).toBe(
-        `_$("购买{0}台", [a], "v");`
+    manipulate('`[i18never:en=v]购买${a}台`', { TemplateLiteral }).toBe(
+        `_$("购买{0}台", [a], { "en": "v" });`
     );
 });

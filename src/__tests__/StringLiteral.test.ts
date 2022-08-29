@@ -1,5 +1,5 @@
 import { manipulate } from './helpers';
-import { StringLiteral, parseString} from '../vistors/StringLiteral';
+import { StringLiteral } from '../vistors/StringLiteral';
 import { Program } from '../vistors/Program';
 import { ImportDeclaration } from '../vistors/ImportDeclaration';
 
@@ -37,18 +37,9 @@ test("should ignore string which doesn't contains chinese", () => {
     manipulate(`const a = 'abc'`, { StringLiteral }).toBe(`const a = 'abc';`);
 });
 
-test('should extract tag from string', () => {
-    expect(parseString('[i18never:v]购买')).toStrictEqual(['v', '购买']);
-    expect(parseString('[i18never:]购买')).toStrictEqual(['', '购买']);
-});
-
-test('should get null if string does not contain tag', () => {
-    expect(parseString('购买')).toStrictEqual([null, '购买']);
-});
-
 test('should wrap tag string correctly', () => {
-    manipulate(`const a = '[i18never:v]测试'`, { StringLiteral }).toBe(
-        `const a = _$("测试", "v");`
+    manipulate(`const a = '[i18never:en=v,jp=n]测试'`, { StringLiteral }).toBe(
+        `const a = _$("测试", { "en": "v", "jp": "n" });`
     );
 });
 
@@ -59,7 +50,7 @@ test('empty tag string should be considered as default tag string', () => {
 });
 
 test('should ignore tag even if it is chinese', () => {
-    manipulate(`const a = '[i18never:动词]测试'`, { StringLiteral }).toBe(
-        `const a = _$("测试", "动词");`
+    manipulate(`const a = '[i18never:en=动词]测试'`, { StringLiteral }).toBe(
+        `const a = _$("测试", { "en": "动词" });`
     );
 });
