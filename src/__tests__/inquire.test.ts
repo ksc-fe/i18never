@@ -1,4 +1,5 @@
 import { inquire } from '../inquire';
+import { manipulate } from '../index';
 
 test('should get correct translation for dict without tags', async () => {
     const data = await inquire([
@@ -59,5 +60,7 @@ test('should throw error if language does not exist', async () => {
 });
 
 test('should generate code via user selection', async () => {
-    
+    const source = 'const a = "测试"';
+    const code = await manipulate(source);
+    console.log(code);
 });

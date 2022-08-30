@@ -37,12 +37,12 @@ export function TemplateLiteral(
         t.arrayExpression(expressions),
     ];
 
-    if (tags) {
-        const tagsParam = getTagsParam(tags);
-        if (tagsParam) {
-            params.push(tagsParam);
-        }
-    }
+    // if (tags) {
+        // const tagsParam = getTagsParam(tags);
+        // if (tagsParam) {
+            // params.push(tagsParam);
+        // }
+    // }
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const visitor = require('./index').visitor;
@@ -53,6 +53,7 @@ export function TemplateLiteral(
     this.keys.push({
         key,
         tags,
+        params,
         callback() {
             path.replaceWith(t.callExpression(t.identifier('_$'), params));
         },

@@ -1,4 +1,5 @@
 import * as t from '@babel/types';
+import { TranslationDetail } from './inquire';
 
 type KeyWithTags = {
     key: string;
@@ -10,6 +11,7 @@ export type Tags = Record<string, string>;
 export type KeyItem = {
     key: string;
     tags: Tags | null;
+    params: t.Expression[]; 
     callback: () => void;
 };
 
@@ -36,27 +38,22 @@ export function parseString(str: string): KeyWithTags {
     return { key, tags };
 }
 
-export function getTagsParam(tags: Tags) {
-    const languages = Object.keys(tags);
-    if (languages.length) {
-        const properties = languages.reduce((memo, language) => {
-            const tagName = tags[language];
-            if (!tagName) return memo;
+export function getTagsParam(tags: TranslationDetail[]) {
+    const properties = tags.reduce((memo, { language, tag }) => {
+        const tagName = tag.name;
+        if (!tagName || tagName === 'default') return memo;
 
-            memo.push(
-                t.objectProperty(
-                    t.stringLiteral(language),
-                    tagName === null
-                        ? t.nullLiteral()
-                        : t.stringLiteral(tagName)
-                )
-            );
+        memo.push(
+            t.objectProperty(
+                t.stringLiteral(language),
+                t.stringLiteral(tagName)
+            )
+        );
 
-            return memo;
-        }, [] as t.ObjectProperty[]);
+        return memo;
+    }, [] as t.ObjectProperty[]);
 
-        if (properties.length) {
-            return t.objectExpression(properties);
-        }
+    if (properties.length) {
+        return t.objectExpression(properties);
     }
 }

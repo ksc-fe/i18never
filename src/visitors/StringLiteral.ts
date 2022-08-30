@@ -19,10 +19,10 @@ export function StringLiteral(
     const { key, tags } = parseString(value);
     if (tags !== null) {
         params = [t.stringLiteral(key)];
-        const tagsParam = getTagsParam(tags);
-        if (tagsParam) {
-            params.push(tagsParam);
-        }
+        // const tagsParam = getTagsParam(tags);
+        // if (tagsParam) {
+            // params.push(tagsParam);
+        // }
     }
 
     path.skip();
@@ -30,6 +30,7 @@ export function StringLiteral(
     this.keys.push({
         key,
         tags,
+        params,
         callback() {
             path.replaceWith(t.callExpression(t.identifier('_$'), params));
         },

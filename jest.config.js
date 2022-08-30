@@ -3,5 +3,5 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'node',
     // testMatch: ['**/__tests__/**/*.test.ts'],
-    testMatch: ['**/__tests__/**/inquire.test.ts'],
+    testMatch: ['**/__tests__/**/manipulate.test.ts'],
 };

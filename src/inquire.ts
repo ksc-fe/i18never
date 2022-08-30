@@ -5,7 +5,7 @@ import { options } from './options';
 import { TagFragment } from './graphql';
 import inquirer from 'inquirer';
 
-type TranslationDetail = {
+export type TranslationDetail = {
     language: string;
     tag: TagFragment;
 };
@@ -15,10 +15,12 @@ type ResultItem = {
     translation: TranslationDetail[];
 };
 
+type Dict = Pick<KeyItem, 'key' | 'tags'>;
+
 const client = new GraphQLClient(options.uri);
 export const sdk = getSdk(client);
 
-export async function inquire(dicts: Omit<KeyItem, 'callback'>[]) {
+export async function inquire(dicts: Dict[]) {
     console.log('dict');
     console.dir(dicts, { depth: null });
     const data = await queryTranslations(dicts);
@@ -90,7 +92,7 @@ export async function inquire(dicts: Omit<KeyItem, 'callback'>[]) {
     return result;
 }
 
-async function queryTranslations(dicts: Omit<KeyItem, 'callback'>[]) {
+async function queryTranslations(dicts: Dict[]) {
     const { dicts: data } = await sdk.QueryOrCreateDicts({
         source: options.source,
         values: dicts.map(({ key, tags }) => {
