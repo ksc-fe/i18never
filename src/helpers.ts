@@ -11,7 +11,7 @@ export type Tags = Record<string, string>;
 export type KeyItem = {
     key: string;
     tags: Tags | null;
-    params: t.Expression[]; 
+    params: t.Expression[];
     callback: () => void;
 };
 

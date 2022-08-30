@@ -2,7 +2,7 @@ import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import { SkipStringLieteral } from './Program';
 import { options } from '../options';
-import { Context, parseString, getTagsParam } from '../helpers';
+import { Context, parseString } from '../helpers';
 
 export function StringLiteral(
     this: Context,
@@ -15,14 +15,12 @@ export function StringLiteral(
     const value = path.node.value.trim();
     if (!value || !options.matchRegexp.test(value)) return;
 
-    let params: t.Expression[] = [node];
+    let params: t.Expression[];
     const { key, tags } = parseString(value);
     if (tags !== null) {
         params = [t.stringLiteral(key)];
-        // const tagsParam = getTagsParam(tags);
-        // if (tagsParam) {
-            // params.push(tagsParam);
-        // }
+    } else {
+        params = [node];
     }
 
     path.skip();

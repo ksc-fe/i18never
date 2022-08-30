@@ -11,7 +11,7 @@ export type TranslationDetail = {
 };
 
 type ResultItem = {
-    key: string,
+    key: string;
     translation: TranslationDetail[];
 };
 
@@ -37,32 +37,34 @@ export async function inquire(dicts: Dict[]) {
 
         if (!tags) {
             const translations = data[key];
-            for (let language of Object.keys(translations)) {
+            for (const language of Object.keys(translations)) {
                 const tags = translations[language];
 
                 // if the language's translation has multiple entries,
                 // we should show inquirer for user to select the correct item
                 if (tags.length > 1) {
                     console.log('Please select the item', language, tags);
-                    await inquirer.prompt([
-						{
-							type: 'rawlist',
-							name: 'tag',
-							message: 'Which translation do you need?',
-                            choices: tags.map((tag) => {
-                                return {
-                                    name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
-                                    value: tag,
-                                };
-                            }),
-						},
-                    ]).then((answers) => {
-                        console.log(answers.tag);
-                        translation.push({
-                            language,
-                            tag: answers.tag,
-                        });                              
-                    });
+                    await inquirer
+                        .prompt([
+                            {
+                                type: 'rawlist',
+                                name: 'tag',
+                                message: `Which translation do you need for string: "${key}" ?`,
+                                choices: tags.map((tag) => {
+                                    return {
+                                        name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
+                                        value: tag,
+                                    };
+                                }),
+                            },
+                        ])
+                        .then((answers) => {
+                            console.log(answers.tag);
+                            translation.push({
+                                language,
+                                tag: answers.tag,
+                            });
+                        });
                 } else if (tags.length === 1) {
                     translation.push({
                         language,
@@ -74,16 +76,20 @@ export async function inquire(dicts: Dict[]) {
             }
         } else {
             const translations = data[key];
-            for (let language of Object.keys(translations)) {
+            for (const language of Object.keys(translations)) {
                 const specifiedTag = tags[language] || 'default';
-                const tag = translations[language].find((tag) => tag.name === specifiedTag);
+                const tag = translations[language].find(
+                    (tag) => tag.name === specifiedTag
+                );
                 if (tag) {
                     translation.push({
                         language,
                         tag,
-                    });              
+                    });
                 } else {
-                    throw new Error(`Can not find translation for tag: "${language}: ${specifiedTag}"`);
+                    throw new Error(
+                        `Can not find translation for tag: "${language}: ${specifiedTag}"`
+                    );
                 }
             }
         }

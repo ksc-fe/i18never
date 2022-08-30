@@ -11,9 +11,9 @@ export async function manipulate(source: string) {
     const allKeys = getAllKeys(ast);
     const allTranslations = await inquire(allKeys);
 
-    allKeys.forEach(({ tags, params, callback }, index) => {
-        const translation = allTranslations[index].translation; 
-        const tagsParam = getTagsParam(translation); 
+    allKeys.forEach(({ params, callback }, index) => {
+        const translation = allTranslations[index].translation;
+        const tagsParam = getTagsParam(translation);
         if (tagsParam) {
             params.push(tagsParam);
         }

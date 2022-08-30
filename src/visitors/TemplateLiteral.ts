@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import { skipStringLiteral } from './Program';
-import { parseString, getTagsParam, Tags, Context } from '../helpers';
+import { parseString, Tags, Context } from '../helpers';
 
 export function TemplateLiteral(
     this: Context,
@@ -36,13 +36,6 @@ export function TemplateLiteral(
         skipStringLiteral(key),
         t.arrayExpression(expressions),
     ];
-
-    // if (tags) {
-        // const tagsParam = getTagsParam(tags);
-        // if (tagsParam) {
-            // params.push(tagsParam);
-        // }
-    // }
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const visitor = require('./index').visitor;
