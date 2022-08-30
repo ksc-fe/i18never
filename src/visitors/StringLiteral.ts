@@ -1,8 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import { SkipStringLieteral } from './Program';
-import { options } from '../options';
-import { Context, parseString } from '../helpers';
+import { Context, parseString, options } from '../helpers';
 
 export function StringLiteral(
     this: Context,
