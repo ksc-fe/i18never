@@ -79,21 +79,34 @@ export type QueryOrCreateDictsQueryVariables = Exact<{
 
 export type QueryOrCreateDictsQuery = { __typename?: 'Query', dicts: Array<{ __typename?: 'Dict', key: string, translations: Array<{ __typename?: 'Translation', language: string, tags: Array<{ __typename?: 'Tag', name: string, value: string }> }> }> };
 
+export type TranslationFragment = { __typename?: 'Translation', language: string, tags: Array<{ __typename?: 'Tag', name: string, value: string }> };
 
+export type TagFragment = { __typename?: 'Tag', name: string, value: string };
+
+export const TagFragmentDoc = gql`
+    fragment Tag on Tag {
+  name
+  value
+}
+    `;
+export const TranslationFragmentDoc = gql`
+    fragment Translation on Translation {
+  language
+  tags {
+    ...Tag
+  }
+}
+    ${TagFragmentDoc}`;
 export const QueryOrCreateDictsDocument = gql`
     query QueryOrCreateDicts($source: String!, $values: [ValueArg!]!) {
   dicts(source: $source, values: $values) {
     key
     translations {
-      language
-      tags {
-        name
-        value
-      }
+      ...Translation
     }
   }
 }
-    `;
+    ${TranslationFragmentDoc}`;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 

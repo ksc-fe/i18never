@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import { SkipStringLieteral } from './Program';
-import { matchRegexp } from '../constants';
+import { options } from '../options';
 import { Context, parseString, getTagsParam } from '../helpers';
 
 export function StringLiteral(
@@ -13,7 +13,7 @@ export function StringLiteral(
     if (node.extra?.skip) return;
 
     const value = path.node.value.trim();
-    if (!value || !matchRegexp.test(value)) return;
+    if (!value || !options.matchRegexp.test(value)) return;
 
     let params: t.Expression[] = [node];
     const { key, tags } = parseString(value);

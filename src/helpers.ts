@@ -1,5 +1,3 @@
-import { getSdk } from './graphql';
-import { GraphQLClient } from 'graphql-request';
 import * as t from '@babel/types';
 
 type KeyWithTags = {
@@ -7,7 +5,7 @@ type KeyWithTags = {
     tags: Tags | null;
 };
 
-export type Tags = Record<string, string | null>;
+export type Tags = Record<string, string>;
 
 export type KeyItem = {
     key: string;
@@ -18,9 +16,6 @@ export type KeyItem = {
 export type Context = {
     keys: KeyItem[];
 };
-
-const client = new GraphQLClient(`http://localhost:3004`);
-export const sdk = getSdk(client);
 
 const parseRegexp = /^\[i18never:([^\]]*)\](.*)/;
 export function parseString(str: string): KeyWithTags {
