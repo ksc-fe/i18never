@@ -1,6 +1,6 @@
 import { manipulate } from './helpers';
-import { ObjectProperty } from '../vistors/ObjectProperty';
-import { StringLiteral } from '../vistors/StringLiteral';
+import { ObjectProperty } from '../visitors/ObjectProperty';
+import { StringLiteral } from '../visitors/StringLiteral';
 
 test('should wrap value in object', () => {
     manipulate(`const o = {'键': '值'}`, {

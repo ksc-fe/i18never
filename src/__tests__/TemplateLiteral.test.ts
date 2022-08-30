@@ -1,6 +1,6 @@
 import { manipulate } from './helpers';
-import { TemplateLiteral } from '../vistors/TemplateLiteral';
-import { StringLiteral } from '../vistors/StringLiteral';
+import { TemplateLiteral } from '../visitors/TemplateLiteral';
+import { StringLiteral } from '../visitors/StringLiteral';
 
 test('should obtain parameters', () => {
     manipulate('`${a}测试${a.b}`', { TemplateLiteral }).toBe(
