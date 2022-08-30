@@ -3,11 +3,11 @@ import traverse, { TraverseOptions } from '@babel/traverse';
 import generate from '@babel/generator';
 import { Context, KeyItem } from '../helpers';
 
-export function manipulate(source: string, vistors: TraverseOptions<Context>) {
+export function manipulate(source: string, visitors: TraverseOptions<Context>) {
     const ast = parse(source, { sourceType: 'module' });
     const allKeys: KeyItem[] = [];
 
-    traverse(ast, vistors, undefined, {
+    traverse(ast, visitors, undefined, {
         keys: allKeys,
     });
 
