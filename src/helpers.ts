@@ -1,5 +1,8 @@
 import * as t from '@babel/types';
 import { TranslationDetail } from './inquire';
+import traverse from '@babel/traverse';
+import { visitor } from './visitors';
+import { ParseResult } from '@babel/parser';
 
 type KeyWithTags = {
     key: string;
@@ -56,4 +59,14 @@ export function getTagsParam(tags: TranslationDetail[]) {
     if (properties.length) {
         return t.objectExpression(properties);
     }
+}
+
+export function getAllKeys(ast: ParseResult<t.File>) {
+    const allKeys: KeyItem[] = [];
+
+    traverse(ast, visitor, undefined, {
+        keys: allKeys,
+    });
+
+    return allKeys;
 }

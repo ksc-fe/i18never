@@ -1,6 +1,14 @@
 import { inquire } from '../inquire';
+import inquirer from 'inquirer';
 
 test('should get correct translation for dict without tags', async () => {
+    let index = 0;
+    (inquirer as any).prompt = jest.fn().mockImplementation(() => {
+        return Promise.resolve({
+            tag: { name: index++ === 0 ? 'v' : 'n', value: '' },
+        });
+    });
+
     const data = await inquire([
         { key: '测试', tags: null },
         { key: '测试', tags: null },
@@ -22,7 +30,7 @@ test('should get correct translation for dict without tags', async () => {
             ],
         },
     ]);
-}, 1000000);
+});
 
 test('should get correct translation for dict with tags', async () => {
     const data = await inquire([

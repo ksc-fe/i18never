@@ -21,29 +21,26 @@ const client = new GraphQLClient(options.uri);
 export const sdk = getSdk(client);
 
 export async function inquire(dicts: Dict[]) {
-    console.log('dict');
-    console.dir(dicts, { depth: null });
     const data = await queryTranslations(dicts);
     const result: ResultItem[] = [];
-    console.log('data');
-    console.dir(data, { depth: null });
 
     for (const { key, tags } of dicts) {
         const translation: TranslationDetail[] = [];
+        const translations = data[key];
+        const languages = Object.keys(translations);
+
         result.push({
             key,
             translation,
         });
 
         if (!tags) {
-            const translations = data[key];
-            for (const language of Object.keys(translations)) {
+            for (const language of languages) {
                 const tags = translations[language];
 
                 // if the language's translation has multiple entries,
                 // we should show inquirer for user to select the correct item
                 if (tags.length > 1) {
-                    console.log('Please select the item', language, tags);
                     await inquirer
                         .prompt([
                             {
@@ -59,38 +56,40 @@ export async function inquire(dicts: Dict[]) {
                             },
                         ])
                         .then((answers) => {
-                            console.log(answers.tag);
                             translation.push({
                                 language,
                                 tag: answers.tag,
                             });
                         });
                 } else if (tags.length === 1) {
+                    // use the only one translation as the result
                     translation.push({
                         language,
                         tag: tags[0],
                     });
                 } else {
-                    throw new Error('Can not find any translation.');
+                    throw new Error(
+                        `Can not find any translation for string: "${key}" [${language}].`
+                    );
                 }
             }
         } else {
-            const translations = data[key];
-            for (const language of Object.keys(translations)) {
+            for (const language of languages) {
                 const specifiedTag = tags[language] || 'default';
                 const tag = translations[language].find(
                     (tag) => tag.name === specifiedTag
                 );
-                if (tag) {
-                    translation.push({
-                        language,
-                        tag,
-                    });
-                } else {
+
+                if (!tag) {
                     throw new Error(
-                        `Can not find translation for tag: "${language}: ${specifiedTag}"`
+                        `Can not find translation for string: "${key}" [${language}=${specifiedTag}]`
                     );
                 }
+
+                translation.push({
+                    language,
+                    tag,
+                });
             }
         }
     }
