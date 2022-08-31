@@ -2,6 +2,7 @@ import { parse } from '@babel/parser';
 import generate from '@babel/generator';
 import { getTagsParam, getAllKeys } from './helpers';
 import { inquire } from './inquire';
+export { set } from './helpers';
 
 export async function manipulate(source: string) {
     const ast = parse(source, { sourceType: 'module' });

@@ -22,7 +22,8 @@
     "acorn": "^8.7.0",
     "acorn-walk": "^8.2.0",
     "graphql": "15",
-    "graphql-request": "^4.3.0"
+    "graphql-request": "^4.3.0",
+    "inquirer": "8"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.11.6",
