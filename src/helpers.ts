@@ -16,6 +16,8 @@ export type KeyItem = {
     tags: Tags | null;
     params: t.Expression[];
     callback: () => void;
+    loc: t.SourceLocation;
+    identifier?: string;
 };
 
 export type Context = {
@@ -31,6 +33,9 @@ export const options = {
 
     // the source to distinguish clients
     source: 'i18never',
+
+    // the prefix string of identifier
+    prefix: 'i18never',
 };
 
 export function set(opt: Partial<typeof options>) {
@@ -74,6 +79,20 @@ export function getTagsParam(tags: TranslationDetail[]) {
     if (properties.length) {
         return t.objectExpression(properties);
     }
+}
+
+export function getIdentifier(tags: TranslationDetail[]) {
+    const identifierTags: string[] = [];
+    tags.forEach(({ language, tag }) => {
+        const tagName = tag.name;
+        if (!tagName || tagName === 'default') {
+            identifierTags.push(`${language}`);
+        } else {
+            identifierTags.push(`${language}=${tagName}`);
+        }
+    });
+
+    return `${options.prefix}:${identifierTags.join(',')}`;
 }
 
 export function getAllKeys(ast: ParseResult<t.File>) {

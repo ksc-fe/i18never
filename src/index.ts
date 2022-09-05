@@ -1,6 +1,6 @@
 import { parse } from '@babel/parser';
 import generate from '@babel/generator';
-import { getTagsParam, getAllKeys } from './helpers';
+import { getTagsParam, getAllKeys, getIdentifier, KeyItem } from './helpers';
 import { inquire } from './inquire';
 export { set } from './helpers';
 
@@ -9,15 +9,23 @@ export async function manipulate(source: string) {
     const allKeys = getAllKeys(ast);
     const allTranslations = await inquire(allKeys);
 
-    allKeys.forEach(({ params, callback }, index) => {
+    allKeys.forEach((item, index) => {
+        const { params, callback } = item;
         const translation = allTranslations[index].translation;
         const tagsParam = getTagsParam(translation);
         if (tagsParam) {
             params.push(tagsParam);
         }
+
         callback();
+
+        item.identifier = getIdentifier(translation);
     });
 
-    return generate(ast, { concise: true, jsescOption: { minimal: true } })
-        .code;
+    const code = generate(ast, {
+        concise: true,
+        jsescOption: { minimal: true },
+    }).code;
+
+    return { code, keys: allKeys as Required<KeyItem>[] };
 }

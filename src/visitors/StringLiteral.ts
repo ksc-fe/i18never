@@ -31,5 +31,6 @@ export function StringLiteral(
         callback() {
             path.replaceWith(t.callExpression(t.identifier('_$'), params));
         },
+        loc: node.loc!,
     });
 }

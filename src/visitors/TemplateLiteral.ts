@@ -50,5 +50,6 @@ export function TemplateLiteral(
         callback() {
             path.replaceWith(t.callExpression(t.identifier('_$'), params));
         },
+        loc: node.loc!,
     });
 }
