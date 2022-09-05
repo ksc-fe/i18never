@@ -19,8 +19,6 @@
     "@babel/types": "^7.17.0",
     "@inquirer/rawlist": "^0.0.7-alpha.0",
     "@types/inquirer": "^9.0.1",
-    "acorn": "^8.7.0",
-    "acorn-walk": "^8.2.0",
     "graphql": "15",
     "graphql-request": "^4.3.0",
     "inquirer": "^8.2.4"
