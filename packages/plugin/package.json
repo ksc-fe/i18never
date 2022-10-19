@@ -1,0 +1,21 @@
+{
+  "name": "rollup-plugin-i18never",
+  "version": "0.0.1",
+  "description": "A rollup plugin based on i18never",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "i18never",
+    "i18n"
+  ],
+  "author": "Javey",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-alias": "^4.0.0",
+    "@rollup/plugin-typescript": "^8.5.0",
+    "rollup": "^2.79.0",
+    "rollup-plugin-typescript2": "^0.34.1"
+  }
+}
