@@ -30,9 +30,9 @@ const plugins = [
                 // declarationMap: true,
                 sourceMap: false,
                 module: 'ESNext',
-                rootDir: resolveRoot('./packages/i18never/src'),
+                rootDir: join(cwd, 'src'),
             },
-            include: [resolveRoot('./packages/i18never/src')],
+            include: [join(cwd, 'src')],
         },
     }),
 ];
