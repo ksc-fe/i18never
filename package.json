@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "rollup": "lerna exec -- node ../../scripts/build.js"
   },
   "keywords": [
     "i18n"
@@ -29,17 +30,22 @@
     "@graphql-codegen/typescript-graphql-request": "^4.5.2",
     "@graphql-codegen/typescript-operations": "^2.5.2",
     "@graphql-codegen/typescript-resolvers": "2.7.3",
+    "@rollup/plugin-replace": "^5.0.0",
     "@types/babel__generator": "^7.6.4",
     "@types/babel__traverse": "^7.14.2",
+    "@types/inquirer": "^8.2.4",
     "@types/jest": "^28.1.7",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
-    "@types/inquirer": "^8.2.4",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "jest": "^28.1.3",
+    "lerna": "^6.0.1",
+    "minimist": "^1.2.7",
     "prettier": "^2.7.1",
+    "rollup": "^3.2.3",
+    "rollup-plugin-typescript2": "^0.34.1",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"

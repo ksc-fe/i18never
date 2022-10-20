@@ -1,7 +1,7 @@
 import { manipulate } from './helpers';
-import { StringLiteral } from '../visitors/StringLiteral';
-import { Program } from '../visitors/Program';
-import { ImportDeclaration } from '../visitors/ImportDeclaration';
+import { StringLiteral } from '../src/visitors/StringLiteral';
+import { Program } from '../src/visitors/Program';
+import { ImportDeclaration } from '../src/visitors/ImportDeclaration';
 
 test('should wrap chinese with _$', () => {
     manipulate(`const a = '测试'`, { StringLiteral }).toBe(

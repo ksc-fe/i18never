@@ -1,6 +1,6 @@
-import { manipulate } from '../index';
+import { manipulate } from '../src/index';
 import inquirer from 'inquirer';
-import { options } from '../helpers';
+import { options } from '../src/helpers';
 
 test('should generate code after user selection', async () => {
     (inquirer as any).prompt = jest

@@ -1,7 +1,7 @@
 import { parse } from '@babel/parser';
 import traverse, { TraverseOptions } from '@babel/traverse';
 import generate from '@babel/generator';
-import { Context, KeyItem, getTagsParam } from '../helpers';
+import { Context, KeyItem, getTagsParam } from '../src/helpers';
 
 export function manipulate(source: string, visitors: TraverseOptions<Context>) {
     const ast = parse(source, { sourceType: 'module' });

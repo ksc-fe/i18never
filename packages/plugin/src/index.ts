@@ -31,7 +31,7 @@ export default function i18never() {
             console.log(this.getCombinedSourcemap());
             const results = await manipulate(code);
             console.log(results);
-            return { meta: { sourceMap: this.getCombinedSourcemap() } };
+            return { code: results.code, meta: { sourceMap: this.getCombinedSourcemap() } };
         },
 
         moduleParsed(moduleInfo: ModuleInfo) {

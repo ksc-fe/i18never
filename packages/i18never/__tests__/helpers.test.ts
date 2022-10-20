@@ -1,4 +1,4 @@
-import { parseString } from '../helpers';
+import { parseString } from '../src/helpers';
 
 test('should extract tag from string', () => {
     expect(parseString('[i18never:en=v]购买')).toStrictEqual({

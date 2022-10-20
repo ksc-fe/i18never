@@ -1,4 +1,4 @@
-import { inquire } from '../inquire';
+import { inquire } from '../src/inquire';
 import inquirer from 'inquirer';
 
 test('should get correct translation for dict without tags', async () => {

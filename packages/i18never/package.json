@@ -19,6 +19,7 @@
     "@inquirer/rawlist": "^0.0.7-alpha.0",
     "graphql": "15",
     "graphql-request": "^4.3.0",
+    "graphql-tag": "^2.12.6",
     "inquirer": "^8.2.4"
   }
 }
