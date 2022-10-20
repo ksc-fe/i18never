@@ -1,0 +1,12 @@
+{
+  "name": "@i18never/client",
+  "version": "0.0.1",
+  "description": "Retrieve translation from dicts.",
+  "main": "dist/index.js",
+  "author": "Javey",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

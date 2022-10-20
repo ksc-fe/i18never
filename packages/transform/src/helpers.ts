@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { TranslationDetail } from './inquire';
-import traverse from '@babel/traverse';
+import { default as traverse } from '@babel/traverse';
 import { visitor } from './visitors';
 import { ParseResult } from '@babel/parser';
 

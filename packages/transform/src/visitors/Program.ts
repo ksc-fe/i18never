@@ -16,7 +16,7 @@ export function Program(path: NodePath<t.Program>) {
     const importDefaultSpecifier = t.importDefaultSpecifier(identifier);
     const importDeclaration = t.importDeclaration(
         [importDefaultSpecifier],
-        skipStringLiteral('i18never/client')
+        skipStringLiteral('i18never/dist/client')
     );
     path.unshiftContainer('body', importDeclaration);
 }

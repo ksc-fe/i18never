@@ -17,5 +17,8 @@
     "@rollup/plugin-typescript": "^8.5.0",
     "rollup": "^2.79.0",
     "rollup-plugin-typescript2": "^0.34.1"
+  },
+  "dependencies": {
+    "i18never": "../i18never"
   }
 }

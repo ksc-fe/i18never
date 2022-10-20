@@ -1,5 +1,5 @@
 const {rollup, generate} = require('rollup');
-const {join, resolve} = require('path');
+const {join, resolve, basename} = require('path');
 const typescript = require('rollup-plugin-typescript2');
 const replace = require('@rollup/plugin-replace');
 const fs = require('fs');
@@ -23,6 +23,7 @@ const plugins = [
     typescript({
         tsconfig: resolve(__dirname, '../tsconfig.json'),
         exclude: ['**/__tests__'],
+        clean: true,
         cacheRoot: resolveRoot(`node_modules/.rpt2_cache/${pkgJson.name}_${options.env}_${options.format}`),
         tsconfigOverride: {
             compilerOptions: {
@@ -31,6 +32,7 @@ const plugins = [
                 sourceMap: false,
                 module: 'ESNext',
                 rootDir: join(cwd, 'src'),
+                paths: null,
             },
             include: [join(cwd, 'src')],
         },
@@ -57,21 +59,12 @@ async function build() {
     try {
         const buddle = await rollup({input, external, plugins});
         await buddle.write({
-            file: `dist/index.${options.ext}`,
+            file: `dist/${basename(input, '.ts')}.${options.ext}`,
             format,
         });
     } catch (e) {
         console.error(e.message);
     }
-
-    // const {Extractor, ExtractorConfig} = require('@microsoft/api-extractor');
-    // const extractorConfigPath = resolve(cwd, 'api-extractor.json');
-    // const extractorConfig = ExtractorConfig.loadFileAndPrepare(extractorConfigPath);
-    // const extractorResult = Extractor.invoke(extractorConfig, {
-        // localBuild: true,
-        // showVerboseMessages: true,
-        // typescriptCompilerFolder: resolveRoot('node_modules/typescript'),
-    // });
 }
 
 build();
