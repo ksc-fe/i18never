@@ -19,6 +19,6 @@
     "rollup-plugin-typescript2": "^0.34.1"
   },
   "dependencies": {
-    "i18never": "../i18never"
+    "@i18never/transform": "../transform"
   }
 }

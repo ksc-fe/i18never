@@ -2,6 +2,7 @@ import { manipulate } from './helpers';
 import { StringLiteral } from '../src/visitors/StringLiteral';
 import { Program } from '../src/visitors/Program';
 import { ImportDeclaration } from '../src/visitors/ImportDeclaration';
+import { options } from '../src/helpers';
 
 test('should wrap chinese with _$', () => {
     manipulate(`const a = '测试'`, { StringLiteral }).toBe(
@@ -15,15 +16,15 @@ test('should ignore empty string', () => {
 
 test('should not manipulate string that is created by i18never', () => {
     manipulate(``, { Program, StringLiteral }).toBe(
-        `import { _$ } from "i18never";`
+        `import { _$ } from "${options.clientModule}";`
     );
 });
 
 test('should ignore string in import sentence', () => {
-    manipulate(`import {_$} from 'i18never';`, {
+    manipulate(`import {_$} from '${options.clientModule}';`, {
         ImportDeclaration,
         StringLiteral,
-    }).toBe(`import { _$ } from 'i18never';`);
+    }).toBe(`import { _$ } from '${options.clientModule}';`);
 });
 
 test('should wrap string in function', () => {

@@ -10,7 +10,7 @@ test('should generate code after user selection', async () => {
     const source = 'const a = "测试"';
     const result = await manipulate(source);
     expect(result.code).toBe(
-        'import { _$ } from "i18never"; const a = _$("测试", { "en": "n" });'
+        `import { _$ } from "${options.clientModule}"; const a = _$("测试", { "en": "n" });`
     );
     expect(result.keys.map((item) => item.identifier)).toStrictEqual([
         `${options.prefix}:en=n,kr`,

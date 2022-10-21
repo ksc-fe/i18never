@@ -1,5 +1,5 @@
 import { ModuleInfo, TransformPluginContext, PluginContext } from 'rollup';
-import { manipulate } from 'i18never';
+import { manipulate } from '@i18never/transform';
 
 export default function i18never() {
     return {

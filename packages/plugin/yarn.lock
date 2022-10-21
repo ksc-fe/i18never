@@ -103,6 +103,19 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@i18never/transform@../transform":
+  version "0.0.1"
+  dependencies:
+    "@babel/generator" "^7.17.7"
+    "@babel/parser" "^7.17.8"
+    "@babel/traverse" "^7.17.3"
+    "@babel/types" "^7.17.0"
+    "@inquirer/rawlist" "^0.0.7-alpha.0"
+    graphql "15"
+    graphql-request "^4.3.0"
+    graphql-tag "^2.12.6"
+    inquirer "^8.2.4"
+
 "@inquirer/core@^0.0.24-alpha.0":
   version "0.0.24-alpha.0"
   resolved "https://registry.yarnpkg.com/@inquirer/core/-/core-0.0.24-alpha.0.tgz#42ea410e203a43d0b1c93c88b65a4d22789cd76d"
@@ -525,19 +538,6 @@ has@^1.0.3:
   integrity sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
   dependencies:
     function-bind "^1.1.1"
-
-i18never@../i18never:
-  version "0.0.1"
-  dependencies:
-    "@babel/generator" "^7.17.7"
-    "@babel/parser" "^7.17.8"
-    "@babel/traverse" "^7.17.3"
-    "@babel/types" "^7.17.0"
-    "@inquirer/rawlist" "^0.0.7-alpha.0"
-    graphql "15"
-    graphql-request "^4.3.0"
-    graphql-tag "^2.12.6"
-    inquirer "^8.2.4"
 
 iconv-lite@^0.4.24:
   version "0.4.24"

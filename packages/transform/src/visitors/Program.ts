@@ -1,5 +1,6 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
+import { options } from '../helpers';
 
 export type SkipStringLieteral = t.StringLiteral & {
     extra: { skip: boolean };
@@ -16,7 +17,7 @@ export function Program(path: NodePath<t.Program>) {
     const importDefaultSpecifier = t.importDefaultSpecifier(identifier);
     const importDeclaration = t.importDeclaration(
         [importDefaultSpecifier],
-        skipStringLiteral('i18never/dist/client')
+        skipStringLiteral(options.clientModule)
     );
     path.unshiftContainer('body', importDeclaration);
 }

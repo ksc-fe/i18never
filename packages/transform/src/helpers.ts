@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { TranslationDetail } from './inquire';
-import { default as traverse } from '@babel/traverse';
+import traverse from '@babel/traverse';
 import { visitor } from './visitors';
 import { ParseResult } from '@babel/parser';
 
@@ -36,6 +36,9 @@ export const options = {
 
     // the prefix string of identifier
     prefix: 'i18never',
+
+    // the module providing the translation function, namely _$
+    clientModule: '@i18never/client',
 };
 
 export function set(opt: Partial<typeof options>) {
