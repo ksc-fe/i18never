@@ -1,4 +1,4 @@
-import { _$ } from 'i18never/tools';
+import { _$ } from '@i18never/client';
 import * as a$1 from 'rollup';
 
 var a = 2;

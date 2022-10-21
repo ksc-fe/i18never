@@ -61,6 +61,7 @@ async function build() {
         await buddle.write({
             file: `dist/${basename(input, '.ts')}.${options.ext}`,
             format,
+            interop: 'esModule',
         });
     } catch (e) {
         console.error(e.message);
