@@ -15,7 +15,7 @@ export function StringLiteral(
     if (!value || !options.matchRegexp.test(value)) return;
 
     let params: t.Expression[];
-    const { key, tags } = parseString(value);
+    const { key, tags, identifier } = parseString(value);
     if (tags !== null) {
         params = [t.stringLiteral(key)];
     } else {
@@ -32,5 +32,6 @@ export function StringLiteral(
             path.replaceWith(t.callExpression(t.identifier('_$'), params));
         },
         loc: node.loc!,
+        oldIndentifer: identifier,
     });
 }

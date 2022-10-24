@@ -19,7 +19,7 @@ export async function manipulate(source: string) {
 
         callback();
 
-        item.identifier = getIdentifier(translation);
+        item.newIdentifier = getIdentifier(translation);
     });
 
     const code = generate(ast, {

@@ -13,15 +13,21 @@ export function TemplateLiteral(
 
     let index = 0;
     let tags: Tags | null = null;
+    let identifier: string | null = null;
     node.quasis.forEach((elem, idx) => {
         let raw = elem.value.raw;
         if (raw) {
             if (idx === 0) {
                 // if this is the first quasi, check whether it has tag or not
-                const { key, tags: _tags } = parseString(raw);
+                const {
+                    key,
+                    tags: _tags,
+                    identifier: _identifier,
+                } = parseString(raw);
                 if (_tags !== null) {
                     raw = key;
                     tags = _tags;
+                    identifier = _identifier;
                 }
             }
             strings.push(raw);
@@ -51,5 +57,6 @@ export function TemplateLiteral(
             path.replaceWith(t.callExpression(t.identifier('_$'), params));
         },
         loc: node.loc!,
+        oldIndentifer: identifier,
     });
 }

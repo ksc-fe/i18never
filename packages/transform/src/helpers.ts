@@ -7,6 +7,7 @@ import { ParseResult } from '@babel/parser';
 type KeyWithTags = {
     key: string;
     tags: Tags | null;
+    identifier: string | null;
 };
 
 export type Tags = Record<string, string>;
@@ -17,7 +18,8 @@ export type KeyItem = {
     params: t.Expression[];
     callback: () => void;
     loc: t.SourceLocation;
-    identifier?: string;
+    oldIndentifer: string | null;
+    newIdentifier?: string;
 };
 
 export type Context = {
@@ -45,13 +47,14 @@ export function set(opt: Partial<typeof options>) {
     return Object.assign(options, opt);
 }
 
-const parseRegexp = /^\[i18never:([^\]]*)\](.*)/;
+const parseRegexp = /^\[(i18never:([^\]]*))\](.*)/;
 export function parseString(str: string): KeyWithTags {
     const matches = str.match(parseRegexp);
-    if (!matches) return { key: str, tags: null };
+    if (!matches) return { key: str, tags: null, identifier: null };
 
-    const tagStr = matches[1].trim();
-    const key = matches[2];
+    const identifier = matches[1].trim();
+    const tagStr = matches[2].trim();
+    const key = matches[3];
     const tags = !tagStr
         ? {}
         : tagStr.split(/\s*,\s*/).reduce((memo, item) => {
@@ -61,7 +64,7 @@ export function parseString(str: string): KeyWithTags {
               return memo;
           }, {} as Tags);
 
-    return { key, tags };
+    return { key, tags, identifier: identifier };
 }
 
 export function getTagsParam(tags: TranslationDetail[]) {

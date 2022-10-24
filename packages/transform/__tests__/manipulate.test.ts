@@ -12,7 +12,7 @@ test('should generate code after user selection', async () => {
     expect(result.code).toBe(
         `import { _$ } from "${options.clientModule}";const a = _$("测试", { "en": "n" });`
     );
-    expect(result.keys.map((item) => item.identifier)).toStrictEqual([
+    expect(result.keys.map((item) => item.newIdentifier)).toStrictEqual([
         `${options.prefix}:en=n,kr`,
     ]);
 });
