@@ -14,6 +14,7 @@ export default function i18never() {
         ) {
             const results = await manipulate(code);
             const sourceMap = this.getCombinedSourcemap();
+            console.log(sourceMap);
 
             if (results.keys.length && sourceMap.sourcesContent.length) {
                 const lines = sourceMap.sourcesContent[0].split('\n');
@@ -23,16 +24,16 @@ export default function i18never() {
                 results.keys.forEach(
                     ({ loc, newIdentifier, oldIndentifer, key }) => {
                         if (newIdentifier === oldIndentifer) return;
-                        shouldModify = true;
 
                         const { line, column } = consumer.originalPositionFor(
                             loc.start
                         );
 
                         if (line === null || column === null) {
-                            throw new Error(
-                                `Can not find the original position for key: ${key} in file: ${id}`
-                            );
+                            return;
+                            // throw new Error(
+                                // `Can not find the original position for key: ${key} in file: ${id}`
+                            // );
                         }
 
                         const code = lines[line - 1];
@@ -53,6 +54,7 @@ export default function i18never() {
                         lines[line - 1] = newCode;
                         offsetMap[line] +=
                             displacement.length - oldIndentiferLength;
+                        shouldModify = true;
                     }
                 );
 
@@ -61,7 +63,7 @@ export default function i18never() {
                 }
             }
 
-            return { code: results.code };
+            return { code: results.code, map: null };
         },
     };
 }

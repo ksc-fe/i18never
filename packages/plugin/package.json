@@ -19,6 +19,7 @@
     "@rollup/plugin-commonjs": "^23.0.2",
     "@rollup/plugin-typescript": "^8.5.0",
     "@vitejs/plugin-vue": "^3.1.2",
+    "@vitejs/plugin-vue-jsx": "^2.0.1",
     "@vue/compiler-sfc": "^3.2.41",
     "rollup": "^2.79.0",
     "rollup-plugin-typescript2": "^0.34.1",

@@ -5,6 +5,7 @@ import { resolve } from 'path';
 import path from 'path';
 import fs from 'fs/promises';
 import vue from '@vitejs/plugin-vue';
+import jsx from '@vitejs/plugin-vue-jsx';
 
 const typescriptPlugin = typescript({
     tsconfig: resolve(__dirname, '../../../tsconfig.json'),
@@ -40,18 +41,51 @@ const typescriptPlugin = typescript({
     // );
 // });
 
-test('should handle vue correctly', async () => {
+// test('should handle vue correctly', async () => {
+     // const config: RollupOptions = {
+        // input: path.resolve(__dirname, './assets/test.vue'),
+        // plugins: [
+            // vue({
+                // // template: {
+                    // // compilerOptions: {
+                        // // sourceMap: true,
+                    // // },
+                // // },
+            // }) as any,
+            // i18never(),
+        // ],
+    // };
+
+    // const buddle = await rollup(config);
+    // await buddle.write({
+        // // dir: path.resolve(__dirname, './dist'),
+        // file: path.resolve(__dirname, './dist/vue.js'),
+        // sourcemap: true,
+        // sourcemapFile: path.resolve(__dirname, './dist/vue.js.map'),
+    // });
+// });
+
+test('should handle vue jsx correctly', async () => {
      const config: RollupOptions = {
-        input: path.resolve(__dirname, './assets/test.vue'),
+        input: path.resolve(__dirname, './assets/vue.jsx'),
         plugins: [
-            vue() as any,
+            jsx(),
+            vue({
+                // template: {
+                    // compilerOptions: {
+                        // sourceMap: true,
+                    // },
+                // },
+            }) as any,
             i18never(),
         ],
     };
 
     const buddle = await rollup(config);
     await buddle.write({
-        file: path.resolve(__dirname, './dist/vue.js'),
-        // format: 'cjs',
+        // dir: path.resolve(__dirname, './dist'),
+        file: path.resolve(__dirname, './dist/jsx.js'),
+        sourcemap: true,
+        sourcemapFile: path.resolve(__dirname, './dist/jsx.js.map'),
     });
 });
