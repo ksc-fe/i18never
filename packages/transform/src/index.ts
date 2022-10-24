@@ -24,7 +24,7 @@ export async function manipulate(source: string) {
 
     const code = generate(ast, {
         // concise: true,
-        // jsescOption: { minimal: true },
+        jsescOption: { minimal: true },
         retainLines: true,
     }).code;
 

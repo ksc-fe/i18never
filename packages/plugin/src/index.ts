@@ -42,9 +42,9 @@ export default function i18never() {
                         const offset = column + 1 + offsetMap[line];
                         const displacement = `[${newIdentifier}]`;
                         const oldIndentiferLength =
-                            (oldIndentifer === null
+                            oldIndentifer === null
                                 ? 0
-                                : oldIndentifer.length) + 2;
+                                : oldIndentifer.length + 2;
                         const newCode =
                             code.substring(0, offset) +
                             displacement +
