@@ -5,6 +5,7 @@ type A = {
     a: string;
 };
 
-const c: A = { a: '翻译' };
+const c: A = { a: '[i18never:en,kr]翻译' };
+const d: unknown = { a: '[i18never:en,kr]翻译1', b: '[i18never:en,kr]翻译2' };
 
-console.log(a, b, c);
+console.log(a, b, c, d);

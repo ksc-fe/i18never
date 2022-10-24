@@ -23,8 +23,9 @@ export async function manipulate(source: string) {
     });
 
     const code = generate(ast, {
-        concise: true,
-        jsescOption: { minimal: true },
+        // concise: true,
+        // jsescOption: { minimal: true },
+        retainLines: true,
     }).code;
 
     return { code, keys: allKeys as Required<KeyItem>[] };
