@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "Retrieve translation from dicts.",
   "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "author": "Javey",
   "license": "MIT",
   "publishConfig": {
