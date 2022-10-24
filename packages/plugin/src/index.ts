@@ -15,7 +15,7 @@ export default function i18never() {
             const results = await manipulate(code);
             const sourceMap = this.getCombinedSourcemap();
 
-            if (results.keys.length) {
+            if (results.keys.length && sourceMap.sourcesContent.length) {
                 const lines = sourceMap.sourcesContent[0].split('\n');
                 const consumer = await new SourceMapConsumer(sourceMap);
                 const offsetMap: number[] = [];
@@ -57,11 +57,22 @@ export default function i18never() {
                 );
 
                 if (shouldModify) {
-                    await writeFile(id, lines.join('\n'));
+                    await writeFile(removeQueryString(id), lines.join('\n'));
                 }
             }
 
             return { code: results.code };
         },
     };
+}
+
+/**
+ * Vue will add querystring to path
+ */
+function removeQueryString(file: string) {
+    const index = file.indexOf('?');
+    if (index > -1) {
+        return file.substring(0, index);
+    }
+    return file;
 }
