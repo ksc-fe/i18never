@@ -1,17 +1,25 @@
 import { TransformPluginContext } from 'rollup';
 import { manipulate } from '@i18never/transform';
 import { SourceMapConsumer } from 'source-map';
-import { writeFile } from 'fs/promises';
+import { writeFile, readFile } from 'fs/promises';
 
 export default function i18never() {
     return {
         name: 'i18never',
+
+        async load(id: string) {
+            console.log('load id', id);
+            const content = await readFile(id, 'utf8');
+            console.log(content);
+            return content.replace('翻译', '[i18never:en,kr]翻译');
+        },
 
         async transform(
             this: TransformPluginContext,
             code: string,
             id: string
         ) {
+            console.log(code);
             const results = await manipulate(code);
             const sourceMap = this.getCombinedSourcemap();
             console.log(sourceMap);

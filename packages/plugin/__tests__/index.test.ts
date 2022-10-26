@@ -65,27 +65,57 @@ const typescriptPlugin = typescript({
     // });
 // });
 
-test('should handle vue jsx correctly', async () => {
+// test('should handle vue jsx correctly', async () => {
+     // const config: RollupOptions = {
+        // input: path.resolve(__dirname, './assets/vue.jsx'),
+        // plugins: [
+            // jsx() as any,
+            // // i18never(),
+        // ],
+    // };
+
+    // const buddle = await rollup(config);
+    // await buddle.write({
+        // // dir: path.resolve(__dirname, './dist'),
+        // file: path.resolve(__dirname, './dist/jsx.js'),
+        // sourcemap: true,
+        // sourcemapFile: path.resolve(__dirname, './dist/jsx.js.map'),
+    // });
+// });
+
+// test('should handle react tsx correctly', async () => {
+     // const config: RollupOptions = {
+        // input: path.resolve(__dirname, './assets/react.tsx'),
+        // plugins: [
+            // i18never(),
+            // typescriptPlugin,
+            // // jsx() as any,
+        // ],
+    // };
+
+    // const buddle = await rollup(config);
+    // await buddle.write({
+        // file: path.resolve(__dirname, './dist/react.js'),
+        // sourcemap: true,
+        // sourcemapFile: path.resolve(__dirname, './dist/react.js.map'),
+    // });
+// });
+
+test('should correctly handle vue using pug as template', async () => {
      const config: RollupOptions = {
-        input: path.resolve(__dirname, './assets/vue.jsx'),
+        input: path.resolve(__dirname, './assets/pug.vue'),
         plugins: [
-            jsx(),
-            vue({
-                // template: {
-                    // compilerOptions: {
-                        // sourceMap: true,
-                    // },
-                // },
-            }) as any,
+            // typescriptPlugin,
+            vue() as any,
             i18never(),
+            // jsx() as any,
         ],
     };
 
     const buddle = await rollup(config);
     await buddle.write({
-        // dir: path.resolve(__dirname, './dist'),
-        file: path.resolve(__dirname, './dist/jsx.js'),
+        file: path.resolve(__dirname, './dist/pug.js'),
         sourcemap: true,
-        sourcemapFile: path.resolve(__dirname, './dist/jsx.js.map'),
+        sourcemapFile: path.resolve(__dirname, './dist/pug.js.map'),
     });
 });

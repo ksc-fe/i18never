@@ -5,7 +5,8 @@ import { inquire } from './inquire';
 export { set } from './helpers';
 
 export async function manipulate(source: string) {
-    const ast = parse(source, { sourceType: 'module' });
+    const ast = parse(source, { sourceType: 'module', plugins: ['jsx'] });
+    console.log(ast);
     const allKeys = getAllKeys(ast);
     const allTranslations = await inquire(allKeys);
 
