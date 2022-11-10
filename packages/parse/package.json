@@ -1,0 +1,35 @@
+{
+  "name": "@i18never/parse",
+  "version": "0.0.1",
+  "description": "Parse pug/vue2/vue3/tsx template for i18never ",
+  "keywords": [
+    "i18never",
+    "i18n"
+  ],
+  "author": "zhangbing4 <zhangbing4@kingsoft.com>",
+  "homepage": "https://github.com/ksc-fe/i18never#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksc-fe/i18never.git"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/ksc-fe/i18never/issues"
+  },
+  "dependencies": {
+    "pug-lexer": "^5.0.1",
+    "pug-parser": "^6.0.0",
+    "pug-walk": "^2.0.0",
+    "vue": "^3.2.41"
+  }
+}
