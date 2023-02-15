@@ -2,14 +2,16 @@
   "name": "@i18never/parse",
   "version": "0.0.1",
   "description": "Parse pug/vue2/vue3/tsx template for i18never ",
-  "keywords": [
-    "i18never",
-    "i18n"
-  ],
   "author": "zhangbing4 <zhangbing4@kingsoft.com>",
   "homepage": "https://github.com/ksc-fe/i18never#readme",
   "license": "MIT",
   "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "keywords": [
+    "i18never",
+    "i18n"
+  ],
   "files": [
     "lib"
   ],
@@ -21,15 +23,34 @@
     "url": "git+https://github.com/ksc-fe/i18never.git"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "clean": "rimraf ./dist",
+    "build": "rollup -c"
   },
   "bugs": {
     "url": "https://github.com/ksc-fe/i18never/issues"
   },
   "dependencies": {
+    "@babel/generator": "^7.17.7",
+    "@babel/parser": "^7.17.8",
+    "@babel/traverse": "7.17.3",
+    "@babel/types": "^7.17.0",
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.1.0",
+    "graphql-tag": "^2.12.6",
+    "inquirer": "^8.2.4",
     "pug-lexer": "^5.0.1",
     "pug-parser": "^6.0.0",
     "pug-walk": "^2.0.0",
     "vue": "^3.2.41"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^3.0.0",
+    "@zerollup/ts-transform-paths": "^1.7.7",
+    "rollup": "^1.27.3",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-dts": "^5.2.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.25.2"
   }
 }

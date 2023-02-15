@@ -16,6 +16,7 @@ export type TempKeyItem = {
     filename: string;
     loc: StartLocation;
     prefix: string;
+    tags: Tags | null;
     jsx?: boolean;
 };
 

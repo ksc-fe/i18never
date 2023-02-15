@@ -1,6 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 import options from '../config';
+import { parseString } from '../utils';
 import { JsContext } from '../types';
 
 export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
@@ -10,6 +11,8 @@ export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
 
     const key = node.value.trim();
     if (!key || !options.matchChineseRE.test(key)) return;
+
+    const { tags } = parseString(key);
     path.skip();
 
     this.keys.push({
@@ -21,5 +24,6 @@ export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
             column: -1,
         },
         jsx: true,
+        tags,
     });
 }

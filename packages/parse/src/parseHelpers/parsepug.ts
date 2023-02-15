@@ -41,6 +41,7 @@ export default async function parsePug(
                     key: it.key,
                     loc: formatLoc(it.loc, next.originLoc, next.prefixLength),
                     prefix: '',
+                    tags: null,
                 });
             });
         } else {
@@ -49,6 +50,7 @@ export default async function parsePug(
                 key: next.matchVal,
                 loc: next.originLoc,
                 prefix: '',
+                tags: null,
             });
         }
         return prev;

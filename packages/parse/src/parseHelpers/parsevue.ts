@@ -82,6 +82,7 @@ export default async function parseVue(
                                 key: it.key,
                                 loc: formatJsLoc(it.loc, loc!),
                                 prefix: '',
+                                tags: null,
                             });
                         });
                     } else {
@@ -90,6 +91,7 @@ export default async function parseVue(
                             key: content as string,
                             loc,
                             prefix: '',
+                            tags: null,
                         });
                     }
                 }

@@ -25,6 +25,7 @@ export default function parseJs(
                 key: jsKey.key,
                 loc: formatJsLocLine(jsKey, rootLine!),
                 prefix: '',
+                tags: null,
             };
             keys.push(keyItem);
         });
@@ -44,7 +45,7 @@ function formatJsLocLine(jsKey: TempKeyItem, rootLine: number) {
     };
 }
 
-function getAllKeysLoc(ast: ParseResult<t.File>, filename: string) {
+function getAllKeysLoc(ast, filename: string) {
     const allKeys: TempKeyItem[] = [];
 
     traverse(ast, { StringLiteral, TemplateLiteral, JSXText }, undefined, {
