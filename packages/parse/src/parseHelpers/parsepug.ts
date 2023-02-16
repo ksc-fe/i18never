@@ -2,7 +2,7 @@ import pugparse from 'pug-parser';
 import puglex from 'pug-lexer';
 import pugwalk from 'pug-walk';
 import { TempKeyItem } from '../types';
-import { hasChinese } from '../utils';
+import { hasChinese, parseString } from '../utils';
 import options from '../config';
 import parseJs from './parsejs';
 
@@ -41,16 +41,17 @@ export default async function parsePug(
                     key: it.key,
                     loc: formatLoc(it.loc, next.originLoc, next.prefixLength),
                     prefix: '',
-                    tags: null,
+                    tags: it.tags,
                 });
             });
         } else {
+            const { tags, key } = parseString(next.matchVal);
             prev.push({
                 filename,
-                key: next.matchVal,
+                key,
                 loc: next.originLoc,
                 prefix: '',
-                tags: null,
+                tags,
             });
         }
         return prev;

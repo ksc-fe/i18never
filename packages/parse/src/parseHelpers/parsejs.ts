@@ -25,7 +25,7 @@ export default function parseJs(
                 key: jsKey.key,
                 loc: formatJsLocLine(jsKey, rootLine!),
                 prefix: '',
-                tags: null,
+                tags: jsKey.tags,
             };
             keys.push(keyItem);
         });

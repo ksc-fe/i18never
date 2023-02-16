@@ -1,10 +1,10 @@
-// import { getSdk } from './graphql';
-// import { GraphQLClient } from 'graphql-request';
+import { getSdk } from './graphql';
+import { GraphQLClient } from 'graphql-request';
 // import { KeyItem, options } from './helpers';
-// import { TagFragment } from './graphql';
 import inquirer from 'inquirer';
-import chalk from 'chalk';
+import options from './config';
 import { KeyItem, TranslationDetail, TagFragment } from './types';
+import { deepCopy } from './utils';
 
 type ResultItem = {
     key: string;
@@ -13,48 +13,48 @@ type ResultItem = {
 
 type Dict = Pick<KeyItem, 'key' | 'tags' | 'loc'>;
 
-// const client = new GraphQLClient(options.uri);
-// export const sdk = getSdk(client);
+const client = new GraphQLClient(options.uri);
+export const sdk = getSdk(client);
 
 export async function inquire(dicts: Dict[], filename: string) {
-    // const data = await queryTranslations(dicts);
-    const data = {
-        测试: {
-            en: [
-                { name: 'v', value: 'test' },
-                { name: 'adj.', value: 'test adj.' },
-            ],
-            kr: [{ name: 'default', value: '' }],
-        },
-        翻译: {
-            en: [{ name: 'v', value: 'translation' }],
-            kr: [{ name: 'default', value: 'krtrans' }],
-        },
-        '购买{0}台': {
-            en: [
-                { name: 'v', value: '' },
-                { name: 'n', value: '' },
-            ],
-        },
-        请输入目标kafka: {
-            en: [{ name: 'n', value: 'buy' }],
-        },
-        购买: {
-            en: [
-                { name: 'v', value: 'buy' },
-                { name: 'adj.', value: 'test adj.' },
-            ],
-        },
-        暂停任务: {
-            en: [
-                { name: 'n', value: 'test' },
-                { name: 'v', value: 'test adj.' },
-            ],
-        },
-    };
+    const copyDicts = deepCopy(dicts);
+    const data = await queryTranslations(copyDicts);
+    // const data = {
+    //     测试: {
+    //         en: [
+    //             { name: 'default', value: 'test adj.' },
+    //             { name: 'v', value: 'test' },
+    //         ],
+    //         kr: [
+    //             { name: 'n', value: '' },
+    //             { name: 'default', value: 'test adj.' },
+    //         ],
+    //     },
+    //     翻译: {
+    //         en: [{ name: 'default', value: 'translation' }],
+    //         kr: [{ name: 'default', value: 'krtrans' }],
+    //     },
+    //     '购买{0}台': {
+    //         en: [
+    //             { name: 'v', value: '' },
+    //             { name: 'default', value: '' },
+    //         ],
+    //     },
+    //     请输入目标kafka: {
+    //         en: [{ name: 'default', value: 'buy' }],
+    //     },
+    //     购买: {
+    //         en: [
+    //             { name: 'v', value: 'buy' },
+    //             { name: 'default', value: 'test adj.' },
+    //         ],
+    //     },
+    //     暂停任务: {
+    //         en: [{ name: 'default', value: 'test' }],
+    //     },
+    // };
     const result: ResultItem[] = [];
     const noTranslations: any = [];
-    // console.log(chalk.green(filename));
     for (const { key, tags, loc } of dicts) {
         const translation: TranslationDetail[] = [];
         const translations = (
@@ -66,7 +66,7 @@ export async function inquire(dicts: Dict[], filename: string) {
             translation,
         });
 
-        if (!translations) {
+        if (!tags && !translations) {
             noTranslations.push({
                 'untranslated sentence': key,
                 loc,
@@ -86,7 +86,7 @@ export async function inquire(dicts: Dict[], filename: string) {
                                 {
                                     type: 'rawlist',
                                     name: 'tag',
-                                    message: `Which translation do you need for string: "${key}" ?`,
+                                    message: `Which translation do you need for string: "${key}" in '${language}' ?`,
                                     choices: tags.map((tag) => {
                                         return {
                                             name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
@@ -107,6 +107,7 @@ export async function inquire(dicts: Dict[], filename: string) {
                         translation.push({
                             language,
                             tag: tags[0],
+                            isAnswer: true,
                         });
                     } else {
                         throw new Error(
@@ -136,10 +137,34 @@ export async function inquire(dicts: Dict[], filename: string) {
         }
     }
     if (noTranslations.length !== 0) {
-        // const chalkTag = (msg) => chalk.bgBlackBright.white.dim(` ${msg} `);
-        // const message = `There are untranslated statements under the ${filename} file`;
-        // console.log(chalk.bgYellow.black(' WARN ') + chalkTag(message));
         console.table(noTranslations);
     }
     return result;
+}
+
+async function queryTranslations(dicts: Dict[]) {
+    const { dicts: data } = await sdk.QueryOrCreateDicts({
+        source: options.source,
+        values: dicts.map(({ key, tags }) => {
+            return {
+                key,
+                tags: tags
+                    ? Object.keys(tags).map((language) => {
+                          const name = tags[language];
+                          return { language, name };
+                      })
+                    : undefined,
+            };
+        }),
+    });
+
+    return data.reduce((memo, item) => {
+        memo[item.key] = item.translations.reduce((memo, item) => {
+            memo[item.language] = item.tags;
+
+            return memo;
+        }, {} as Record<string, TagFragment[]>);
+
+        return memo;
+    }, {} as Record<string, Record<string, TagFragment[]>>);
 }

@@ -14,13 +14,14 @@ export function TemplateLiteral(
     let index = 0;
     let tags: Tags | null = null;
     node.quasis.forEach((elem, idx) => {
-        const raw = elem.value.raw;
+        let raw = elem.value.raw;
         if (raw) {
             if (idx === 0) {
                 // if this is the first quasi, check whether it has tag or not
-                const { tags: _tags } = parseString(raw);
+                const { tags: _tags, key } = parseString(raw);
                 if (_tags !== null) {
                     tags = _tags;
+                    raw = key;
                 }
             }
             strings.push(raw);

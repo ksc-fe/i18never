@@ -23,9 +23,10 @@
     "url": "git+https://github.com/ksc-fe/i18never.git"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "clean": "rimraf ./dist",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "gen": "graphql-codegen --config codegen.yml"
   },
   "bugs": {
     "url": "https://github.com/ksc-fe/i18never/issues"
@@ -35,8 +36,8 @@
     "@babel/parser": "^7.17.8",
     "@babel/traverse": "7.17.3",
     "@babel/types": "^7.17.0",
-    "graphql": "^16.6.0",
-    "graphql-request": "^5.1.0",
+    "graphql": "15",
+    "graphql-request": "^4.3.0",
     "graphql-tag": "^2.12.6",
     "inquirer": "^8.2.4",
     "pug-lexer": "^5.0.1",
@@ -45,7 +46,10 @@
     "vue": "^3.2.41"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^3.0.0",
+    "@graphql-codegen/cli": "2.11.6",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.2",
+    "@graphql-codegen/typescript-operations": "^2.5.2",
     "@zerollup/ts-transform-paths": "^1.7.7",
     "rollup": "^1.27.3",
     "rollup-plugin-babel": "^4.3.3",

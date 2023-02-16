@@ -9,10 +9,10 @@ export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
 
     if (node.extra?.skip) return;
 
-    const key = node.value.trim();
-    if (!key || !options.matchChineseRE.test(key)) return;
+    const value = node.value.trim();
+    if (!value || !options.matchChineseRE.test(value)) return;
 
-    const { tags } = parseString(key);
+    const { tags, key } = parseString(value);
     path.skip();
 
     this.keys.push({

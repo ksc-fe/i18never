@@ -1,19 +1,10 @@
-div.kcs-list-container
-    .operations-wrap
-        | 新建实例
-        span(v-if="buttonStatus.disabledCreate") 非VPC机房不支持新建实例 , 如需创建可联系客服
-        Button()
-            | 实例操作
-            i.k-icon.ion-arrow-down-b.icon-size-20
-    DropdownItem(:hideOnSelect="true")
-        Button(type="none",
-        title="导出当前页数据"
-        :disabled="data.length<=0"
-        @click="download") 导出当前页数据
-    DropdownItem(:hideOnSelect="true")
-        Button(type="none",
-        :disabled="data.length<=0"
-        :title="导出所有数据"
-        @click="downloadall") 导出所有数据
-    Input.operations-right-search(:width="220",v-model="search.value",:placeholder="输入名称/ID/IP" @keyup.enter="searchList")
+div
+    | {{ aaa + '测试' + bbb + '购买' }}
+    | {{ `购买${a}台` }}
+    Form(:hideOnSelect="true")
+        FormItem(
+            :label="istest ? '测试一次' : '购买'",
+            :test="`购买${a}台`",
+            name="测试") 测试二次
+    
 

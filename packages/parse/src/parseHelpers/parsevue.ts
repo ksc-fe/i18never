@@ -7,7 +7,7 @@ import {
     SimpleExpressionNode,
 } from '@vue/compiler-core';
 import { TempKeyItem, StartLocation } from '../types';
-import { hasChinese, walkTree } from '../utils';
+import { hasChinese, walkTree, parseString } from '../utils';
 import parseJs from './parsejs';
 
 export default async function parseVue(
@@ -82,16 +82,17 @@ export default async function parseVue(
                                 key: it.key,
                                 loc: formatJsLoc(it.loc, loc!),
                                 prefix: '',
-                                tags: null,
+                                tags: it.tags,
                             });
                         });
                     } else {
+                        const { tags, key } = parseString(content as string);
                         keys.push({
                             filename: filename,
-                            key: content as string,
+                            key,
                             loc,
                             prefix: '',
-                            tags: null,
+                            tags,
                         });
                     }
                 }
@@ -99,8 +100,8 @@ export default async function parseVue(
         },
     });
 
-    const aa = parseJs(ScriptContent, filename, false, ScriptRootLine);
-    keys.push(...aa);
+    const scriptKeys = parseJs(ScriptContent, filename, false, ScriptRootLine);
+    keys.push(...scriptKeys);
     return keys;
 }
 
