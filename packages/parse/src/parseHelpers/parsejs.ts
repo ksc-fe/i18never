@@ -1,12 +1,7 @@
-import * as t from '@babel/types';
-import { ParseError, parse } from '@babel/parser';
+import { parse } from '@babel/parser';
 import traverse from '@babel/traverse';
 import { TemplateLiteral, StringLiteral, JSXText } from '../visitors';
 import { TempKeyItem } from '../types';
-
-type ParseResult<Result> = Result & {
-    errors: ParseError[];
-};
 
 export default function parseJs(
     source: string,

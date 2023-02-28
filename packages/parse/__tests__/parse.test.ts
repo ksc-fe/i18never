@@ -16,7 +16,7 @@ test('parse vue template', async () => {
     const tempsource = fs.readFileSync(file, 'utf8');
     const keys = await i18nparse(
         tempsource,
-        '../../__tests__/assets/testvue.vue'
+        'packages/parse/__tests__/assets/testvue.vue'
     );
 });
 

@@ -27,7 +27,11 @@ function getIdentifier(translation: TranslationDetail[]) {
     translation.forEach(({ language, tag, isAnswer }) => {
         const tagName = tag.name;
         if (isAnswer) {
-            identifierTags.push(`${language}=${tagName}`);
+            if (!tagName || tagName === 'default') {
+                identifierTags.push(`${language}`);
+            } else {
+                identifierTags.push(`${language}=${tagName}`);
+            }
         }
     });
 

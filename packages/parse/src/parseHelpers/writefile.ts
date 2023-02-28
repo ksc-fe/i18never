@@ -3,7 +3,8 @@ import path from 'path';
 import { TempKeyItem } from '../types';
 
 export function generateFile(filename: string, keys: Array<TempKeyItem[]>) {
-    const file = path.resolve(__dirname, filename);
+    const cwd = process.cwd();
+    const file = path.resolve(cwd, filename);
     const sourceCode = fs.readFileSync(file, 'utf8');
     const fileCodeList = sourceCode.split('\n');
 
