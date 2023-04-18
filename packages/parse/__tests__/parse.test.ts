@@ -12,11 +12,11 @@ import path from 'path';
 // });
 
 test('parse vue template', async () => {
-    const file = path.resolve(__dirname, './assets/testvue.vue');
+    const file = path.resolve(__dirname, './assets/testvue2.vue');
     const tempsource = fs.readFileSync(file, 'utf8');
     const keys = await i18nparse(
         tempsource,
-        'packages/parse/__tests__/assets/testvue.vue'
+        'packages/parse/__tests__/assets/testvue2.vue'
     );
 });
 

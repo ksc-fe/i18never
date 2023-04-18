@@ -106,3 +106,8 @@ export type TranslationDetail = {
     tag: TagFragment;
     isAnswer?: boolean;
 };
+
+export interface TransResult {
+    transCode: string;
+    allKeys: TempKeyItem[];
+}

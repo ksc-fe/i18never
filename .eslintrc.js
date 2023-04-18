@@ -18,5 +18,7 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-non-null-assertion': 'off',
         'prettier/prettier': 'error',
+        '@typescript-eslint/no-var-requires': 1,
+        '@typescript-eslint/ban-ts-comment': 1,
     },
 };

@@ -1,11 +1,11 @@
-import fs from 'fs';
-import path from 'path';
+import {readFileSync, writeFileSync } from 'fs';
+import {resolve} from 'path';
 import { TempKeyItem } from '../types';
 
 export function generateFile(filename: string, keys: Array<TempKeyItem[]>) {
     const cwd = process.cwd();
-    const file = path.resolve(cwd, filename);
-    const sourceCode = fs.readFileSync(file, 'utf8');
+    const file = resolve(cwd, filename);
+    const sourceCode = readFileSync(file, 'utf8');
     const fileCodeList = sourceCode.split('\n');
 
     keys.forEach((it) => {
@@ -18,7 +18,7 @@ export function generateFile(filename: string, keys: Array<TempKeyItem[]>) {
             });
         }
     });
-    fs.writeFileSync(file, fileCodeList.join('\n'), 'utf8');
+    writeFileSync(file, fileCodeList.join('\n'), 'utf8');
 }
 
 function generateString(item: TempKeyItem, fileCodeList) {

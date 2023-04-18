@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import { parseString } from '../utils';
+import { parseString, parseTags } from '../utils';
 import { Tags, JsContext } from '../types';
 
 export function TemplateLiteral(
@@ -32,7 +32,17 @@ export function TemplateLiteral(
     });
 
     const key = strings.join('');
-    path.replaceWith(t.stringLiteral(key));
+    const params: t.Expression[] = [
+        t.stringLiteral(key),
+        t.arrayExpression(expressions),
+    ];
+    if (tags !== null) {
+        const newParams = parseTags(tags);
+        params.push(t.objectExpression(newParams));
+    }
+    const newExpression = t.callExpression(t.identifier('_$'), params);
+    // @ts-ignore
+    path.replaceWith(newExpression);
     path.skip();
 
     this.keys.push({

@@ -1,5 +1,10 @@
-import { TempKeyItem, FileType } from './types';
+import { TempKeyItem, FileType, TransResult } from './types';
 import { matchFileType } from './utils';
+import { parse } from '@babel/parser';
+import generate from '@babel/generator';
+import traverse from '@babel/traverse';
+import { TemplateLiteral, StringLiteral, JSXText } from './visitors';
+
 import {
     parsePug,
     parseJs,
@@ -40,4 +45,23 @@ export async function i18nparse(
     generateFile(filename, transResult);
 
     return keys;
+}
+
+export async function i18nTrans(code: string, filename): Promise<TransResult> {
+    const codeAst = parse(code, { sourceType: 'module', plugins: ['jsx'] });
+    const transResult: TransResult = transAst(codeAst, filename);
+    return transResult;
+}
+
+function transAst(codeAst, filename) {
+    const allKeys: TempKeyItem[] = [];
+    traverse(codeAst, { StringLiteral, TemplateLiteral }, undefined, {
+        keys: allKeys,
+        filename,
+    });
+    const transCode: string = generate(codeAst, {
+        jsescOption: { minimal: true },
+        retainLines: true,
+    }).code;
+    return { transCode, allKeys };
 }

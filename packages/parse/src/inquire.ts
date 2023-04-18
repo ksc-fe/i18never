@@ -66,73 +66,81 @@ export async function inquire(dicts: Dict[], filename: string) {
             translation,
         });
 
-        if (!tags && !translations) {
-            noTranslations.push({
-                'untranslated sentence': key,
-                loc,
-                'file path': filename,
-            });
-        } else {
-            const languages = Object.keys(translations);
-            if (!tags) {
-                for (const language of languages) {
-                    const tags = translations[language];
+        const languages = Object.keys(translations);
+        if (!tags) {
+            for (const language of languages) {
+                const tags = translations[language];
 
-                    // if the language's translation has multiple entries,
-                    // we should show inquirer for user to select the correct item
-                    if (tags.length > 1) {
-                        await inquirer
-                            .prompt([
-                                {
-                                    type: 'rawlist',
-                                    name: 'tag',
-                                    message: `Which translation do you need for string: "${key}" in '${language}' ?`,
-                                    choices: tags.map((tag) => {
-                                        return {
-                                            name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
-                                            value: tag,
-                                        };
-                                    }),
-                                },
-                            ])
-                            .then((answers) => {
-                                translation.push({
-                                    language,
-                                    tag: answers.tag,
-                                    isAnswer: true,
+                // if the language's translation has multiple entries,
+                // we should show inquirer for user to select the correct item
+                if (tags.length > 1) {
+                    await inquirer
+                        .prompt([
+                            {
+                                type: 'rawlist',
+                                name: 'tag',
+                                message: `Which translation do you need for string: "${key}" in '${language}' ?`,
+                                choices: tags.map((tag) => {
+                                    return {
+                                        name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
+                                        value: tag,
+                                    };
+                                }),
+                            },
+                        ])
+                        .then((answers) => {
+                            if (!answers.tag.value) {
+                                noTranslations.push({
+                                    'untranslated sentence': key,
+                                    'untranslated language': language,
+                                    loc,
+                                    'file path': filename,
                                 });
+                            }
+                            translation.push({
+                                language,
+                                tag: answers.tag,
+                                isAnswer: true,
                             });
-                    } else if (tags.length === 1) {
-                        // use the only one translation as the result
-                        translation.push({
-                            language,
-                            tag: tags[0],
-                            isAnswer: true,
                         });
-                    } else {
-                        throw new Error(
-                            `Can not find any translation for string: "${key}" [${language}].`
-                        );
+                } else if (tags.length === 1) {
+                    // use the only one translation as the result
+                    if (!tags[0].value) {
+                        noTranslations.push({
+                            'untranslated sentence': key,
+                            'untranslated language': language,
+                            loc,
+                            'file path': filename,
+                        });
                     }
-                }
-            } else {
-                for (const language of languages) {
-                    const specifiedTag = tags[language] || 'default';
-                    const tag = translations[language].find(
-                        (tag) => tag.name === specifiedTag
-                    );
-
-                    if (!tag) {
-                        throw new Error(
-                            `Can not find translation for string: "${key}" [${language}=${specifiedTag}]`
-                        );
-                    }
-
                     translation.push({
                         language,
-                        tag,
+                        tag: tags[0],
+                        isAnswer: true,
                     });
+                } else {
+                    throw new Error(
+                        `Can not find any translation for string: "${key}" [${language}].`
+                    );
                 }
+            }
+        } else {
+            for (const language of languages) {
+                const specifiedTag = tags[language] || 'default';
+                const tag = translations[language].find(
+                    (tag) => tag.name === specifiedTag
+                );
+
+                if (!tag) {
+                    throw new Error(
+                        `Can not find translation for string: "${key}" [${language}=${specifiedTag}]`
+                    );
+                }
+
+                translation.push({
+                    language,
+                    tag,
+                });
             }
         }
     }

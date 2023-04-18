@@ -19,7 +19,9 @@ export default async function parseVue(
     const TemplateAst = descriptor?.template?.ast;
     const ScriptContent = descriptor?.script?.content || '';
     const ScriptRootLine = descriptor?.script?.loc?.start.line;
-    const ScriptSetupAst = descriptor?.scriptSetup;
+    const ScriptSetupAst = descriptor?.scriptSetup?.content || '';
+    const SetupRootLine = descriptor?.scriptSetup?.loc?.start.line;
+
     walkTree(TemplateAst as ElementNode, {
         onEachBefore(
             node:
@@ -100,7 +102,12 @@ export default async function parseVue(
         },
     });
 
-    const scriptKeys = parseJs(ScriptContent, filename, false, ScriptRootLine);
+    const scriptKeys =
+        descriptor.script !== null
+            ? parseJs(ScriptContent, filename, false, ScriptRootLine)
+            : descriptor.scriptSetup !== null
+            ? parseJs(ScriptSetupAst, filename, false, SetupRootLine)
+            : [];
     keys.push(...scriptKeys);
     return keys;
 }

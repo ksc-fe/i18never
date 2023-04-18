@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://localhost:3003"
+schema: "http://i18never.ksyun.com/"
 generates:
   src/graphql/index.ts:
     documents: 'src/**/*.gql'
