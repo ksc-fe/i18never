@@ -1,5 +1,5 @@
-import {readFileSync, writeFileSync } from 'fs';
-import {resolve} from 'path';
+import { readFileSync, writeFileSync } from 'fs';
+import { resolve } from 'path';
 import { TempKeyItem } from '../types';
 
 export function generateFile(filename: string, keys: Array<TempKeyItem[]>) {

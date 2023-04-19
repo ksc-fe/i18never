@@ -1,3 +1,4 @@
+import * as t from '@babel/types';
 import { WalkTreeOptions, KeyWithTags, Tags } from './types';
 import { ElementNode, DirectiveNode, ExpressionNode } from '@vue/compiler-core';
 import options from './config';
@@ -75,20 +76,50 @@ export function walkTree(
  * @returns
  */
 export function parseString(str: string): KeyWithTags {
+    let defaultIndex = 0;
+    let allIsDefault = false;
     const matches = str.match(options.matchPrefixRE);
-    if (!matches) return { key: str, tags: null, identifier: null };
+    if (!matches) return { key: str, tags: null, allIsDefault };
 
-    const identifier = matches[1].trim();
     const tagStr = matches[2].trim();
     const key = matches[3];
     const tags = !tagStr
         ? {}
-        : tagStr.split(/\s*,\s*/).reduce((memo, item) => {
-              const [language, name] = item.split('=');
-              memo[language] = name || '';
+        : tagStr
+              .split(/\s*,\s*/)
+              .reduce(
+                  (
+                      memo: Tags,
+                      item: string,
+                      index: number,
+                      array: string[]
+                  ) => {
+                      const [language = '', name = ''] = item.split('=');
+                      if (!name) defaultIndex++;
+                      memo[language] = name || '';
+                      if (defaultIndex === array.length) allIsDefault = true;
+                      return memo;
+                  },
+                  {}
+              );
 
-              return memo;
-          }, {} as Tags);
+    return { key, tags, allIsDefault };
+}
 
-    return { key, tags, identifier: identifier };
+/**
+ * tags Convert to objectProperty type function
+ * @param str
+ * @returns
+ */
+export function parseTags(tags: Tags): Array<t.ObjectProperty> {
+    const astTags: Array<t.ObjectProperty> = [];
+    Object.keys(tags).forEach((key) => {
+        if (tags[key]) {
+            astTags.push(
+                t.objectProperty(t.identifier(key), t.stringLiteral(tags[key]))
+            );
+        }
+    });
+
+    return astTags;
 }

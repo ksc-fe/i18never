@@ -1,4 +1,4 @@
-import { i18nparse } from '../src/index';
+import { i18nparse, i18nTrans } from '../src/index';
 import fs from 'fs';
 import path from 'path';
 
@@ -26,14 +26,5 @@ test('parse vue template', async () => {
 //     const keys = await i18nparse(
 //         tempsource,
 //         '../../__tests__/assets/react.jsx'
-//     );
-// });
-
-// test('parse Ts', async () => {
-//     const file = path.resolve(__dirname, './assets/testts.ts');
-//     const tempsource = fs.readFileSync(file, 'utf8');
-//     const keys = await i18nparse(
-//         tempsource,
-//         '../../__tests__/assets/testts.ts'
 //     );
 // });

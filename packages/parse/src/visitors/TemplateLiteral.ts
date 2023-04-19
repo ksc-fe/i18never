@@ -13,15 +13,21 @@ export function TemplateLiteral(
 
     let index = 0;
     let tags: Tags | null = null;
+    let allIsDefault = false;
     node.quasis.forEach((elem, idx) => {
         let raw = elem.value.raw;
         if (raw) {
             if (idx === 0) {
                 // if this is the first quasi, check whether it has tag or not
-                const { tags: _tags, key } = parseString(raw);
+                const {
+                    tags: _tags,
+                    key,
+                    allIsDefault: _allIsDefault,
+                } = parseString(raw);
                 if (_tags !== null) {
                     tags = _tags;
                     raw = key;
+                    allIsDefault = _allIsDefault;
                 }
             }
             strings.push(raw);
@@ -36,7 +42,7 @@ export function TemplateLiteral(
         t.stringLiteral(key),
         t.arrayExpression(expressions),
     ];
-    if (tags !== null) {
+    if (tags !== null && !allIsDefault) {
         const newParams = parseTags(tags);
         params.push(t.objectExpression(newParams));
     }

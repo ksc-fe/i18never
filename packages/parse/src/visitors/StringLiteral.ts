@@ -16,8 +16,8 @@ export function StringLiteral(
     if (!value || !options.matchChineseRE.test(value)) return;
 
     let params: t.Expression[];
-    const { key, tags } = parseString(value);
-    if (tags !== null) {
+    const { key, tags, allIsDefault } = parseString(value);
+    if (tags !== null && !allIsDefault) {
         const newParams = parseTags(tags);
         params = [t.stringLiteral(key), t.objectExpression(newParams)];
     } else {

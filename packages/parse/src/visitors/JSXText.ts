@@ -13,8 +13,8 @@ export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
     if (!value || !options.matchChineseRE.test(value)) return;
 
     let params: t.Expression[];
-    const { tags, key } = parseString(value);
-    if (tags !== null) {
+    const { tags, key, allIsDefault } = parseString(value);
+    if (tags !== null && !allIsDefault) {
         const newParams = parseTags(tags);
         params = [t.stringLiteral(key), t.objectExpression(newParams)];
     } else {

@@ -52,7 +52,7 @@ export type JsContext = {
 export type KeyWithTags = {
     key: string;
     tags: Tags | null;
-    identifier: string | null;
+    allIsDefault: boolean;
 };
 
 export type StartLocation = {
