@@ -4,12 +4,15 @@ import { ElementNode, DirectiveNode, ExpressionNode } from '@vue/compiler-core';
 import options from './config';
 
 /**
- * Check whether it is in Chinese
+ * Check if it is in Chinese and ignore those marked with ig
  * @param content
  * @returns
  */
 export function hasChinese(content: string): boolean {
-    return options.matchChineseRE.test(content);
+    return (
+        !options.matchIgnoreRE.test(content) &&
+        options.matchChineseRE.test(content)
+    );
 }
 
 /**
@@ -77,7 +80,7 @@ export function walkTree(
  */
 export function parseString(str: string): KeyWithTags {
     let defaultIndex = 0;
-    let allIsDefault = false;
+    let allIsDefault = true;
     const matches = str.match(options.matchPrefixRE);
     if (!matches) return { key: str, tags: null, allIsDefault };
 
@@ -97,7 +100,7 @@ export function parseString(str: string): KeyWithTags {
                       const [language = '', name = ''] = item.split('=');
                       if (!name) defaultIndex++;
                       memo[language] = name || '';
-                      if (defaultIndex === array.length) allIsDefault = true;
+                      allIsDefault = defaultIndex === array.length;
                       return memo;
                   },
                   {}

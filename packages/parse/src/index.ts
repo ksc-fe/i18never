@@ -3,7 +3,8 @@ import { matchFileType } from './utils';
 import { parse } from '@babel/parser';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
-import { TemplateLiteral, StringLiteral, JSXText } from './visitors';
+import visitors from './visitors';
+import options from './config';
 
 import {
     parsePug,
@@ -47,15 +48,26 @@ export async function i18nparse(
     return keys;
 }
 
-export async function i18nTrans(code: string, filename): Promise<TransResult> {
-    const codeAst = parse(code, { sourceType: 'module', plugins: ['jsx'] });
+export async function i18nTrans(
+    sourceCode: string,
+    filename
+): Promise<TransResult> {
+    if (!options.matchChineseRE.test(sourceCode)) {
+        const allKeys: TempKeyItem[] = [];
+        const transCode = sourceCode;
+        return { transCode, allKeys };
+    }
+    const codeAst = parse(sourceCode, {
+        sourceType: 'module',
+        plugins: ['jsx'],
+    });
     const transResult: TransResult = transAst(codeAst, filename);
     return transResult;
 }
 
 function transAst(codeAst, filename) {
     const allKeys: TempKeyItem[] = [];
-    traverse(codeAst, { StringLiteral, TemplateLiteral }, undefined, {
+    traverse(codeAst, visitors, undefined, {
         keys: allKeys,
         filename,
     });

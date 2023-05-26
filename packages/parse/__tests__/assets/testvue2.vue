@@ -1,19 +1,10 @@
 <template>
   <div>
-    <p>{{ `购买${a}台` }}</p>
-    <p>测</p>
-    <Form ref="测试">
-        <FormItem
-            :label="istest ? '测试' : '购买'"
-            :test="`购买${a}台`"
-        >
-            <Input
-                placeholder="请输入"
-            ></Input>
-        </FormItem>
-        <span>测试</span>
-        </div>
-    </Form>
+    <span>[$_:ko,jp,en]翻译</span>
   </div>
 </template>
-<script src="./index.js"></script>
+<script>
+  let aa = '[$_:en=n,ko=n,jp]测试'
+  let bb = '[$_:ig]测试'
+  let cc = `[$_:ig]测试${aa}测试`
+</script>

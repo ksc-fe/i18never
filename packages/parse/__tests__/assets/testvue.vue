@@ -10,7 +10,7 @@
             >
                 <Input placeholder="请输入"></Input>
             </FormItem>
-            <span>测试</span>
+            <span>[$_:ig]测试</span>
         </Form>
     </div>
 </template>
