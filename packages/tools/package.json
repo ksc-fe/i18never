@@ -4,7 +4,8 @@
   "description": "This is a toolset for i18nerver",
   "author": "zhangbing4 <zhangbing4@kingsoft.com>",
   "bin": {
-    "i18never": "bin/index.js"
+    "i18never": "bin/index.js",
+    "i18neverPreCommit": "bin/preCommit.js"
   },
   "homepage": "https://github.com/ksc-fe/i18never#readme",
   "license": "MIT",

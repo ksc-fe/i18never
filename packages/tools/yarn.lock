@@ -103,6 +103,12 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@i18never/graphql@file:../graphql":
+  version "0.0.1"
+  dependencies:
+    graphql "^15"
+    graphql-request "^4.3.0"
+
 "@i18never/parse@../parse":
   version "0.0.1"
   dependencies:
@@ -110,9 +116,7 @@
     "@babel/parser" "^7.17.8"
     "@babel/traverse" "7.17.3"
     "@babel/types" "^7.17.0"
-    graphql "15"
-    graphql-request "^4.3.0"
-    graphql-tag "^2.12.6"
+    "@i18never/graphql" "file:../../../../../../Library/Caches/Yarn/v6/npm-@i18never-parse-0.0.1-c63576d5-1c57-4303-a95f-199f632c6306-1685088388956/node_modules/@i18never/graphql"
     inquirer "^8.2.4"
     pug-lexer "^5.0.1"
     pug-parser "^6.0.0"
@@ -498,14 +502,7 @@ graphql-request@^4.3.0:
     extract-files "^9.0.0"
     form-data "^3.0.0"
 
-graphql-tag@^2.12.6:
-  version "2.12.6"
-  resolved "https://registry.npmmirror.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
-  integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==
-  dependencies:
-    tslib "^2.1.0"
-
-graphql@15:
+graphql@^15:
   version "15.8.0"
   resolved "https://registry.npmmirror.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
   integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==

@@ -1,35 +1,32 @@
 type Tags = Record<string, string>;
 
 const valueRegexp = /\{([^\}\s]+)\}/g;
-function createLocalize() {
-    let i18n = {};
-    let lang = 'zh';
-    return {
-        localize: (i18nLang, i18nData) => {
-            i18n = i18nData;
-            lang = i18nLang;
-        },
-        _$(
-            key: string,
-            data?: Tags | Array<string | number>,
-            langTags?: Tags
-        ): string {
-            const translation = i18n[key];
-            if (!translation) return key;
+export function $_(
+    key: string,
+    data?: Tags | Array<string | number>,
+    langTags?: Tags
+): string {
+    const i18n = window['I18neverData'] || {};
+    const lang = window['I18neverLang'] || 'zh';
+    const translation = (i18n && i18n[key]) || '';
+    // There is no corresponding key
+    if (!translation) {
+        if (!data) return key;
+        const values = Array.isArray(data) ? data : Object.values(data);
+        return _generateResult(key, values);
+    }
 
-            const langTag = Array.isArray(data)
-                ? langTags?.[lang]
-                : data?.[lang];
-            const tag = langTag
-                ? translation.tags.find((t) => t.name === langTag)
-                : translation.tags[0];
+    // No extra parameters
+    if (!data) return translation.tags[0].value || key;
 
-            if (!data) return tag.value;
+    // choose part of speech
+    const langTag = Array.isArray(data) ? langTags?.[lang] : data?.[lang];
+    const values = Array.isArray(data) ? data : Object.values(data);
+    const tag = langTag
+        ? translation.tags.find((t) => t.name === langTag)
+        : translation.tags[0];
 
-            const values = Array.isArray(data) ? data : Object.values(data);
-            return _generateResult(tag.value, values);
-        },
-    };
+    return _generateResult(tag.value || key, values);
 }
 
 function _generateResult(value: string, data?: Array<string | number>) {
@@ -46,7 +43,3 @@ function _generateResult(value: string, data?: Array<string | number>) {
 function isNullOrUndefined(value) {
     return value === null || value === undefined;
 }
-
-const { _$, localize } = createLocalize();
-
-export { _$, localize };

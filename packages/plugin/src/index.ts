@@ -1,88 +1,136 @@
-import { TransformPluginContext } from 'rollup';
-import { manipulate } from '@i18never/transform';
-import { SourceMapConsumer } from 'source-map';
-import { writeFile, readFile } from 'fs/promises';
+import { TransformPluginContext, TransformResult } from 'rollup';
+import { i18nTrans } from '@i18never/parse';
+import { getSdk } from '@i18never/graphql';
+import { GraphQLClient } from 'graphql-request';
+import { TempKeyItem } from 'packages/parse/dist/types';
+import { resolve } from 'path';
 
-export default function i18never() {
+const client = new GraphQLClient('http://localhost:3003/');
+const sdk = getSdk(client);
+
+export default function i18never(options) {
+    const allAppKeys: TempKeyItem[] = [];
+    let i18nVersion = '';
+    const defaultOptions = {
+        root: 'src',
+        langKey: '',
+        storageType: '',
+    };
+    options = Object.assign({}, defaultOptions, options);
+    const rootPath = resolve(process.cwd(), options.root);
     return {
         name: 'i18never',
-
-        async load(id: string) {
-            console.log('load id', id);
-            const content = await readFile(id, 'utf8');
-            console.log(content);
-            return content.replace('翻译', '[i18never:en,kr]翻译');
-        },
-
+        enforce: 'post',
         async transform(
             this: TransformPluginContext,
             code: string,
             id: string
         ) {
-            console.log(code);
-            const results = await manipulate(code);
-            const sourceMap = this.getCombinedSourcemap();
-            console.log(sourceMap);
-
-            if (results.keys.length && sourceMap.sourcesContent.length) {
-                const lines = sourceMap.sourcesContent[0].split('\n');
-                const consumer = await new SourceMapConsumer(sourceMap);
-                const offsetMap: number[] = [];
-                let shouldModify = false;
-                results.keys.forEach(
-                    ({ loc, newIdentifier, oldIndentifer, key }) => {
-                        if (newIdentifier === oldIndentifer) return;
-
-                        const { line, column } = consumer.originalPositionFor(
-                            loc.start
-                        );
-
-                        if (line === null || column === null) {
-                            return;
-                            // throw new Error(
-                                // `Can not find the original position for key: ${key} in file: ${id}`
-                            // );
-                        }
-
-                        const code = lines[line - 1];
-                        if (offsetMap[line] === undefined) {
-                            offsetMap[line] = 0;
-                        }
-                        const offset = column + 1 + offsetMap[line];
-                        const displacement = `[${newIdentifier}]`;
-                        const oldIndentiferLength =
-                            oldIndentifer === null
-                                ? 0
-                                : oldIndentifer.length + 2;
-                        const newCode =
-                            code.substring(0, offset) +
-                            displacement +
-                            code.substring(offset + oldIndentiferLength);
-
-                        lines[line - 1] = newCode;
-                        offsetMap[line] +=
-                            displacement.length - oldIndentiferLength;
-                        shouldModify = true;
-                    }
-                );
-
-                if (shouldModify) {
-                    await writeFile(removeQueryString(id), lines.join('\n'));
-                }
+            if (
+                !id.match(/\.(pug|vue|tsx|jsx|js|ts)$/) ||
+                id.includes('@i18never/client') ||
+                !id.startsWith(rootPath)
+            ) {
+                return;
             }
+            const { transCode, allKeys } = await i18nTrans(code, id);
+            allAppKeys.push(...allKeys);
+            return { code: transCode, map: null } as
+                | TransformResult
+                | Promise<TransformResult>;
+        },
+        async buildEnd() {
+            const version = await queryVersion(allAppKeys);
+            console.log(version);
+            i18nVersion = version;
+        },
+        async generateBundle(_, bundle) {
+            const entryHtmlFile = bundle['index.html'];
+            if (entryHtmlFile) {
+                const html = entryHtmlFile.source;
 
-            return { code: results.code, map: null };
+                const newHtml = html.replace(
+                    '</head>',
+                    `${generateScript(i18nVersion, options)}</head>`
+                );
+                entryHtmlFile.source = newHtml;
+            }
         },
     };
 }
 
-/**
- * Vue will add querystring to path
- */
-function removeQueryString(file: string) {
-    const index = file.indexOf('?');
-    if (index > -1) {
-        return file.substring(0, index);
+function generateScript(version, options) {
+    let lang = '';
+    switch (options.storageType) {
+        case 'cookie':
+            lang = `document.cookie.replace(/(?:(?:^|.*;\\s*)${options.langKey}\\s*\=\\s*([^;]*).*$)|^.*$/, "$1");`;
+            break;
+        case 'localStorage':
+        case 'sessionStorage':
+            lang = `${options.storageType}.getItem('${options.langKey}')`;
+            break;
+        default:
+            lang = `document.cookie.replace(/(?:(?:^|.*;\\s*)ksc_lang\\s*\=\\s*([^;]*).*$)|^.*$/, "$1");`;
+            break;
     }
-    return file;
+    return `
+    <script>
+        let lang = ${lang};
+        document.write('<scr'+'ipt src="http://localhost:8080/api/'+lang+'/${version}"></scr'+'ipt>');
+    </script>
+    `;
+}
+
+async function queryVersion(allAppKeys) {
+    const { getVerionId: data } = await sdk.CreateVersion({
+        source: 'i18never',
+        values: _sortKeys(allAppKeys),
+    });
+    return data.Id;
+}
+
+function _sortKeys(allAppKeys) {
+    const targetValues = allAppKeys.map(({ key, tags }) => {
+        return {
+            key,
+            tags: tags
+                ? Object.keys(tags).map((language) => {
+                      const name = tags[language];
+                      return { language, name };
+                  })
+                : undefined,
+        };
+    });
+
+    targetValues.sort((a, b) => {
+        a.tags.sort((tagA, tagB) => {
+            if (tagA.language < tagB.language) {
+                return -1;
+            } else if (tagA.language > tagB.language) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        b.tags.sort((tagA, tagB) => {
+            if (tagA.language < tagB.language) {
+                return -1;
+            } else if (tagA.language > tagB.language) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        if (a.key < b.key) {
+            return -1;
+        } else if (a.key > b.key) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+
+    return targetValues;
 }

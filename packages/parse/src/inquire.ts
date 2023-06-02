@@ -1,6 +1,5 @@
 import { getSdk } from '@i18never/graphql';
 import { GraphQLClient } from 'graphql-request';
-// import { KeyItem, options } from './helpers';
 import inquirer from 'inquirer';
 import options from './config';
 import { KeyItem, TranslationDetail, TagFragment } from './types';

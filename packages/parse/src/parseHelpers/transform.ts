@@ -36,6 +36,6 @@ function getIdentifier(translation: TranslationDetail[]) {
     });
 
     return identifierTags.length !== 0
-        ? `[i18never:${identifierTags.join(',')}]`
+        ? `[$_:${identifierTags.join(',')}]`
         : '';
 }

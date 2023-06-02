@@ -101,7 +101,26 @@ const typescriptPlugin = typescript({
 // });
 // });
 
-test('should correctly handle vue using pug as template', async () => {
+// test('should correctly handle vue using pug as template', async () => {
+//     const config: RollupOptions = {
+//         input: path.resolve(__dirname, './assets/test.vue'),
+//         plugins: [
+//             // typescriptPlugin,
+//             vue() as any,
+//             i18never(),
+//             // jsx() as any,
+//         ],
+//     };
+
+//     const buddle = await rollup(config);
+//     await buddle.write({
+//         file: path.resolve(__dirname, './dist/test.js'),
+//         sourcemap: true,
+//         sourcemapFile: path.resolve(__dirname, './dist/test.js.map'),
+//     });
+// });
+
+test('test parser', async () => {
     const config: RollupOptions = {
         input: path.resolve(__dirname, './assets/test.vue'),
         plugins: [

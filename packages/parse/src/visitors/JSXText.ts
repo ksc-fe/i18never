@@ -11,9 +11,15 @@ export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
 
     const value = node.value.trim();
     if (!value || !options.matchChineseRE.test(value)) return;
+    const { tags, key, allIsDefault } = parseString(value);
+
+    if (options.matchIgnoreRE.test(value)) {
+        path.replaceWith(t.stringLiteral(key));
+        path.skip();
+        return;
+    }
 
     let params: t.Expression[];
-    const { tags, key, allIsDefault } = parseString(value);
     if (tags !== null && !allIsDefault) {
         const newParams = parseTags(tags);
         params = [t.stringLiteral(key), t.objectExpression(newParams)];
@@ -21,7 +27,9 @@ export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
         params = [t.stringLiteral(key)];
     }
 
-    const newExpression = t.callExpression(t.identifier('_$'), params);
+    const newExpression = t.jsxExpressionContainer(
+        t.callExpression(t.identifier('$_'), params)
+    );
     // @ts-ignore
     path.replaceWith(newExpression);
 

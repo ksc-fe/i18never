@@ -1,5 +1,6 @@
 import { parse } from '@babel/parser';
 import traverse from '@babel/traverse';
+import generate from '@babel/generator';
 import { TemplateLiteral, StringLiteral, JSXText } from '../visitors';
 import { TempKeyItem } from '../types';
 
@@ -48,5 +49,11 @@ function getAllKeysLoc(ast, filename: string) {
         filename,
     });
 
+    // const code = generate(ast, {
+    //     // concise: true,
+    //     jsescOption: { minimal: true },
+    //     retainLines: true,
+    // }).code;
+    // console.log('log', code);
     return allKeys;
 }

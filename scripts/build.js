@@ -1,5 +1,5 @@
-const {rollup, generate} = require('rollup');
-const {join, resolve, basename} = require('path');
+const { rollup, generate } = require('rollup');
+const { join, resolve, basename } = require('path');
 const typescript = require('rollup-plugin-typescript2');
 const replace = require('@rollup/plugin-replace');
 const fs = require('fs');
@@ -16,15 +16,17 @@ const options = require('minimist')(process.argv.slice(2), {
         replace: true,
         version: pkgJson.version,
         entry: 'src/index.ts',
-    }
+    },
 });
-const resolveRoot = path => resolve(__dirname, '../',  path);
+const resolveRoot = (path) => resolve(__dirname, '../', path);
 const plugins = [
     typescript({
         tsconfig: resolve(__dirname, '../tsconfig.json'),
         exclude: ['**/__tests__'],
         clean: true,
-        cacheRoot: resolveRoot(`node_modules/.rpt2_cache/${pkgJson.name}_${options.env}_${options.format}`),
+        cacheRoot: resolveRoot(
+            `node_modules/.rpt2_cache/${pkgJson.name}_${options.env}_${options.format}`
+        ),
         tsconfigOverride: {
             compilerOptions: {
                 declaration: true,
@@ -40,13 +42,15 @@ const plugins = [
 ];
 
 if (options.replace) {
-    plugins.push(replace({
-        values: {
-            'process.env.NODE_ENV': JSON.stringify(options.env),
-        },
-        preventAssignment: true,
-        delimiters: ['', ''],
-    }));
+    plugins.push(
+        replace({
+            values: {
+                'process.env.NODE_ENV': JSON.stringify(options.env),
+            },
+            preventAssignment: true,
+            delimiters: ['', ''],
+        })
+    );
 }
 
 const format = options.format;
@@ -57,7 +61,7 @@ async function build() {
     if (!fs.existsSync(input)) return;
 
     try {
-        const buddle = await rollup({input, external, plugins});
+        const buddle = await rollup({ input, external, plugins });
         await buddle.write({
             file: `dist/${basename(input, '.ts')}.${options.ext}`,
             format,

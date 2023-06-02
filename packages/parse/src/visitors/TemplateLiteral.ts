@@ -1,7 +1,8 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
+import options from '../config';
 import { parseString, parseTags } from '../utils';
-import { Tags, JsContext } from '../types';
+import { JsContext } from '../types';
 
 export function TemplateLiteral(
     this: JsContext,
@@ -12,23 +13,23 @@ export function TemplateLiteral(
     const strings: string[] = [];
 
     let index = 0;
-    let tags: Tags | null = null;
-    let allIsDefault = false;
+    // let tags: Tags | null = null;
+    // let allIsDefault = false;
+    // if this is the first quasi, check whether it has tag or not
+    const firstKey = node.quasis[0].value?.raw || '';
+    const { tags = null, key, allIsDefault } = parseString(firstKey);
+    if (options.matchIgnoreRE.test(firstKey)) {
+        node.quasis[0].value.raw = key;
+        path.replaceWith(t.templateLiteral(node.quasis, node.expressions));
+        path.skip();
+        return;
+    }
+
     node.quasis.forEach((elem, idx) => {
         let raw = elem.value.raw;
         if (raw) {
             if (idx === 0) {
-                // if this is the first quasi, check whether it has tag or not
-                const {
-                    tags: _tags,
-                    key,
-                    allIsDefault: _allIsDefault,
-                } = parseString(raw);
-                if (_tags !== null) {
-                    tags = _tags;
-                    raw = key;
-                    allIsDefault = _allIsDefault;
-                }
+                raw = key;
             }
             strings.push(raw);
         }
@@ -37,22 +38,23 @@ export function TemplateLiteral(
         }
     });
 
-    const key = strings.join('');
+    const finalKey = strings.join('');
+    if (!finalKey || !options.matchChineseRE.test(finalKey)) return;
     const params: t.Expression[] = [
-        t.stringLiteral(key),
+        t.stringLiteral(finalKey),
         t.arrayExpression(expressions),
     ];
     if (tags !== null && !allIsDefault) {
         const newParams = parseTags(tags);
         params.push(t.objectExpression(newParams));
     }
-    const newExpression = t.callExpression(t.identifier('_$'), params);
+    const newExpression = t.callExpression(t.identifier('$_'), params);
     // @ts-ignore
     path.replaceWith(newExpression);
     path.skip();
 
     this.keys.push({
-        key,
+        key: finalKey,
         prefix: '',
         filename: this.filename,
         loc: node.loc?.start || {

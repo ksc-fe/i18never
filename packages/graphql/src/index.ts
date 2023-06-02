@@ -203,6 +203,14 @@ export type TranslationFragment = { __typename?: 'Translation', language: string
 
 export type TagFragment = { __typename?: 'Tag', name: string, value: string };
 
+export type CreateVersionQueryVariables = Exact<{
+  source: Scalars['String'];
+  values: Array<ValueArg> | ValueArg;
+}>;
+
+
+export type CreateVersionQuery = { __typename?: 'Query', getVerionId: { __typename?: 'VersionId', Id: string } };
+
 export const TagFragmentDoc = gql`
     fragment Tag on Tag {
   name
@@ -227,6 +235,13 @@ export const QueryOrCreateDictsDocument = gql`
   }
 }
     ${TranslationFragmentDoc}`;
+export const CreateVersionDocument = gql`
+    query CreateVersion($source: String!, $values: [ValueArg!]!) {
+  getVerionId(source: $source, values: $values) {
+    Id
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -237,6 +252,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     QueryOrCreateDicts(variables: QueryOrCreateDictsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<QueryOrCreateDictsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<QueryOrCreateDictsQuery>(QueryOrCreateDictsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'QueryOrCreateDicts', 'query');
+    },
+    CreateVersion(variables: CreateVersionQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateVersionQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateVersionQuery>(CreateVersionDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'CreateVersion', 'query');
     }
   };
 }

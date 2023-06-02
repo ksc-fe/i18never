@@ -1,7 +1,7 @@
 <script>
     // import TestComponent from "./testComponent.vue";
     import config from "./test"
-    export default {
+    export default{
         data() {
             return {
                 test: config.a
@@ -15,7 +15,7 @@
 
 <template>
     <div>{{ test }}</div>
-    <div>{{ `[i18never:jp=n,en=n,ko=n]购买${a}台` }}</div>
+    <div>{{ `[$_:jp=n,en=n,ko=n]购买${a}台` }}</div>
     <div>购买{{ a }}台</div>
-    <TestComponent :a="`[i18never:jp=n,en,ko]购买${a}台`" :b="{a: '[i18never:jp,en,ko]购买'}" />
+    <TestComponent :a="`[$_:jp=n,en,ko]购买${a}台`" :b="{a: '[$_:jp,en,ko]购买'}" />
 </template>

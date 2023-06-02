@@ -1,1 +1,1 @@
-export const a = '[i18never:en,kr]翻译';
+export const a = '[$_:en,kr]翻译';
