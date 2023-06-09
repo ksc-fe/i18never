@@ -1,8 +1,7 @@
-# `@i18never/parse`
+# `@i18never/client`
 
-> Parse pug/vue2/vue3/tsx template for i18never.
+> Retrieve translation from dicts.
 
 ## Usage
 
 > The package is automatically injected and used in combination with I18never.
-

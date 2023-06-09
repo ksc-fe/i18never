@@ -5,7 +5,7 @@ import { GraphQLClient } from 'graphql-request';
 import { TempKeyItem } from 'packages/parse/dist/types';
 import { resolve } from 'path';
 
-const client = new GraphQLClient('http://localhost:3003/');
+const client = new GraphQLClient('http://i18never.ksyun.com/graphql/');
 const sdk = getSdk(client);
 
 export default function i18never(options) {
@@ -76,7 +76,7 @@ function generateScript(version, options) {
     return `
     <script>
         let lang = ${lang};
-        document.write('<scr'+'ipt src="http://localhost:8080/api/'+lang+'/${version}"></scr'+'ipt>');
+        document.write('<scr'+'ipt src="http://i18never.ksyun.com/dict/'+lang+'/${version}"></scr'+'ipt>');
     </script>
     `;
 }

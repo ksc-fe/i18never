@@ -1,6 +1,6 @@
 {
   "name": "@i18never/parse",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Parse pug/vue2/vue3/tsx template for i18never ",
   "author": "zhangbing4 <zhangbing4@kingsoft.com>",
   "homepage": "https://github.com/ksc-fe/i18never#readme",
@@ -16,7 +16,9 @@
     "lib"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "directory": "./dist"
   },
   "repository": {
     "type": "git",
@@ -36,7 +38,7 @@
     "@babel/parser": "^7.17.8",
     "@babel/traverse": "7.17.3",
     "@babel/types": "^7.17.0",
-    "@i18never/graphql": "file:../graphql",
+    "@i18never/graphql": "^1.0.0",
     "inquirer": "^8.2.4",
     "pug-lexer": "^5.0.1",
     "pug-parser": "^6.0.0",

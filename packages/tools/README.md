@@ -1,11 +1,17 @@
 # `@i18never/tools`
 
-> TODO: description
+> This is a toolset for i18nerver
+
+## Install
+
+```
+npm i @i18never/tools -g
+
+```
 
 ## Usage
 
 ```
-const tools = require('@i18never/tools');
-
-// TODO: DEMONSTRATE API
+//  Using i18never to add internationalization tags to specific directories or files.
+i18never tag src
 ```

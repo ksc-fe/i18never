@@ -13,7 +13,7 @@ const options = {
     matchPrefixRE: /^\[(\$_:([^\]]*))\](.*)/,
 
     // the graphql api for getting translations
-    uri: 'http://localhost:3003/',
+    uri: 'http://i18never.ksyun.com/graphql/',
 
     // the source to distinguish clients
     source: 'i18never',

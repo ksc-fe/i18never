@@ -1,11 +1,7 @@
 # `@i18never/graphql`
 
-> TODO: description
+> Base graphQL for i18never
 
 ## Usage
 
-```
-const graphql = require('@i18never/graphql');
-
-// TODO: DEMONSTRATE API
-```
+> The package is automatically injected and used in combination with I18never.
