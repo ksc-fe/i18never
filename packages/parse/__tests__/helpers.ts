@@ -17,7 +17,7 @@ export function i18nTrans(
 
     const codeAst = parse(sourceCode, {
         sourceType: 'module',
-        plugins: ['jsx'],
+        plugins: ['jsx', 'typescript'],
     });
     const transResult: TransResult = transAst(codeAst, filename, visitors);
     return transResult;

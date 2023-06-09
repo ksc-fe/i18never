@@ -11,7 +11,10 @@ export default function parseJs(
     rootLine?: number
 ) {
     const keys: TempKeyItem[] = [];
-    const ast = parse(source, { sourceType: 'module', plugins: ['jsx'] });
+    const ast = parse(source, {
+        sourceType: 'module',
+        plugins: ['jsx', 'typescript'],
+    });
     const allJsKeys = getAllKeysLoc(ast, filename);
 
     if (!isInTemplate) {
