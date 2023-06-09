@@ -1,6 +1,6 @@
 import { getSdk } from '@i18never/graphql';
 import { GraphQLClient } from 'graphql-request';
-import inquirer from 'inquirer';
+import { prompt } from 'inquirer';
 import options from './config';
 import { KeyItem, TranslationDetail, TagFragment } from './types';
 import { deepCopy } from './utils';
@@ -40,35 +40,33 @@ export async function inquire(dicts: Dict[], filename: string) {
                     // if the language's translation has multiple entries,
                     // we should show inquirer for user to select the correct item
                     if (tags.length > 1) {
-                        await inquirer
-                            .prompt([
-                                {
-                                    type: 'rawlist',
-                                    name: 'tag',
-                                    message: `Which translation do you need for string: "${key}" in '${language}' ?`,
-                                    choices: tags.map((tag) => {
-                                        return {
-                                            name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
-                                            value: tag,
-                                        };
-                                    }),
-                                },
-                            ])
-                            .then((answers) => {
-                                if (!answers.tag.value) {
-                                    noTranslations.push({
-                                        'untranslated sentence': key,
-                                        'untranslated language': language,
-                                        loc,
-                                        'file path': filename,
-                                    });
-                                }
-                                translation.push({
-                                    language,
-                                    tag: answers.tag,
-                                    isAnswer: true,
+                        await prompt([
+                            {
+                                type: 'rawlist',
+                                name: 'tag',
+                                message: `Which translation do you need for string: "${key}" in '${language}' ?`,
+                                choices: tags.map((tag) => {
+                                    return {
+                                        name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
+                                        value: tag,
+                                    };
+                                }),
+                            },
+                        ]).then((answers) => {
+                            if (!answers.tag.value) {
+                                noTranslations.push({
+                                    'untranslated sentence': key,
+                                    'untranslated language': language,
+                                    loc,
+                                    'file path': filename,
                                 });
+                            }
+                            translation.push({
+                                language,
+                                tag: answers.tag,
+                                isAnswer: true,
                             });
+                        });
                     } else if (tags.length === 1) {
                         // use the only one translation as the result
                         if (!tags[0].value) {
