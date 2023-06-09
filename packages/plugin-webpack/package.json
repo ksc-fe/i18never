@@ -1,6 +1,6 @@
 {
     "name": "i18never-webpack-plugin",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "A webpack plugin based on i18never",
     "keywords": [
         "i18never",
@@ -34,8 +34,8 @@
         "url": "https://github.com/ksc-fe/i18never/issues"
     },
     "dependencies": {
-        "@i18never/graphql": "^1.0.7",
-        "@i18never/parse": "^1.0.7",
+        "@i18never/graphql": "^1.0.8",
+        "@i18never/parse": "^1.0.8",
         "html-webpack-plugin": "^5.5.1",
         "webpack": "^5.82.0"
     },
