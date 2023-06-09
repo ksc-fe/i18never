@@ -1,5 +1,6 @@
 {
     "packages": ["packages/*"],
+    "scope": "@i18never",
     "version": "1.0.3",
     "command": {
         "publish": {
@@ -11,8 +12,7 @@
                 "**/*.spec.js"
             ],
             "message": "chore(release): publish",
-            "registry": "https://registry.npmjs.org/",
-            "scope": "@ksyun"
+            "registry": "https://registry.npmjs.org/"
         }
     }
 }

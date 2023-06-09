@@ -46,5 +46,6 @@
         "@i18never/graphql": "^1.0.3",
         "@i18never/parse": "^1.0.3",
         "axios": "^1.3.5"
-    }
+    },
+    "gitHead": "8b9be57b4b867d0d892263795703796ebfe67c81"
 }
