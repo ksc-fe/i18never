@@ -6,8 +6,8 @@ export function $_(
     data?: Tags | Array<string | number>,
     langTags?: Tags
 ): string {
-    const i18n = window['I18neverData'] || {};
-    const lang = window['I18neverLang'] || 'zh';
+    const i18n = window['I18NeverData'] || {};
+    const lang = window['I18NeverLang'] || 'zh';
     const translation = (i18n && i18n[key]) || '';
     // There is no corresponding key
     if (!translation) {

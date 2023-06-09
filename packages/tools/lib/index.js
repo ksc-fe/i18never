@@ -12,13 +12,14 @@ process.on('unhandledRejection', (reason) => {
 });
 
 module.exports = async (name) => {
-    let pross = ora();
+    let pross = ora('Starting extraction...\n').start({
+        stream: process.stdout,
+    });
     let filelist = walk(name);
     for (let file of filelist) {
         if (!file.match(/\.(pug|vue|tsx|jsx|js|ts)$/)) {
             continue;
         }
-        pross.start(`Starting extraction...\n`);
         let tempsource = fs.readFileSync(file, 'utf8');
         await i18nparse(tempsource, file);
         pross.succeed(`${file} Extraction completed`);
