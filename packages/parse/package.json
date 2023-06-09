@@ -1,6 +1,6 @@
 {
     "name": "@i18never/parse",
-    "version": "1.0.9",
+    "version": "1.0.11",
     "description": "Parse pug/vue2/vue3/tsx template for i18never ",
     "author": "zhangbing4 <zhangbing4@kingsoft.com>",
     "homepage": "https://github.com/ksc-fe/i18never#readme",
