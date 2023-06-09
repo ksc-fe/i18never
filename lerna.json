@@ -1,18 +1,18 @@
 {
     "packages": ["packages/*"],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "command": {
-      "publish": {
-        "ignoreChanges": [
-          "**/*.md",
-          "package-lock.json",
-          "npm-shrinkwrap.json",
-          "**/*.test.js",
-          "**/*.spec.js"
-        ],
-        "message": "chore(release): publish",
-        "registry": "https://registry.npmjs.org/", 
-        "scope": "ksyun"
-      }
+        "publish": {
+            "ignoreChanges": [
+                "**/*.md",
+                "package-lock.json",
+                "npm-shrinkwrap.json",
+                "**/*.test.js",
+                "**/*.spec.js"
+            ],
+            "message": "chore(release): publish",
+            "registry": "https://registry.npmjs.org/",
+            "scope": "ksyun"
+        }
     }
 }
