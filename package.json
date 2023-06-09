@@ -1,6 +1,6 @@
 {
   "name": "i18never",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Deal with the internationalization (i18n) automatically.",
   "main": "index.js",
   "scripts": {
