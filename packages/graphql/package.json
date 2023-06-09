@@ -36,5 +36,6 @@
         "@graphql-codegen/typescript": "^2.7.3",
         "@graphql-codegen/typescript-graphql-request": "^4.5.2",
         "@graphql-codegen/typescript-operations": "^2.5.2"
-    }
+    },
+    "gitHead": "e60f29b82e519ff920ae58c3f1f7b0bb2f895d1c"
 }
