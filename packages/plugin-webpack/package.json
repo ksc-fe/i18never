@@ -35,8 +35,8 @@
         "url": "https://github.com/ksc-fe/i18never/issues"
     },
     "dependencies": {
-        "@i18never/graphql": "file:../graphql",
-        "@i18never/parse": "file:../parse",
+        "@i18never/graphql": "^1.0.0",
+        "@i18never/parse": "^1.0.0",
         "html-webpack-plugin": "^5.5.1",
         "webpack": "^5.82.0"
     },
