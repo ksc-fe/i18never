@@ -1,18 +1,4 @@
 {
     "packages": ["packages/*"],
-    "scope": "@i18never",
-    "version": "1.0.4",
-    "command": {
-        "publish": {
-            "ignoreChanges": [
-                "**/*.md",
-                "package-lock.json",
-                "npm-shrinkwrap.json",
-                "**/*.test.js",
-                "**/*.spec.js"
-            ],
-            "message": "chore(release): publish",
-            "registry": "https://registry.npmjs.org/"
-        }
-    }
+    "version": "1.0.4"
 }
