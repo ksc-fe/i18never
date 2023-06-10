@@ -12,6 +12,9 @@ const options = {
 
     matchPrefixRE: /^\[(\$_:([^\]]*))\](.*)/,
 
+    // match Chinese punctuation marks
+    punctuationsRegEx: /[：，；！？。]/g,
+
     // the graphql api for getting translations
     uri: 'http://i18never.ksyun.com/graphql/',
 

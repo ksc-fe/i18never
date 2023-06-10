@@ -8,7 +8,8 @@ import parseJs from './parsejs';
 
 export default async function parsePug(
     source: string,
-    filename: string
+    filename: string,
+    rootLine = 1
 ): Promise<TempKeyItem[]> {
     const keys: TempKeyItem[] = [];
     const tokens = puglex(source, { filename });
@@ -19,12 +20,12 @@ export default async function parsePug(
         function before(node: any) {
             if (node.type === 'Text') {
                 if (!node.val || !hasChinese(node.val)) return;
-                allKeys.push(getParams(node, filename));
+                allKeys.push(getParams(node, filename, rootLine));
             }
             if (node.attrs && node.attrs.length !== 0) {
                 node.attrs.forEach((attr) => {
                     if (!attr.val || !hasChinese(attr.val)) return;
-                    allKeys.push(getParams(attr, filename, true));
+                    allKeys.push(getParams(attr, filename, rootLine, true));
                 });
             }
         },
@@ -71,15 +72,23 @@ function formatLoc(loc, originLoc, prefixLength) {
     };
 }
 
-function getParams(node, filename, isAttr = false) {
+function getParams(node, filename, rootLine, isAttr = false) {
+    let content: TempKeyItem[] = [];
     const matchVal = node.val.replace(
         isAttr ? options.matchQuoteRE : options.matchMustacheRE,
         '$1'
     );
     const prefixLength = (node.val.length - matchVal.length) / 2;
-    const content = parseJs(matchVal, filename, true);
+    if (
+        (node.name && node.name.startsWith(':')) ||
+        node.val.startsWith('{{') ||
+        node.val.startsWith('`')
+    ) {
+        content = parseJs(matchVal, filename, true);
+    }
+
     const originLoc = {
-        line: node.line - 1,
+        line: rootLine + node.line - 2,
         // If it is an attribute, you need to add the length of "="
         column: isAttr
             ? node.column + node.name.length + 1
