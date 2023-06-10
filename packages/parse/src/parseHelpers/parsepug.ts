@@ -1,6 +1,6 @@
-import { pugparse } from 'pug-parser';
+import * as pugparse from 'pug-parser';
 import { Lexer } from 'pug-lexer';
-import { pugwalk } from 'pug-walk';
+import * as pugwalk from 'pug-walk';
 import { TempKeyItem } from '../types';
 import { hasChinese, parseString } from '../utils';
 import options from '../config';
