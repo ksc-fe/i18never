@@ -1,6 +1,6 @@
-import pugparse from 'pug-parser';
-import puglex from 'pug-lexer';
-import pugwalk from 'pug-walk';
+import { pugparse } from 'pug-parser';
+import { Lexer } from 'pug-lexer';
+import { pugwalk } from 'pug-walk';
 import { TempKeyItem } from '../types';
 import { hasChinese, parseString } from '../utils';
 import options from '../config';
@@ -12,7 +12,8 @@ export default async function parsePug(
     rootLine = 1
 ): Promise<TempKeyItem[]> {
     const keys: TempKeyItem[] = [];
-    const tokens = puglex(source, { filename });
+    const lexer = new Lexer(source, { filename });
+    const tokens = JSON.parse(JSON.stringify(lexer.getTokens()));
     const ast = pugparse(tokens, { filename });
     const allKeys: any = [];
     pugwalk(
