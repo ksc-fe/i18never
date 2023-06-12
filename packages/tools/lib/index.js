@@ -17,11 +17,10 @@ module.exports = async (name) => {
     });
     let filelist = walk(name);
     for (let file of filelist) {
-        if (!file.match(/\.(pug|vue|tsx|jsx|js|ts)$/)) {
-            continue;
+        if (file.match(/\.(pug|vue|tsx|jsx|js|ts)$/)) {
+            let tempsource = fs.readFileSync(file, 'utf8');
+            await i18nparse(tempsource, file);
         }
-        let tempsource = fs.readFileSync(file, 'utf8');
-        await i18nparse(tempsource, file);
         pross.succeed(`${file} Extraction completed`);
     }
 };
