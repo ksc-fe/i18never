@@ -1,6 +1,6 @@
 {
     "name": "@i18never/tools",
-    "version": "1.0.14",
+    "version": "1.0.16",
     "description": "This is a toolset for i18nerver",
     "author": "zhangbing4 <zhangbing4@kingsoft.com>",
     "bin": {
