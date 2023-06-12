@@ -1,4 +1,4 @@
-import { TransformPluginContext, TransformResult } from 'rollup';
+import { TransformResult } from 'rollup';
 import { i18nTrans } from '@i18never/parse';
 import { getSdk } from '@i18never/graphql';
 import { GraphQLClient } from 'graphql-request';
@@ -8,24 +8,21 @@ import { resolve } from 'path';
 const client = new GraphQLClient('http://i18never.ksyun.com/graphql/');
 const sdk = getSdk(client);
 
-export default function i18never(options) {
+interface Options {
+    root?: string;
+    langKey?: string;
+    storageType?: string;
+}
+
+export default function i18never(options: Options = {}) {
     const allAppKeys: TempKeyItem[] = [];
     let i18nVersion = '';
-    const defaultOptions = {
-        root: 'src',
-        langKey: '',
-        storageType: '',
-    };
-    options = Object.assign({}, defaultOptions, options);
-    const rootPath = resolve(process.cwd(), options.root);
+    const { root = 'src' } = options;
+    const rootPath = resolve(process.cwd(), root);
     return {
         name: 'i18never',
         enforce: 'post',
-        async transform(
-            this: TransformPluginContext,
-            code: string,
-            id: string
-        ) {
+        async transform(code: string, id: string) {
             if (
                 !id.match(/\.(pug|vue|tsx|jsx|js|ts)$/) ||
                 id.includes('@i18never/client') ||
@@ -59,15 +56,16 @@ export default function i18never(options) {
     };
 }
 
-function generateScript(version, options) {
+function generateScript(version, options: Options) {
     let lang = '';
-    switch (options.storageType) {
+    const { langKey = '', storageType = '' } = options;
+    switch (storageType) {
         case 'cookie':
-            lang = `document.cookie.replace(/(?:(?:^|.*;\\s*)${options.langKey}\\s*\=\\s*([^;]*).*$)|^.*$/, "$1");`;
+            lang = `document.cookie.replace(/(?:(?:^|.*;\\s*)${langKey}\\s*\=\\s*([^;]*).*$)|^.*$/, "$1");`;
             break;
         case 'localStorage':
         case 'sessionStorage':
-            lang = `${options.storageType}.getItem('${options.langKey}')`;
+            lang = `${storageType}.getItem('${langKey}')`;
             break;
         default:
             lang = `document.cookie.replace(/(?:(?:^|.*;\\s*)ksc_lang\\s*\=\\s*([^;]*).*$)|^.*$/, "$1");`;
