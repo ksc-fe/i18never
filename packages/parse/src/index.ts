@@ -28,16 +28,16 @@ export async function i18nparse(
 
     switch (filesuffix) {
         case FileType.PUG:
-            keys = await parsePug(template, filename);
+            keys = parsePug(template, filename);
             break;
         case FileType.VUE:
-            keys = await parseVue(template, filename);
+            keys = parseVue(template, filename);
             break;
         case FileType.JSX:
         case FileType.TSX:
         case FileType.TS:
         case FileType.JS:
-            keys = await parseJs(template, filename, false, 1);
+            keys = parseJs(template, filename, false, 1);
             break;
         default:
             break;

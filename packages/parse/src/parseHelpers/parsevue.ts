@@ -11,10 +11,10 @@ import { hasChinese, walkTree, parseString } from '../utils';
 import parseJs from './parsejs';
 import parsePug from './parsepug';
 
-export default async function parseVue(
+export default function parseVue(
     source: string,
     filename: string
-): Promise<TempKeyItem[]> {
+): TempKeyItem[] {
     const keys: TempKeyItem[] = [];
     const descriptor = parse(source).descriptor;
     const TemplateAst = descriptor?.template?.ast;
@@ -29,11 +29,7 @@ export default async function parseVue(
     switch (TemplateLang) {
         case 'pug':
             keys.push(
-                ...(await parsePug(
-                    TemplateContent,
-                    filename,
-                    TemplateLangRootLine
-                ))
+                ...parsePug(TemplateContent, filename, TemplateLangRootLine)
             );
             break;
         default:

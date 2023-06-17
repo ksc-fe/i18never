@@ -5,12 +5,13 @@ import { TempKeyItem } from '../types';
 import { hasChinese, parseString } from '../utils';
 import options from '../config';
 import parseJs from './parsejs';
+import parseVue from './parsevue';
 
-export default async function parsePug(
+export default function parsePug(
     source: string,
     filename: string,
     rootLine = 1
-): Promise<TempKeyItem[]> {
+): TempKeyItem[] {
     const keys: TempKeyItem[] = [];
     const lexer = new Lexer(source, { filename });
     const tokens = JSON.parse(JSON.stringify(lexer.getTokens()));
@@ -41,7 +42,7 @@ export default async function parsePug(
                 prev.push({
                     filename,
                     key: it.key,
-                    loc: formatLoc(it.loc, next.originLoc, next.prefixLength),
+                    loc: formatLoc(it.loc, next.originLoc),
                     prefix: '',
                     tags: it.tags,
                 });
@@ -61,12 +62,12 @@ export default async function parsePug(
     return keys;
 }
 
-function formatLoc(loc, originLoc, prefixLength) {
+function formatLoc(loc, originLoc) {
     if (!loc) {
         return { line: -1, column: -1 };
     }
     const line = originLoc.line;
-    const column = originLoc.column + prefixLength + loc.column;
+    const column = originLoc.column + loc.column;
     return {
         line,
         column,
@@ -75,27 +76,26 @@ function formatLoc(loc, originLoc, prefixLength) {
 
 function getParams(node, filename, rootLine, isAttr = false) {
     let content: TempKeyItem[] = [];
-    const matchVal = node.val.replace(
-        isAttr ? options.matchQuoteRE : options.matchMustacheRE,
-        '$1'
-    );
-    const prefixLength = (node.val.length - matchVal.length) / 2;
-    if (
-        (node.name && node.name.startsWith(':')) ||
-        node.val.startsWith('{{') ||
-        node.val.startsWith('`')
-    ) {
+    const matchVal = node.val.replace(options.matchQuoteRE, '$1');
+    let prefixLength = 0;
+    if (node.name && node.name.startsWith(':')) {
+        prefixLength = (node.val.length - matchVal.length) / 2;
         content = parseJs(matchVal, filename, true);
+    } else {
+        const sourceText = `<template>\n<span>${node.val}</span>\n</template>`;
+        content = parseVue(sourceText, filename);
+        content.map((it) => {
+            it.loc.column -= 6;
+            return it;
+        });
     }
 
     const originLoc = {
         line: rootLine + node.line - 2,
         // If it is an attribute, you need to add the length of "="
         column: isAttr
-            ? node.column + node.name.length + 1
-            : content.length === 0
-            ? node.column - 1
-            : node.column,
+            ? node.column + node.name.length + 1 + prefixLength
+            : node.column - 1,
     };
-    return { matchVal, prefixLength, content, originLoc };
+    return { content, originLoc };
 }
