@@ -76,13 +76,15 @@ function formatLoc(loc, originLoc) {
 
 function getParams(node, filename, rootLine, isAttr = false) {
     let content: TempKeyItem[] = [];
-    const matchVal = node.val.replace(options.matchQuoteRE, '$1');
+    const matchVal = isAttr
+        ? node.val.replace(options.matchQuoteRE, '$1')
+        : node.val;
     let prefixLength = 0;
     if (node.name && node.name.startsWith(':')) {
         prefixLength = (node.val.length - matchVal.length) / 2;
         content = parseJs(matchVal, filename, true);
     } else {
-        const sourceText = `<template>\n<span>${node.val}</span>\n</template>`;
+        const sourceText = `<template>\n<span>${matchVal}</span>\n</template>`;
         content = parseVue(sourceText, filename);
         content.map((it) => {
             it.loc.column -= 6;
