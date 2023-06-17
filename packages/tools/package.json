@@ -1,6 +1,6 @@
 {
     "name": "@i18never/tools",
-    "version": "1.0.16",
+    "version": "1.0.17",
     "description": "This is a toolset for i18nerver",
     "author": "zhangbing4 <zhangbing4@kingsoft.com>",
     "bin": {
@@ -31,7 +31,7 @@
         "url": "https://github.com/ksc-fe/i18never/issues"
     },
     "dependencies": {
-        "@i18never/parse": "^1.0.14",
+        "@i18never/parse": "^1.0.17",
         "chalk": "^4.1.1",
         "commander": "^8.0.0",
         "ora": "^5.4.1"
