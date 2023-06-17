@@ -1,6 +1,6 @@
 <script>
   let aa = '测试'
-  let bb = '[$_:ig]测试'
+  let bb = '[$_:ignore]测试'
   let cc = `测试${aa}测试`
 </script>
 <template lang="pug">

@@ -3,7 +3,7 @@ const options = {
     matchChineseRE: /[\u4E00-\u9FFF]+/,
 
     // match the text that will be ignore
-    matchIgnoreRE: /.*\[\$_:ig\].*/,
+    matchIgnoreRE: /.*\[\$_:ignore\].*/,
 
     // match the text that will be tra
     matchQuoteRE: /^["|'](.*)["|']$/g,

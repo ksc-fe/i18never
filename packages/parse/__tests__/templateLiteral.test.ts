@@ -38,7 +38,7 @@ test('should handle tag in template string', () => {
 
 test('should ignore Chinese characters containing ignore markers', () => {
     expect(
-        i18nTrans('`[$_:ig]购买${a}台`', 'filename', {
+        i18nTrans('`[$_:ignore]购买${a}台`', 'filename', {
             TemplateLiteral,
         }).transCode
     ).toBe('`购买${a}台`;');

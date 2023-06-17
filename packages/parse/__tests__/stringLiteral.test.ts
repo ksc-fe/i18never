@@ -82,7 +82,7 @@ import options from '../src/config';
 
 // test('should ignore Chinese characters containing ignore markers', () => {
 //     expect(
-//         i18nTrans(`const a = '[$_:ig]测试'`, 'filename', {
+//         i18nTrans(`const a = '[$_:ignore]测试'`, 'filename', {
 //             StringLiteral,
 //         }).transCode
 //     ).toBe(`const a = "测试";`);

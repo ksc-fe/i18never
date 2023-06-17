@@ -4,7 +4,7 @@ import { ElementNode, DirectiveNode, ExpressionNode } from '@vue/compiler-core';
 import options from './config';
 
 /**
- * Check if it is in Chinese and ignore those marked with ig
+ * Check if it is in Chinese and ignore those marked with ignore
  * @param content
  * @returns
  */

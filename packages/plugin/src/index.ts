@@ -14,6 +14,11 @@ interface Options {
     storageType?: string;
 }
 
+enum EnforceType {
+    PRE = 'pre',
+    POST = 'post',
+}
+
 export default function i18never(options: Options = {}) {
     const allAppKeys: TempKeyItem[] = [];
     let i18nVersion = '';
@@ -21,7 +26,7 @@ export default function i18never(options: Options = {}) {
     const rootPath = resolve(process.cwd(), root);
     return {
         name: 'i18never',
-        enforce: 'post',
+        enforce: EnforceType.POST,
         async transform(code: string, id: string) {
             if (
                 !id.match(/\.(pug|vue|tsx|jsx|js|ts)$/) ||
