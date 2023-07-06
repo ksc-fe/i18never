@@ -115,7 +115,6 @@ export async function inquire(dicts: Dict[], filename: string) {
 }
 
 async function queryTranslations(dicts: Dict[]) {
-    console.log('process.env.I18NEVER_TOKEN1111', process.env.I18NEVER_TOKEN);
     const client = new GraphQLClient(options.uri, {
         headers: {
             Authorization: process.env.I18NEVER_TOKEN as string,

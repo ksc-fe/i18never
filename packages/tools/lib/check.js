@@ -4,7 +4,6 @@ const program = require('commander');
 
 module.exports = (options) => {
   const rootDir = findProjectRoot();
-  
   const tokenOption = options.token;
   if (!rootDir && !tokenOption) {
     console.error("Missing permission information. Please configure the. i18neverrc.js file in the root directory or use the i18never command to explicitly configure the - t parameter");
@@ -22,7 +21,6 @@ module.exports = (options) => {
 
 function findProjectRoot() {
   let currentDir = process.cwd();
-  console.log('currentDir', currentDir);
   while (currentDir !== '/') {
     if (fs.existsSync(path.join(currentDir, '.i18neverrc.js'))) {
       return currentDir;
