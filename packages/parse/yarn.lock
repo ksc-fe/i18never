@@ -119,11 +119,14 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@i18never/graphql@file:../graphql":
-  version "0.0.1"
+"@i18never/graphql@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@i18never/graphql/-/graphql-1.0.8.tgz#f68022bb4d3527c7f682d3e5d5af301d83ebcf00"
+  integrity sha512-m3+JsdEZhyf1buCvzlLrieRtgWwTBhYTz9trFMhRsP7AM6IK2vUOEohL22WRlbbJpShVZYtmC+RFxEwV3ds7hw==
   dependencies:
     graphql "^15"
     graphql-request "^4.3.0"
+    graphql-tag "^2.11.0"
 
 "@jridgewell/gen-mapping@^0.3.2":
   version "0.3.2"
@@ -589,6 +592,13 @@ graphql-request@^4.3.0:
     cross-fetch "^3.1.5"
     extract-files "^9.0.0"
     form-data "^3.0.0"
+
+graphql-tag@^2.11.0:
+  version "2.12.6"
+  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
+  integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==
+  dependencies:
+    tslib "^2.1.0"
 
 graphql@^15:
   version "15.8.0"

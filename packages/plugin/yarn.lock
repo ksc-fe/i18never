@@ -301,23 +301,30 @@
   resolved "https://registry.npmmirror.com/@esbuild/linux-loong64/-/linux-loong64-0.15.18.tgz#128b76ecb9be48b60cf5cfc1c63a4f00691a3239"
   integrity sha512-L4jVKS82XVhw2nvzLg/19ClLWg0y27ulRwuP7lcyL6AbUWB5aPglXY3M21mauDQMDfRLs8cQmeT03r/+X3cZYQ==
 
-"@i18never/client@file:../client":
-  version "0.0.1"
+"@i18never/client@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@i18never/client/-/client-1.0.10.tgz#7f44dc46638986026cf9e66a82f1f64d90a91cc1"
+  integrity sha512-bbPPI2sk5ttKE+PgvIQwiijPAXE7QH+2o0XnIP0xUGGMGiyEvfu7evcoqVBZZx1qtsZZjxuGfL15rXoYKPqBqQ==
 
-"@i18never/graphql@file:../graphql":
-  version "0.0.1"
+"@i18never/graphql@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@i18never/graphql/-/graphql-1.0.8.tgz#f68022bb4d3527c7f682d3e5d5af301d83ebcf00"
+  integrity sha512-m3+JsdEZhyf1buCvzlLrieRtgWwTBhYTz9trFMhRsP7AM6IK2vUOEohL22WRlbbJpShVZYtmC+RFxEwV3ds7hw==
   dependencies:
     graphql "^15"
     graphql-request "^4.3.0"
+    graphql-tag "^2.11.0"
 
-"@i18never/parse@file:../parse":
-  version "0.0.1"
+"@i18never/parse@^1.0.19":
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/@i18never/parse/-/parse-1.0.19.tgz#ff4cb9752929c71edbce42138f8884df73043d87"
+  integrity sha512-k0hq83Dj2Hb1XPqZISmCNkmIaTLVEx7obYcz4EdC1na7vVyvj3YS25X6CEArF9C/wRSmqIv5YMvG7k0Taw8wLA==
   dependencies:
     "@babel/generator" "^7.17.7"
     "@babel/parser" "^7.17.8"
     "@babel/traverse" "7.17.3"
     "@babel/types" "^7.17.0"
-    "@i18never/graphql" "file:../../../../../../Library/Caches/Yarn/v6/npm-@i18never-parse-0.0.1-bc496ef0-4e61-4371-b562-6698f87a7034-1685088973861/node_modules/@i18never/graphql"
+    "@i18never/graphql" "^1.0.8"
     inquirer "^8.2.4"
     pug-lexer "^5.0.1"
     pug-parser "^6.0.0"
@@ -1346,6 +1353,13 @@ graphql-request@^4.3.0:
     extract-files "^9.0.0"
     form-data "^3.0.0"
 
+graphql-tag@^2.11.0:
+  version "2.12.6"
+  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
+  integrity sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==
+  dependencies:
+    tslib "^2.1.0"
+
 graphql@^15:
   version "15.8.0"
   resolved "https://registry.npmmirror.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
@@ -2081,11 +2095,6 @@ source-map@^0.6.0, source-map@~0.6.0:
   version "0.6.1"
   resolved "https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
-
-source-map@^0.7.4:
-  version "0.7.4"
-  resolved "https://registry.npmmirror.com/source-map/-/source-map-0.7.4.tgz#a9bbe705c9d8846f4e08ff6765acf0f1b0898656"
-  integrity sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==
 
 string-width@^4.1.0:
   version "4.2.3"

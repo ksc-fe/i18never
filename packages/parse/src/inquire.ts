@@ -12,9 +12,6 @@ type ResultItem = {
 
 type Dict = Pick<KeyItem, 'key' | 'tags' | 'loc'>;
 
-const client = new GraphQLClient(options.uri);
-export const sdk = getSdk(client);
-
 export async function inquire(dicts: Dict[], filename: string) {
     try {
         const copyDicts = deepCopy(dicts);
@@ -118,6 +115,13 @@ export async function inquire(dicts: Dict[], filename: string) {
 }
 
 async function queryTranslations(dicts: Dict[]) {
+    console.log('process.env.I18NEVER_TOKEN1111', process.env.I18NEVER_TOKEN);
+    const client = new GraphQLClient(options.uri, {
+        headers: {
+            Authorization: process.env.I18NEVER_TOKEN as string,
+        },
+    });
+    const sdk = getSdk(client);
     const optionss = {
         source: options.source,
         values: dicts.map(({ key, tags }) => {
