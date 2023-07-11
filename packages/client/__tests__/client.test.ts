@@ -1,38 +1,41 @@
-import { $_, localize } from './helpers';
+import { $_ } from '../src';
 
 // mock i18n json
-const I18NT = {
-    翻译: {
-        tags: [
-            { name: 'n', value: '翻译-名词' },
-            { name: 'v', value: '翻译-动词' },
-        ],
-    },
-    '翻译{0}': {
-        tags: [
-            { name: 'n', value: '翻译{0}-名词' },
-            { name: 'v', value: '翻译{0}-动词' },
-        ],
-    },
-    '满{0}个月减{1}个月': {
-        tags: [{ name: 'default', value: '满{0}个月减{1}个月' }],
-    },
+globalThis.I18NeverData = {
+    翻译: [
+        { name: 'default', value: 'default translation' },
+        { name: 'n', value: 'translation' },
+        { name: 'v', value: 'translate' },
+    ],
+    '翻译{0}': [{ name: 'n', value: 'translation {0}!' }],
+    '满{0}个月减{1}个月': [
+        { name: 'default', value: '{0} month(s) minus {1} month(s)' },
+    ],
+    空: [{ name: 'default', value: '' }],
 };
+globalThis.I18NeverLang = 'en';
 
-localize('en', I18NT);
-
-test('test 1', async () => {
-    expect($_('翻译', { en: 'n' })).toBe('翻译-名词');
+test('should use default tag', () => {
+    expect($_('翻译')).toBe('default translation');
 });
-test('test 2', async () => {
-    expect($_('翻译{0}', ['好'])).toBe('翻译好-名词');
+test('error tag should throw error', () => {
+    expect(() => $_('翻译', { en: 'xxx' })).toThrow();
+    expect(() => $_('翻译{0}', ['good'])).toThrow();
 });
-test('test 3', async () => {
-    expect($_('翻译', { en: 'v' })).toBe('翻译-动词');
+test('should get translation with tag', () => {
+    expect($_('翻译', { en: 'n' })).toBe('translation');
+    expect($_('翻译', { en: 'v' })).toBe('translate');
 });
-test('test 4', async () => {
-    expect($_('满{0}个月减{1}个月', [1, 2])).toBe('满1个月减2个月');
+test('should replace with data', () => {
+    expect($_('翻译{0}', ['good'], { en: 'n' })).toBe('translation good!');
+    expect($_('满{0}个月减{1}个月', [12, '1'])).toBe(
+        '12 month(s) minus 1 month(s)'
+    );
 });
-test('test 5', async () => {
+test('key does not exist', () => {
+    expect($_('翻译说')).toBe('翻译说');
     expect($_('翻译说{0}', ['好的'])).toBe('翻译说好的');
+});
+test('key exists but its translation is empty', () => {
+    expect($_('空')).toBe('空');
 });

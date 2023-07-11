@@ -1,38 +1,42 @@
 type Tags = Record<string, string>;
+type Data = (string | number)[];
+type I18NeverData = Record<string, Tag[]>;
+type Tag = { name: string; value: string };
 
-const valueRegexp = /\{([^\}\s]+)\}/g;
-export function $_(
-    key: string,
-    data?: Tags | Array<string | number>,
-    langTags?: Tags
-): string {
-    const i18n = window['I18NeverData'] || {};
-    const lang = window['I18NeverLang'] || 'zh';
-    const translation = (i18n && i18n[key]) || '';
-    // There is no corresponding key
-    if (!translation) {
-        if (!data) return key;
-        const values = Array.isArray(data) ? data : Object.values(data);
-        return _generateResult(key, values);
+export function $_(key: string, data?: Data): string;
+export function $_(key: string, tags?: Tags): string;
+export function $_(key: string, data?: Data, tags?: Tags): string;
+export function $_(key: string, data?: Data | Tags, tags?: Tags): string {
+    const i18n = (globalThis.I18NeverData || {}) as I18NeverData;
+    const lang = (globalThis.I18NeverLang || 'zh') as string;
+    const translations = i18n[key];
+
+    if (!Array.isArray(data)) {
+        tags = data;
+        data = undefined;
     }
 
-    // No extra parameters
-    if (!data) return translation.tags[0].value || key;
+    if (translations) {
+        const tagName = tags ? tags[lang] : 'default';
+        const tag = translations.find((t) => t.name === tagName);
+        if (process.env.NODE_ENV !== 'production') {
+            if (!tag) {
+                throw new Error(
+                    `Cannot find the tag: "${tagName}" for key: "${key}" in language: "${lang}".`
+                );
+            }
+        }
+        key = tag!.value || key;
+    }
 
-    // choose part of speech
-    const langTag = Array.isArray(data) ? langTags?.[lang] : data?.[lang];
-    const values = Array.isArray(data) ? data : Object.values(data);
-    const tag = langTag
-        ? translation.tags.find((t) => t.name === langTag)
-        : translation.tags[0];
-
-    return _generateResult(tag.value || key, values);
+    return generateResult(key, data);
 }
 
-function _generateResult(value: string, data?: Array<string | number>) {
+const valueRegexp = /\{([^}\s]+)}/g;
+function generateResult(value: string, data?: Array<string | number>) {
     if (data) {
         value = value.replace(valueRegexp, (nouse, variable) => {
-            variable = data?.[variable] ?? undefined;
+            variable = data[variable];
             return !isNullOrUndefined(variable) ? variable.toString() : nouse;
         });
     }
@@ -40,6 +44,6 @@ function _generateResult(value: string, data?: Array<string | number>) {
     return value;
 }
 
-function isNullOrUndefined(value) {
+function isNullOrUndefined(value: unknown) {
     return value === null || value === undefined;
 }
