@@ -31,6 +31,9 @@ test('should replace with data', () => {
     expect($_('满{0}个月减{1}个月', [12, '1'])).toBe(
         '12 month(s) minus 1 month(s)'
     );
+    expect($_('满{0}个月减{1}个月', [12])).toBe(
+        '12 month(s) minus {1} month(s)'
+    );
 });
 test('key does not exist', () => {
     expect($_('翻译说')).toBe('翻译说');
