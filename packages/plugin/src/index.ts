@@ -2,7 +2,7 @@ import { TransformResult } from 'rollup';
 import { i18nTrans } from '@i18never/parse';
 import { getSdk } from '@i18never/graphql';
 import { GraphQLClient } from 'graphql-request';
-import { TempKeyItem } from 'packages/parse/dist/types';
+import { TempKeyItem } from '@i18never/parse/dist/types';
 import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 

@@ -1,5 +1,8 @@
 overwrite: true
-schema: "http://localhost:3003"
+schema:
+  - http://i18never.ksyun.com/graphql:
+      headers:
+        authorization: "${I18NEVER_TOKEN}"
 generates:
   src/index.ts:
     documents: 'src/*.gql'

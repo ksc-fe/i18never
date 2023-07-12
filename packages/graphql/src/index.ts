@@ -47,7 +47,8 @@ export type Language = {
 
 export type LoginMessage = {
   __typename?: 'LoginMessage';
-  ussName: Scalars['String'];
+  employee_name: Scalars['String'];
+  login_token: Scalars['String'];
 };
 
 export type Mutation = {
@@ -136,11 +137,6 @@ export type QueryExportDictsArgs = {
 export type QueryGetVerionIdArgs = {
   source?: InputMaybe<Scalars['String']>;
   values: Array<ValueArg>;
-};
-
-
-export type QueryLoginArgs = {
-  cookie: Scalars['String'];
 };
 
 
