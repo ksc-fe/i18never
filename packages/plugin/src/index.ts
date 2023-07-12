@@ -45,7 +45,7 @@ export default function i18never(options: Options = {}) {
                 return id.startsWith(rootPath);
             });
             if (
-                !id.match(/\.(pug|vue|tsx|jsx|js|ts)$/) ||
+                !id.match(/\.(pug|vue|tsx|jsx|js|mjs|ts)$/) ||
                 id.includes('@i18never/client') ||
                 !isIncluded
             ) {
