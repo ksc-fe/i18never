@@ -7,7 +7,7 @@ import { resolve, join } from 'path';
 import { existsSync } from 'fs';
 
 interface Options {
-    root?: string;
+    include?: Array<string>;
     langKey?: string;
     storageType?: string;
     token?: string;
@@ -21,8 +21,7 @@ enum EnforceType {
 export default function i18never(options: Options = {}) {
     const allAppKeys: TempKeyItem[] = [];
     let i18nVersion = '';
-    const { root = 'src' } = options;
-    const rootPath = resolve(process.cwd(), root);
+    const include = Array.from(new Set(['src'].concat(options.include || [])));
     return {
         name: 'i18never',
         enforce: EnforceType.POST,
@@ -41,10 +40,14 @@ export default function i18never(options: Options = {}) {
             return inputOptions;
         },
         async transform(code: string, id: string) {
+            const isIncluded = include.some((path) => {
+                const rootPath = resolve(process.cwd(), path)
+                return id.startsWith(rootPath);
+            });
             if (
-                !id.match(/\.(pug|vue|tsx|jsx|js|ts)$/) ||
+                !id.match(/\.(pug|vue|tsx|jsx|js|mjs|ts)$/) ||
                 id.includes('@i18never/client') ||
-                !id.startsWith(rootPath)
+                !isIncluded
             ) {
                 return;
             }
