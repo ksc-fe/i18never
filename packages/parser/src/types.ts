@@ -7,6 +7,7 @@ import {
 import { SFCDescriptor } from '@vue/compiler-sfc';
 import { ParseError } from '@babel/parser';
 import * as t from '@babel/types';
+import { TagFragment } from '@i18never/shared';
 
 /**
  * parse result
@@ -98,8 +99,6 @@ export type ReturnType = {
     descriptor: SFCDescriptor;
     keys: TempKeyItem[];
 };
-
-export type TagFragment = { __typename?: 'Tag'; name: string; value: string };
 
 export type TranslationDetail = {
     language: string;

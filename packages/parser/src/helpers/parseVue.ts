@@ -8,8 +8,8 @@ import {
 } from '@vue/compiler-core';
 import { TempKeyItem, StartLocation } from '../types';
 import { hasChinese, walkTree, parseString } from '../utils';
-import parseJs from './parsejs';
-import parsePug from './parsepug';
+import parseJs from './parseJs';
+import parsePug from './parsePug';
 
 export default function parseVue(
     source: string,

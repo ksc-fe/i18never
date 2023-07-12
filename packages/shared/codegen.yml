@@ -2,9 +2,9 @@ overwrite: true
 schema:
   - http://i18never.ksyun.com/graphql:
       headers:
-        authorization: "${I18NEVER_TOKEN}"
+        Authorization: "${I18NEVER_TOKEN}"
 generates:
-  src/index.ts:
+  src/graphql/index.ts:
     documents: 'src/*.gql'
     plugins:
       - "typescript"

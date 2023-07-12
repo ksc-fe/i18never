@@ -4,8 +4,8 @@ import * as pugwalk from 'pug-walk';
 import { TempKeyItem } from '../types';
 import { hasChinese, parseString } from '../utils';
 import options from '../config';
-import parseJs from './parsejs';
-import parseVue from './parsevue';
+import parseJs from './parseJs';
+import parseVue from './parseVue';
 
 export default function parsePug(
     source: string,

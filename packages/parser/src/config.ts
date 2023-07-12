@@ -1,3 +1,5 @@
+import { defaultURI } from '@i18never/shared';
+
 const options = {
     // match the text that will be translated
     matchChineseRE: /[\u4E00-\u9FFF]+/,
@@ -5,7 +7,7 @@ const options = {
     // match the text that will be ignore
     matchIgnoreRE: /.*\[\$_:ignore\].*/,
 
-    // match the text that will be tra
+    // match the text that will be translated
     matchQuoteRE: /^["|'](.*)["|']$/g,
 
     matchMustacheRE: /\{\{((?:.|\r?\n)+?)\}\}/g,
@@ -16,7 +18,7 @@ const options = {
     punctuationsRegEx: /[：，；！？。]/g,
 
     // the graphql api for getting translations
-    uri: 'http://i18never.ksyun.com/graphql/',
+    uri: defaultURI,
 
     // the source to distinguish clients
     source: 'i18never',

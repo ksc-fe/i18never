@@ -1,6 +1,6 @@
 import { parse } from '@babel/parser';
 import traverse from '@babel/traverse';
-import { TemplateLiteral, StringLiteral, JSXText } from '../visitors';
+import visitor from '../visitors';
 import { TempKeyItem } from '../types';
 
 export default function parseJs(
@@ -46,7 +46,7 @@ function formatJsLocLine(jsKey: TempKeyItem, rootLine: number) {
 function getAllKeysLoc(ast, filename: string) {
     const allKeys: TempKeyItem[] = [];
 
-    traverse(ast, { StringLiteral, TemplateLiteral, JSXText }, undefined, {
+    traverse(ast, visitor, undefined, {
         keys: allKeys,
         filename,
     });

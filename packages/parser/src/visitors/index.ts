@@ -12,5 +12,4 @@ const visitor: TraverseOptions<JsContext> = {
     TemplateLiteral,
 };
 
-export { StringLiteral, TemplateLiteral, JSXText };
 export default visitor;

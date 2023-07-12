@@ -37,7 +37,7 @@
         "@babel/parser": "^7.17.8",
         "@babel/traverse": "7.17.3",
         "@babel/types": "^7.17.0",
-        "@i18never/graphql": "^1.0.23",
+        "@i18never/shared": "^1.0.23",
         "inquirer": "^8.2.4",
         "pug-lexer": "^5.0.1",
         "pug-parser": "^6.0.0",
