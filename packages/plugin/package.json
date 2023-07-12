@@ -1,6 +1,6 @@
 {
     "name": "rollup-plugin-i18never",
-    "version": "1.0.23",
+    "version": "1.0.24",
     "description": "A rollup plugin based on i18never",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
