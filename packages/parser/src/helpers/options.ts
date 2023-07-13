@@ -3,6 +3,7 @@ import { defaultURI } from '@i18never/shared';
 const options = {
     // match the text that will be translated
     matchChineseRE: /[\u4E00-\u9FFF]+/,
+    // /(?:\\u\{(?:(?:4[EF][\dA-F]{2})|(?:[5-9][\dA-F]{3}))\})+/
 
     // match the text that will be ignore
     matchIgnoreRE: /.*\[\$_:ignore\].*/,
