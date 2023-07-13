@@ -1,5 +1,5 @@
 {
-    "name": "@i18never/parse",
+    "name": "@i18never/parser",
     "version": "1.0.23",
     "description": "Parse pug/vue2/vue3/tsx template for i18never ",
     "author": "zhangbing4 <zhangbing4@kingsoft.com>",

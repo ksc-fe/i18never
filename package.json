@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Deal with the internationalization (i18n) automatically.",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "jest",
     "codegen": "graphql-codegen --config codegen.yml",
@@ -11,6 +12,9 @@
     "build:es": "npm run rollup -- --format=es --ext=esm.js",
     "build:cjs": "npm run rollup"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "keywords": [
     "i18n"
   ],
