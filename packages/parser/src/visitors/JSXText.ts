@@ -1,10 +1,10 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import options from '../config';
-import { parseString, parseTags } from '../utils';
-import { JsContext } from '../types';
+import options from '../helpers/options';
+import { parseString, parseTags } from '../helpers/utils';
+import { Context } from './';
 
-export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
+export function JSXText(this: Context, path: NodePath<t.JSXText>) {
     const { node } = path;
 
     if (node.extra?.skip) return;
@@ -30,7 +30,6 @@ export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
     const newExpression = t.jsxExpressionContainer(
         t.callExpression(t.identifier('$_'), params)
     );
-    // @ts-ignore
     path.replaceWith(newExpression);
 
     path.skip();
@@ -39,10 +38,7 @@ export function JSXText(this: JsContext, path: NodePath<t.JSXText>) {
         key,
         prefix: '',
         filename: this.filename,
-        loc: node.loc?.start || {
-            line: -1,
-            column: -1,
-        },
+        loc: node.loc,
         jsx: true,
         tags,
     });

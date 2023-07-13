@@ -1,9 +1,9 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import options from '../config';
-import { JsContext } from '../types';
+import options from '../helpers/options';
+import { Context } from './';
 
-export function Program(this: JsContext, path: NodePath<t.Program>) {
+export function Program(this: Context, path: NodePath<t.Program>) {
     const identifier = t.identifier('{ $_ }');
     const importDefaultSpecifier = t.importDefaultSpecifier(identifier);
     const importDeclaration = t.importDeclaration(

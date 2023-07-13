@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
-import { WalkTreeOptions, KeyWithTags, Tags } from './types';
+import { WalkTreeOptions, KeyWithTags, Tags } from '../types';
 import { ElementNode, DirectiveNode, ExpressionNode } from '@vue/compiler-core';
-import options from './config';
+import options from './options';
 
 /**
  * Check if it is in Chinese and ignore those marked with ignore

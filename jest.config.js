@@ -6,9 +6,13 @@ module.exports = {
     // testMatch: ['**/__tests__/**/*.test.ts'],
     // testMatch: ['**/plugin/__tests__/**/*.test.ts'],
     // testMatch: ['**/plugin-webpack/__tests__/**/*.test.ts'],
-    testMatch: ['**/client/__tests__/**/*.test.ts'],
+    // testMatch: ['**/client/__tests__/**/*.test.ts'],
     // testMatch: ['**/__tests__/**/tsx.test.ts'],
-    // testMatch: ['**/parse/__tests__/**/parse.test.ts'],
+    testMatch: ['**/parser/__tests__/visitors/*.test.ts'],
+    // testMatch: ['**/parser/__tests__/visitors/stringLiteral.test.ts'],
     // testMatch: ['**/parse/__tests__/**/transform.test.ts'],
     // testMatch: ['**/transform/__tests__/**/*.test.ts'],
+    moduleNameMapper: {
+        '@i18never/(.*)$': `<rootDir>/packages/$1/src`,
+    },
 };

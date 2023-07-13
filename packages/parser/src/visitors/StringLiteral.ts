@@ -1,13 +1,10 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import options from '../config';
-import { parseString, parseTags } from '../utils';
-import { JsContext } from '../types';
+import options from '../helpers/options';
+import { parseString, parseTags } from '../helpers/utils';
+import { Context } from './';
 
-export function StringLiteral(
-    this: JsContext,
-    path: NodePath<t.StringLiteral>
-) {
+export function StringLiteral(this: Context, path: NodePath<t.StringLiteral>) {
     const { node } = path;
 
     if (node.extra?.skip) return;
@@ -44,10 +41,7 @@ export function StringLiteral(
         key,
         prefix: '',
         filename: this.filename,
-        loc: node.loc?.start || {
-            line: -1,
-            column: -1,
-        },
+        loc: node.loc,
         tags,
     });
 }

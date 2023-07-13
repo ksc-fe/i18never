@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { TempKeyItem } from '../types';
 
-export function generateFile(filename: string, keys: Array<TempKeyItem[]>) {
+export default function writefile(filename: string, keys: Array<TempKeyItem[]>) {
     const cwd = process.cwd();
     const file = resolve(cwd, filename);
     const sourceCode = readFileSync(file, 'utf8');

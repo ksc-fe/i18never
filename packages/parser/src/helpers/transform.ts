@@ -1,8 +1,10 @@
-import { inquire } from '../inquire';
+import { inquire } from './inquire';
 import { TempKeyItem, TranslationDetail } from '../types';
+import { KeyItem } from '../visitors';
+
+type SameRow = Record<number, TempKeyItem[]>;
 
 export default async function transform(keys, filename: string) {
-    type SameRow = Record<number, TempKeyItem[]>;
     const sameRowObj: SameRow = {};
     const allTranslations = await inquire(keys, filename);
     for (const [index, item] of keys.entries()) {

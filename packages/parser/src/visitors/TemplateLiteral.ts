@@ -1,11 +1,11 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import options from '../config';
-import { parseString, parseTags } from '../utils';
-import { JsContext } from '../types';
+import options from '../helpers/options';
+import { parseString, parseTags } from '../helpers/utils';
+import { Context } from './';
 
 export function TemplateLiteral(
-    this: JsContext,
+    this: Context,
     path: NodePath<t.TemplateLiteral>
 ) {
     const node = path.node;
@@ -49,7 +49,6 @@ export function TemplateLiteral(
         params.push(t.objectExpression(newParams));
     }
     const newExpression = t.callExpression(t.identifier('$_'), params);
-    // @ts-ignore
     path.replaceWith(newExpression);
     path.skip();
 
@@ -57,10 +56,7 @@ export function TemplateLiteral(
         key: finalKey,
         prefix: '',
         filename: this.filename,
-        loc: node.loc?.start || {
-            line: -1,
-            column: -1,
-        },
+        loc: node.loc,
         tags,
     });
 }
