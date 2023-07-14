@@ -39,14 +39,17 @@
         "@babel/types": "^7.17.0",
         "@i18never/shared": "^1.0.23",
         "inquirer": "^8.2.4",
+        "pug-code-gen": "^2.0.3",
         "pug-lexer": "^5.0.1",
         "pug-parser": "^6.0.0",
+        "pug-runtime": "^3.0.1",
         "pug-walk": "^2.0.0",
         "vue": "^3.2.41"
     },
     "devDependencies": {
         "@types/babel__generator": "^7.6.4",
         "@types/babel__traverse": "^7.14.2",
+        "@types/inquirer": "^9.0.3",
         "@zerollup/ts-transform-paths": "^1.7.7",
         "rollup": "^1.27.3",
         "rollup-plugin-babel": "^4.3.3",

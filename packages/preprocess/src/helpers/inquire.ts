@@ -1,5 +1,5 @@
-import { getSdk, TagFragment } from '@i18never/shared';
-import { prompt } from 'inquirer';
+import { getSdk, TagFragment, TagFragmentDoc } from '@i18never/shared';
+import inquirer from 'inquirer';
 import options from './config';
 import { KeyItem, TranslationDetail } from './types';
 import { deepCopy } from './utils';
@@ -19,9 +19,7 @@ export async function inquire(dicts: Dict[], filename: string) {
 
     for (const { key, tags, loc } of dicts) {
         const translation: TranslationDetail[] = [];
-        const translations = (
-            data as Record<string, Record<string, TagFragment[]>>
-        )[key];
+        const translations = data[key];
 
         result.push({
             key,
@@ -36,33 +34,35 @@ export async function inquire(dicts: Dict[], filename: string) {
                 // if the language's translation has multiple entries,
                 // we should show inquirer for user to select the correct item
                 if (tags.length > 1) {
-                    await prompt([
-                        {
-                            type: 'rawlist',
-                            name: 'tag',
-                            message: `Which translation do you need for string: "${key}" in '${language}' ?`,
-                            choices: tags.map((tag) => {
-                                return {
-                                    name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
-                                    value: tag,
-                                };
-                            }),
-                        },
-                    ]).then((answers) => {
-                        if (!answers.tag.value) {
-                            noTranslations.push({
-                                'untranslated sentence': key,
-                                'untranslated language': language,
-                                loc,
-                                'file path': filename,
+                    await inquirer
+                        .prompt<{ tag: TagFragment }>([
+                            {
+                                type: 'rawlist',
+                                name: 'tag',
+                                message: `Which translation do you need for string: "${key}" in '${language}' ?`,
+                                choices: tags.map((tag) => {
+                                    return {
+                                        name: `Tag: "${tag.name}", Translation: "${tag.value}"`,
+                                        value: tag,
+                                    };
+                                }),
+                            },
+                        ])
+                        .then((answers) => {
+                            if (!answers.tag.value) {
+                                noTranslations.push({
+                                    'untranslated sentence': key,
+                                    'untranslated language': language,
+                                    loc,
+                                    'file path': filename,
+                                });
+                            }
+                            translation.push({
+                                language,
+                                tag: answers.tag,
+                                isAnswer: true,
                             });
-                        }
-                        translation.push({
-                            language,
-                            tag: answers.tag,
-                            isAnswer: true,
                         });
-                    });
                 } else if (tags.length === 1) {
                     // use the only one translation as the result
                     if (!tags[0].value) {
