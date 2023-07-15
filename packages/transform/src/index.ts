@@ -2,11 +2,12 @@ import { parse } from '@babel/parser';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 import traverse from '@babel/traverse';
-import { visitors, Tags, options, KeyItem, Context } from '@i18never/shared';
+import { visitors, Tags, options, Context } from '@i18never/shared';
 import { ParseResult } from '@babel/parser';
 
 export function transform(source: string) {
-    const ast = parse(source, { sourceType: 'module', plugins: ['jsx'] });
+    // const ast = parse(source, { sourceType: 'module', plugins: ['jsx'] });
+    const ast = parse(source, { sourceType: 'module' });
     const context = getContext(ast);
     const keys = context.keys;
     let hasImportedClient = context.hasImportedModule;

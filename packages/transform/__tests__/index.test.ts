@@ -110,10 +110,11 @@ describe('template literal', () => {
     });
 });
 
-describe('jsx', () => {
-    test('should transform tsx correctly', async () => {
-        manipulate(
-            `const a = <div prop="[${prefix}:]测试">[${prefix}:]测试</div>`
-        ).toBe('`购买${a}台`;');
-    });
-});
+// should not exist jsx file
+// describe('jsx', () => {
+//     test('should transform tsx correctly', async () => {
+//         manipulate(
+//             `const a = <div prop="[${prefix}:]测试">[${prefix}:]测试</div>`
+//         ).toBe('`购买${a}台`;');
+//     });
+// });

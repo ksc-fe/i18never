@@ -1,6 +1,5 @@
 import { ImportDeclaration } from './ImportDeclaration';
 import { ObjectProperty } from './ObjectProperty';
-import { Program } from './Program';
 import { StringLiteral } from './StringLiteral';
 import { TemplateLiteral } from './TemplateLiteral';
 import { TraverseOptions, NodePath } from '@babel/traverse';
@@ -21,18 +20,11 @@ export type Context = {
     hasImportedModule?: boolean;
 };
 
-export {
-    ImportDeclaration,
-    ObjectProperty,
-    Program,
-    StringLiteral,
-    TemplateLiteral,
-};
+export { ImportDeclaration, ObjectProperty, StringLiteral, TemplateLiteral };
 
 export const visitors: TraverseOptions<Context> = {
     ImportDeclaration,
     ObjectProperty,
-    // Program,
     StringLiteral,
     TemplateLiteral,
 };
