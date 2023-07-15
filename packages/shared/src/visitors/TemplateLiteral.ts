@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import { skipStringLiteral } from './Program';
+// import { skipStringLiteral } from './Program';
 import { parseString } from '../helpers';
 import type { Tags, Context } from '.';
 import { ObjectProperty } from './ObjectProperty';
@@ -27,7 +27,7 @@ export function TemplateLiteral(
                     tags: _tags,
                     identifier: _identifier,
                 } = parseString(raw);
-                if (_tags !== null) {
+                if (_identifier) {
                     raw = key;
                     tags = _tags;
                     identifier = _identifier;

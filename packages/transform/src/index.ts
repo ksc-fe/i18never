@@ -2,16 +2,23 @@ import { parse } from '@babel/parser';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 import traverse from '@babel/traverse';
-import { visitors, Tags, options, KeyItem } from '@i18never/shared';
+import { visitors, Tags, options, KeyItem, Context } from '@i18never/shared';
 import { ParseResult } from '@babel/parser';
 
 export function transform(source: string) {
     const ast = parse(source, { sourceType: 'module', plugins: ['jsx'] });
-    const keys = getAllKeys(ast);
+    const context = getContext(ast);
+    const keys = context.keys;
+    let hasImportedClient = context.hasImportedModule;
 
     keys.forEach((item) => {
         const { identifier, path, tags, key } = item;
         if (!identifier) return;
+
+        if (!hasImportedClient) {
+            importClient(ast);
+            hasImportedClient = true;
+        }
 
         const params: t.Expression[] = [t.stringLiteral(key)];
         const expressions = (path.node as t.TemplateLiteral).expressions;
@@ -59,12 +66,23 @@ function getTagsParam(tags: Tags | null) {
     }
 }
 
-function getAllKeys(ast: ParseResult<t.File>) {
-    const allKeys: KeyItem[] = [];
+function getContext(ast: ParseResult<t.File>) {
+    const context: Context = {
+        keys: [],
+        hasImportedModule: false,
+    }
 
-    traverse(ast, visitors, undefined, {
-        keys: allKeys,
-    });
+    traverse(ast, visitors, undefined, context);
 
-    return allKeys;
+    return context;
+}
+
+function importClient(ast: ParseResult<t.File>) {
+    const identifier = t.identifier(`{ ${options.clientFunction} }`);
+    const importDefaultSpecifier = t.importDefaultSpecifier(identifier);
+    const importDeclaration = t.importDeclaration(
+        [importDefaultSpecifier],
+        t.stringLiteral(options.clientModule)
+    );
+    ast.program.body.unshift(importDeclaration);
 }

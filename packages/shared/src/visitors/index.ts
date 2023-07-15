@@ -18,6 +18,7 @@ export type KeyItem = {
 
 export type Context = {
     keys: KeyItem[];
+    hasImportedModule?: boolean;
 };
 
 export {
@@ -31,7 +32,7 @@ export {
 export const visitors: TraverseOptions<Context> = {
     ImportDeclaration,
     ObjectProperty,
-    Program,
+    // Program,
     StringLiteral,
     TemplateLiteral,
 };
