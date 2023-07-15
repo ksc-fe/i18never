@@ -3,7 +3,7 @@ import { NodePath } from '@babel/traverse';
 import { parseString, isIgnore } from '../helpers';
 import type { Tags, Context } from '.';
 import { ObjectProperty } from './ObjectProperty';
-import { StringLiteral } from './StringLiteral';
+import { Text } from './Text';
 
 export function TemplateLiteral(
     this: Context,
@@ -47,7 +47,10 @@ export function TemplateLiteral(
 
     const key = strings.join('');
 
-    path.traverse({ ObjectProperty, StringLiteral, TemplateLiteral }, this);
+    path.traverse(
+        { ObjectProperty, StringLiteral: Text, TemplateLiteral },
+        this
+    );
 
     path.skip();
 

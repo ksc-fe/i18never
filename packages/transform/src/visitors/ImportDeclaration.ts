@@ -1,6 +1,10 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import { options, Context, ImportDeclaration as BaseImportDeclaration } from '@i18never/shared';
+import {
+    options,
+    ImportDeclaration as BaseImportDeclaration,
+} from '@i18never/shared';
+import { Context } from '.';
 
 export function ImportDeclaration(
     this: Context,

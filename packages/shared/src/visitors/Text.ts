@@ -3,7 +3,10 @@ import { NodePath } from '@babel/traverse';
 import { parseString } from '../helpers';
 import type { Context } from '.';
 
-export function StringLiteral(this: Context, path: NodePath<t.StringLiteral>) {
+export function Text<T extends t.StringLiteral | t.JSXText>(
+    this: Context,
+    path: NodePath<T>
+) {
     const node = path.node;
     const value = node.value;
     if (!value) return;
