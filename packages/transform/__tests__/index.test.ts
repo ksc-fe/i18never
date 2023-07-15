@@ -110,6 +110,36 @@ describe('template literal', () => {
     });
 });
 
+describe('ignore', () => {
+    test('should ignore string with ignore tag', () => {
+        manipulate(`const a = '[${prefix}:ignore]忽略'`).toBe(
+            `const a = "忽略";`
+        );
+    });
+
+    test('should ignore template string with ignore tag', () => {
+        manipulate(`const a = \`[${prefix}:ignore]\${a}忽略\``).toBe(
+            `const a = \`\${a}忽略\`;`
+        );
+
+        manipulate(`const a = \`[${prefix}:ignore]忽略\${a}忽略\``).toBe(
+            `const a = \`忽略\${a}忽略\`;`
+        );
+
+        manipulate(
+            `const a = \`[${prefix}:ignore]忽略\${a}\${'[${prefix}:ignore]忽略'}\``
+        ).toBe(`const a = \`忽略\${a}\${"忽略"}\`;`);
+    });
+
+    test('should transform string with tag in template string even if it has ignore tag', () => {
+        manipulate(
+            `const a = \`[${prefix}:ignore]忽略\${a}\${'[${prefix}:]不忽略'}\``
+        ).toBe(
+            `${client}const a = \`忽略\${a}\${${clientFunction}("不忽略")}\`;`
+        );
+    });
+});
+
 // should not exist jsx file
 // describe('jsx', () => {
 //     test('should transform tsx correctly', async () => {

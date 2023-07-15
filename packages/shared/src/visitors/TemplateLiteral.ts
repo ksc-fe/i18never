@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import { parseString } from '../helpers';
+import { parseString, isIgnore } from '../helpers';
 import type { Tags, Context } from '.';
 import { ObjectProperty } from './ObjectProperty';
 import { StringLiteral } from './StringLiteral';
@@ -11,15 +11,17 @@ export function TemplateLiteral(
 ) {
     const node = path.node;
     const expressions = node.expressions as t.Expression[];
+    const quasis = node.quasis;
     const strings: string[] = [];
 
     let index = 0;
     let tags: Tags | null = null;
     let identifier: string | null = null;
-    node.quasis.forEach((elem, idx) => {
+    for (let i = 0; i < quasis.length; i++) {
+        const elem = quasis[i];
         let raw = elem.value.raw;
         if (raw) {
-            if (idx === 0) {
+            if (i === 0) {
                 // if this is the first quasi, check whether it has tag or not
                 const {
                     key,
@@ -30,6 +32,10 @@ export function TemplateLiteral(
                     raw = key;
                     tags = _tags;
                     identifier = _identifier;
+                    if (isIgnore(_identifier)) {
+                        strings.push(raw);
+                        break;
+                    }
                 }
             }
             strings.push(raw);
@@ -37,7 +43,7 @@ export function TemplateLiteral(
         if (index < expressions.length) {
             strings.push(`{${index++}}`);
         }
-    });
+    }
 
     const key = strings.join('');
 

@@ -2,39 +2,27 @@ import { parse } from '@babel/parser';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 import traverse from '@babel/traverse';
-import { visitors, Tags, options, Context } from '@i18never/shared';
+import {
+    visitors,
+    Tags,
+    options,
+    Context,
+    isIgnore,
+    KeyItem,
+} from '@i18never/shared';
 import { ParseResult } from '@babel/parser';
 
 export function transform(source: string) {
-    // const ast = parse(source, { sourceType: 'module', plugins: ['jsx'] });
     const ast = parse(source, { sourceType: 'module' });
     const context = getContext(ast);
     const keys = context.keys;
     let hasImportedClient = context.hasImportedModule;
 
     keys.forEach((item) => {
-        const { identifier, path, tags, key } = item;
-        if (!identifier) return;
-
-        if (!hasImportedClient) {
+        if (transformKey(item) && !hasImportedClient) {
             importClient(ast);
             hasImportedClient = true;
         }
-
-        const params: t.Expression[] = [t.stringLiteral(key)];
-        const expressions = (path.node as t.TemplateLiteral).expressions;
-        if (expressions) {
-            params.push(t.arrayExpression(expressions as t.Expression[]));
-        }
-
-        const tagsParam = getTagsParam(tags);
-        if (tagsParam) {
-            params.push(tagsParam);
-        }
-
-        path.replaceWith(
-            t.callExpression(t.identifier(options.clientFunction), params)
-        );
     });
 
     const code = generate(ast, {
@@ -44,6 +32,38 @@ export function transform(source: string) {
     }).code;
 
     return { code, keys };
+}
+
+function transformKey(item: KeyItem): boolean {
+    const { identifier, path, tags, key } = item;
+    if (!identifier) return false;
+
+    const node = path.node;
+
+    if (isIgnore(identifier)) {
+        if (t.isTemplateLiteral(node)) {
+            node.quasis[0].value.raw = key;
+        } else {
+            path.replaceWith(t.stringLiteral(key));
+        }
+        return false;
+    }
+
+    const params: t.Expression[] = [t.stringLiteral(key)];
+    if (t.isTemplateLiteral(node)) {
+        params.push(t.arrayExpression(node.expressions as t.Expression[]));
+    }
+
+    const tagsParam = getTagsParam(tags);
+    if (tagsParam) {
+        params.push(tagsParam);
+    }
+
+    path.replaceWith(
+        t.callExpression(t.identifier(options.clientFunction), params)
+    );
+
+    return true;
 }
 
 function getTagsParam(tags: Tags | null) {
@@ -71,7 +91,7 @@ function getContext(ast: ParseResult<t.File>) {
     const context: Context = {
         keys: [],
         hasImportedModule: false,
-    }
+    };
 
     traverse(ast, visitors, undefined, context);
 

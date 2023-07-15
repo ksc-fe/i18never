@@ -21,6 +21,9 @@ export const options = {
     // the prefix string of identifier
     prefix: '$_',
 
+    // the ignore tag indicates we shouldn't translate this string
+    ignore: 'ignore',
+
     // the module providing the translation function, namely $_
     clientModule: '@i18never/client',
     clientFunction: '$_',
@@ -71,4 +74,8 @@ export function getSdk(uri = options.uri, token?: string) {
     });
 
     return baseGetSdk(client);
+}
+
+export function isIgnore(identifier: string) {
+    return identifier === `${options.prefix}:${options.ignore}`;
 }
