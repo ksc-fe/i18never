@@ -10,7 +10,7 @@ module.exports = {
     // testMatch: ['**/__tests__/**/tsx.test.ts'],
     // testMatch: ['**/parser/__tests__/visitors/*.test.ts'],
     // testMatch: ['**/preprocess/__tests__/generate.test.ts'],
-    testMatch: ['**/transform/__tests__/index.test.ts'],
+    testMatch: ['**/(transform|shared)/__tests__/*.test.ts'],
     // testMatch: ['**/parser/__tests__/visitors/stringLiteral.test.ts'],
     // testMatch: ['**/parse/__tests__/**/transform.test.ts'],
     // testMatch: ['**/transform/__tests__/**/*.test.ts'],

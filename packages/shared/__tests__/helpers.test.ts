@@ -1,27 +1,28 @@
-import { parseString } from '../src/helpers';
+import { parseString, options } from '../src/helpers';
 
+const { prefix } = options;
 test('should extract tag from string', () => {
-    expect(parseString('[i18never:en=v]购买')).toStrictEqual({
-        identifier: 'i18never:en=v',
+    expect(parseString(`[${prefix}:en=v]购买`)).toStrictEqual({
+        identifier: `${prefix}:en=v`,
         key: '购买',
         tags: { en: 'v' },
     });
-    expect(parseString('[i18never:]购买')).toStrictEqual({
-        identifier: 'i18never:',
-        key: '购买',
-        tags: {},
+    expect(parseString(`[${prefix}:]购买`)).toStrictEqual({
+        identifier: `${prefix}:`,
+        key: `购买`,
+        tags: null,
     });
-    expect(parseString('[i18never:en]购买')).toStrictEqual({
-        identifier: 'i18never:en',
-        key: '购买',
-        tags: { en: '' },
+    expect(parseString(`[${prefix}:en]购买`)).toStrictEqual({
+        identifier: `${prefix}:en`,
+        key: `购买`,
+        tags: { en: `` },
     });
 });
 
-test('should get null if string does not contain tag', () => {
-    expect(parseString('购买')).toStrictEqual({
+test(`should get null if string does not contain tag`, () => {
+    expect(parseString(`购买`)).toStrictEqual({
         identifier: null,
-        key: '购买',
+        key: `购买`,
         tags: null,
     });
 });
