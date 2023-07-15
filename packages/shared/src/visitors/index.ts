@@ -18,13 +18,10 @@ export type KeyItem = {
 export type Context = {
     keys: KeyItem[];
     hasImportedModule?: boolean;
+    // indicate whether we need use regexp to check string, because we only
+    // need to do this when we are tagging the string, but when we are transfoming
+    // we don't need it.
+    // useRegexp?: boolean;
 };
 
 export { ImportDeclaration, ObjectProperty, StringLiteral, TemplateLiteral };
-
-export const visitors: TraverseOptions<Context> = {
-    ImportDeclaration,
-    ObjectProperty,
-    StringLiteral,
-    TemplateLiteral,
-};

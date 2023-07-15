@@ -9,8 +9,9 @@ type KeyWithTags = {
 };
 
 export const options = {
-    // match the text that will be translated
-    matchRegexp: /[\u4E00-\u9FFF]+/,
+    // match the text that will be translated, inlucde escaped unicode
+    matchRegexp:
+        /([\u4E00-\u9FFF]+)|((\\u\{?(4[EF][\dA-F]{2})|([5-9][\dA-F]{3})\}?)+)/,
 
     // the graphql api for getting translations
     uri: 'http://i18never.ksyun.com/graphql',

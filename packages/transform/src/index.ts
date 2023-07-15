@@ -1,16 +1,15 @@
-import { parse } from '@babel/parser';
+import { parse, ParseResult } from '@babel/parser';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 import traverse from '@babel/traverse';
 import {
-    visitors,
     Tags,
     options,
     Context,
     isIgnore,
     KeyItem,
 } from '@i18never/shared';
-import { ParseResult } from '@babel/parser';
+import { visitors } from './visitors';
 
 export function transform(source: string) {
     const ast = parse(source, { sourceType: 'module' });

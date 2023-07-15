@@ -1,14 +1,14 @@
-import { parse } from '@babel/parser';
+import { parse, ParseResult } from '@babel/parser';
 import traverse from '@babel/traverse';
-import visitor from '../visitors';
-import { TempKeyItem } from '../types';
+import { visitors, Context, KeyItem } from '@i18never/shared';
 
-export default function parseJs(
-    source: string,
-    filename: string,
-    isInTemplate: boolean,
-    rootLine?: number
-) {
+export default function parseJs(source: string) {
+    const ast = parse(source, {
+        sourceType: 'module',
+        plugins: ['jsx', 'typescript'],
+    });
+    const context = getContext(ast);
+
     const keys: TempKeyItem[] = [];
     const ast = parse(source, {
         sourceType: 'module',
@@ -31,6 +31,8 @@ export default function parseJs(
     }
     return allJsKeys;
 }
+
+function getContext(ast: )
 
 function formatJsLocLine(jsKey: TempKeyItem, rootLine: number) {
     // - 2 is script index ande template index

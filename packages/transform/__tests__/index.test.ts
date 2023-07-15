@@ -43,9 +43,13 @@ test('should transform string in function', () => {
     );
 });
 
-test("should ignore string which doesn't contains chinese", () => {
-    manipulate(`const a = '123'`).toBe(`const a = '123';`);
-    manipulate(`const a = 'abc'`).toBe(`const a = 'abc';`);
+test("should transform string even if it doesn't contains chinese", () => {
+    manipulate(`const a = '[${prefix}:]123'`).toBe(
+        `${client}const a = ${clientFunction}("123");`
+    );
+    manipulate(`const a = '[${prefix}:]abc'`).toBe(
+        `${client}const a = ${clientFunction}("abc");`
+    );
 });
 
 test('should transform tag string correctly', () => {
@@ -77,6 +81,12 @@ test('should ignore chinese in tag', () => {
 test('should transform value in object', () => {
     manipulate(`const o = {'键': '[${prefix}:]值'}`).toBe(
         `${client}const o = { '键': ${clientFunction}("值") };`
+    );
+});
+
+test('should transform escaped unicode', () => {
+    manipulate(`const a = '[${prefix}:]\\u{4F60}\\u597D'`).toBe(
+        `${client}const a = ${clientFunction}("\u{4F60}\u597D");`
     );
 });
 
