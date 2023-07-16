@@ -1,0 +1,97 @@
+{
+    "dicts": [
+        {
+            "key": "测试",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "default",
+                            "value": "test"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "购买{0}台",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "default",
+                            "value": ""
+                        }
+                    ]
+                },
+                {
+                    "language": "jp",
+                    "tags": [
+                        {
+                            "name": "v",
+                            "value": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "购买",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "",
+                            "value": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "属性",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "default",
+                            "value": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "暂停任务",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "default",
+                            "value": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "English",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "default",
+                            "value": "中文"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

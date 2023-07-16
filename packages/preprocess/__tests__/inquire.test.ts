@@ -9,27 +9,16 @@ test('should get correct translation for dict without tags', async () => {
         });
     });
 
-    const data = await inquire(
-        [
-            {
-                key: '翻译{0}',
-                tags: null,
-                loc: {
-                    start: { line: 1, column: 2 },
-                    end: { line: 1, column: 2 },
-                },
-            },
-            {
-                key: '测试',
-                tags: null,
-                loc: {
-                    start: { line: 1, column: 2 },
-                    end: { line: 1, column: 2 },
-                },
-            },
-        ],
-        'test'
-    );
+    const data = await inquire([
+        {
+            key: '翻译{0}',
+            tags: null,
+        },
+        {
+            key: '测试',
+            tags: null,
+        },
+    ]);
 
     expect(data).toStrictEqual([
         {
@@ -76,27 +65,24 @@ test('should get correct translation for dict without tags', async () => {
 });
 
 test('should get correct translation for dict with tags', async () => {
-    const data = await inquire(
-        [
-            {
-                key: '翻译{0}',
-                tags: { en: 'v' },
-                loc: {
-                    start: { line: 1, column: 2 },
-                    end: { line: 1, column: 2 },
-                },
+    const data = await inquire([
+        {
+            key: '翻译{0}',
+            tags: { en: 'v' },
+            loc: {
+                start: { line: 1, column: 2 },
+                end: { line: 1, column: 2 },
             },
-            {
-                key: '测试',
-                tags: { en: 'n', ko: '' },
-                loc: {
-                    start: { line: 1, column: 2 },
-                    end: { line: 1, column: 2 },
-                },
+        },
+        {
+            key: '测试',
+            tags: { en: 'n', ko: '' },
+            loc: {
+                start: { line: 1, column: 2 },
+                end: { line: 1, column: 2 },
             },
-        ],
-        'test'
-    );
+        },
+    ]);
 
     expect(data).toStrictEqual([
         {
@@ -123,18 +109,15 @@ test('should get correct translation for dict with tags', async () => {
 
 test('should throw error if language does not exist', async () => {
     await expect(
-        inquire(
-            [
-                {
-                    key: '测试',
-                    tags: { xxx: 'xxxxx' },
-                    loc: {
-                        start: { line: 1, column: 2 },
-                        end: { line: 1, column: 2 },
-                    },
+        inquire([
+            {
+                key: '测试',
+                tags: { xxx: 'xxxxx' },
+                loc: {
+                    start: { line: 1, column: 2 },
+                    end: { line: 1, column: 2 },
                 },
-            ],
-            'test'
-        )
+            },
+        ])
     ).rejects.toThrowError();
 });

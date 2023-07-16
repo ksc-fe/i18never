@@ -1,24 +1,41 @@
+import { isIgnore, options } from '@i18never/shared';
 import { parseJs } from './parser';
 import fs from 'fs/promises';
 import path from 'path';
+import { KeyItem } from './visitors';
+import { inquire } from './inquire';
+import { generate } from './generate';
 
 export async function process(file: string) {
-    const context = await getContext(file);
+    const source = await fs.readFile(file, 'utf-8');
+    const extname = path.extname(file);
 
-    console.log(context);
+    const keys = getKeys(source, extname);
+    const translations = await inquire(keys);
+    const newSource = generate(source, keys, translations);
+
+    await fs.writeFile(newSource, file, 'utf-8');
+
+    return newSource;
 }
 
-async function getContext(file: string) {
-    const extname = path.extname(file);
-    const source = await fs.readFile(file, 'utf-8');
+function getKeys(source: string, extname: string) {
+    let keys: KeyItem[];
     switch (extname) {
         case '.js':
         case '.ts':
         case '.jsx':
         case '.tsx':
         case '.mjs':
-            return parseJs(source);
+            keys = parseJs(source).keys;
+            break;
         default:
             throw new Error(`${extname} file is not supported.`);
     }
+
+    return keys.filter(({ identifier, key }) => {
+        if (identifier) return !isIgnore(identifier);
+
+        return options.matchRegexp.test(key);
+    });
 }

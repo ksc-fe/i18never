@@ -1,11 +1,11 @@
-export default class test extends Vue {
+export default class test {
     tabs = [
         {
-            text: '测试',
+            text: '[$_:en]测试',
             value: 'test',
         },
         {
-            text: '测试一次',
+            text: '[$_:en]测试一次',
             value: 'test one',
         },
     ];

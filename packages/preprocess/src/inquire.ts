@@ -1,29 +1,33 @@
-import { getSdk, TagFragment, TagFragmentDoc } from '@i18never/shared';
+import { getSdk, TagFragment, options } from '@i18never/shared';
 import inquirer from 'inquirer';
-import options from './config';
-import { KeyItem, TranslationDetail } from './types';
-import { deepCopy } from './utils';
+import { KeyItem } from './visitors';
 
-type ResultItem = {
-    key: string;
-    translation: TranslationDetail[];
+export type TranslationDetail = {
+    language: string;
+    tag: TagFragment;
 };
 
-type Dict = Pick<KeyItem, 'key' | 'tags' | 'loc'>;
+export type InquireResultItem = {
+    key: string;
+    translationDetails: TranslationDetail[];
+};
 
-export async function inquire(dicts: Dict[], filename: string) {
-    const copyDicts = deepCopy(dicts);
-    const data = await queryTranslations(copyDicts);
-    const result: ResultItem[] = [];
-    const noTranslations: any = [];
+type Dict = Pick<KeyItem, 'key' | 'tags'> & {
+    loc?: KeyItem['loc'];
+};
 
-    for (const { key, tags, loc } of dicts) {
-        const translation: TranslationDetail[] = [];
+export async function inquire(dicts: Dict[]) {
+    const data = await queryTranslations(dicts);
+    const result: InquireResultItem[] = [];
+    // const noTranslations: any = [];
+
+    for (const { key, tags } of dicts) {
+        const translationDetails: TranslationDetail[] = [];
         const translations = data[key];
 
         result.push({
             key,
-            translation,
+            translationDetails,
         });
 
         const languages = Object.keys(translations);
@@ -49,34 +53,34 @@ export async function inquire(dicts: Dict[], filename: string) {
                             },
                         ])
                         .then((answers) => {
-                            if (!answers.tag.value) {
-                                noTranslations.push({
-                                    'untranslated sentence': key,
-                                    'untranslated language': language,
-                                    loc,
-                                    'file path': filename,
-                                });
-                            }
-                            translation.push({
+                            // if (!answers.tag.value) {
+                            //     noTranslations.push({
+                            //         'untranslated sentence': key,
+                            //         'untranslated language': language,
+                            //         loc,
+                            //         'file path': filename,
+                            //     });
+                            // }
+                            translationDetails.push({
                                 language,
                                 tag: answers.tag,
-                                isAnswer: true,
+                                // isAnswer: true,
                             });
                         });
                 } else if (tags.length === 1) {
                     // use the only one translation as the result
-                    if (!tags[0].value) {
-                        noTranslations.push({
-                            'untranslated sentence': key,
-                            'untranslated language': language,
-                            loc,
-                            'file path': filename,
-                        });
-                    }
-                    translation.push({
+                    // if (!tags[0].value) {
+                    //     noTranslations.push({
+                    //         'untranslated sentence': key,
+                    //         'untranslated language': language,
+                    //         loc,
+                    //         'file path': filename,
+                    //     });
+                    // }
+                    translationDetails.push({
                         language,
                         tag: tags[0],
-                        isAnswer: true,
+                        // isAnswer: true,
                     });
                 } else {
                     throw new Error(
@@ -97,7 +101,7 @@ export async function inquire(dicts: Dict[], filename: string) {
                     );
                 }
 
-                translation.push({
+                translationDetails.push({
                     language,
                     tag,
                 });
@@ -105,9 +109,9 @@ export async function inquire(dicts: Dict[], filename: string) {
         }
     }
 
-    if (noTranslations.length !== 0) {
-        console.table(noTranslations);
-    }
+    // if (noTranslations.length !== 0) {
+    //     console.table(noTranslations);
+    // }
 
     return result;
 }
