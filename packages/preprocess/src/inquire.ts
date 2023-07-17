@@ -1,6 +1,6 @@
 import { getSdk, TagFragment, options } from '@i18never/shared';
 import inquirer from 'inquirer';
-import { KeyItem } from './visitors';
+import { KeyItem } from './parsers';
 
 export type TranslationDetail = {
     language: string;

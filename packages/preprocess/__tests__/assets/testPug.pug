@@ -1,6 +1,7 @@
 div
     | {{ aaa + '测试：' + bbb + '购买' }}
     | {{ `购买${a}台` }}
+    | 购买 {{ a }} 台
     Form(:hideOnSelect="true")
         FormItem(
             :label="istest ? '测试一次' : '购买'",

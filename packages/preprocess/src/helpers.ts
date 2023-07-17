@@ -1,6 +1,6 @@
 import { TranslationDetail, InquireResultItem } from './inquire';
 import { options } from '@i18never/shared';
-import { KeyItem } from './visitors';
+import { KeyItem } from './parsers';
 
 // const supportExts = ['.vue', '.js', 'ts', 'tsx', 'jsx', 'mjs', '.pug', '.jade'];
 // export function isSupportExt(ext: string) {

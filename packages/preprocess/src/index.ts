@@ -1,8 +1,7 @@
 import { isIgnore, options } from '@i18never/shared';
-import { parseJs } from './parser';
+import { jsParse, pugParse, KeyItem } from './parsers';
 import fs from 'fs/promises';
 import path from 'path';
-import { KeyItem } from './visitors';
 import { inquire } from './inquire';
 import { generate } from './generate';
 
@@ -27,7 +26,10 @@ function getKeys(source: string, extname: string) {
         case '.jsx':
         case '.tsx':
         case '.mjs':
-            keys = parseJs(source).keys;
+            keys = jsParse(source);
+            break;
+        case '.pug':
+            keys = pugParse(source);
             break;
         default:
             throw new Error(`${extname} file is not supported.`);

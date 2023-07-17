@@ -1,7 +1,6 @@
-import { KeyItem } from './visitors';
+import { KeyItem } from './parsers';
 import { InquireResultItem } from './inquire';
 import { getIdentifier } from './helpers';
-import * as t from '@babel/types';
 
 export type ColumnOffset = [number, number];
 
@@ -17,28 +16,20 @@ export function generate(
         const newIdentifier = getIdentifier(translationDetails);
         const oldIndentifer = item.identifier || '';
         if (newIdentifier !== oldIndentifer) {
-            let {
-                loc: {
-                    start: { line, column },
-                },
-            } = item;
-            --line; // line starts from 1
-            // if the text is in string or template string, we should add 1
-            // because it has quotation mark
-            const node = item.path.node;
-            if (t.isStringLiteral(node) || t.isTemplateLiteral(node)) {
-                ++column;
-            }
+            const loc = item.loc;
+            const line = loc.line - 1; // line starts from 1
+
             let columnsOffset = lineColumnsOffset[line];
             if (!columnsOffset) {
                 columnsOffset = lineColumnsOffset[line] = [];
             }
+
             lines[line] = updateSourceAndOffset(
                 `[${newIdentifier}]`,
                 oldIndentifer ? `[${oldIndentifer}]` : oldIndentifer,
                 lines[line],
                 columnsOffset,
-                column
+                loc.column - 1
             );
         }
     });

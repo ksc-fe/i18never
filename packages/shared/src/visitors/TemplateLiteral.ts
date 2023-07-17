@@ -1,6 +1,6 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
-import { parseString, isIgnore } from '../helpers';
+import { parseString, isIgnore, getLoc } from '../helpers';
 import type { Tags, Context } from '.';
 import { ObjectProperty } from './ObjectProperty';
 import { Text } from './Text';
@@ -54,11 +54,15 @@ export function TemplateLiteral(
 
     path.skip();
 
+    const { line, column } = getLoc(node.loc!.start, this.rootLoc);
     this.keys.push({
         key,
         tags,
         identifier,
-        loc: node.loc!,
-        path,
+        loc: {
+            line,
+            column: column + 1 /* forward one column because of the mark: ` */,
+        },
+        entity: path,
     });
 }

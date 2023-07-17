@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`with expression props 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 10,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`with props 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 8,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`with text 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 5,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`with vue expression 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 13,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;

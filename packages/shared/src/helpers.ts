@@ -1,6 +1,7 @@
 import type { Tags } from './visitors';
 import { GraphQLClient } from 'graphql-request';
 import { getSdk as baseGetSdk } from './graphql';
+import type { SourceLocation } from './visitors';
 
 type KeyWithTags = {
     key: string;
@@ -79,4 +80,19 @@ export function getSdk(uri = options.uri, token?: string) {
 
 export function isIgnore(identifier: string) {
     return identifier === `${options.prefix}:${options.ignore}`;
+}
+
+export function matched(value: string) {
+    return value && options.matchRegexp.test(value);
+}
+
+export function getLoc(loc: SourceLocation, rootLoc?: SourceLocation, startColumn: number = 0) {
+    if (!rootLoc) return loc;
+
+    const { line, column } = loc;
+
+    return {
+        line: rootLoc.line + line - 1,
+        column: rootLoc.column + column - startColumn,
+    };
 }

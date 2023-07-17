@@ -6,11 +6,11 @@ import {
     KeyItem as BaseKeyItem,
 } from '@i18never/shared';
 import { ImportDeclaration } from './ImportDeclaration';
-import { TraverseOptions } from '@babel/traverse';
+import { TraverseOptions, NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
 type TextNode = t.StringLiteral | t.TemplateLiteral;
-export type KeyItem = BaseKeyItem<TextNode>;
+export type KeyItem = BaseKeyItem<NodePath<TextNode>>;
 export type Context = BaseContext<TextNode> & {
     hasImportedModule: boolean;
 };

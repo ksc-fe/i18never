@@ -7,17 +7,23 @@ import * as t from '@babel/types';
 import { StringLiteral } from 'typescript';
 
 export type Tags = Record<string, string>;
+export type SourceLocation = {
+    line: number;
+    column: number;
+};
 
-export type KeyItem<T extends t.Node = t.Node> = {
+export type KeyItem<T> = {
     key: string;
     tags: Tags | null;
-    loc: t.SourceLocation;
-    path: NodePath<T>;
+    loc: SourceLocation;
+    entity: T;
     identifier: string | null;
 };
 
 export type Context<T extends t.Node = t.Node> = {
-    keys: KeyItem<T>[];
+    keys: KeyItem<NodePath<T>>[];
+    // indicate how much should the location be offset
+    rootLoc?: SourceLocation;
     // hasImportedModule?: boolean;
     // indicate whether we need use regexp to check string, because we only
     // need to do this when we are tagging the string, but when we are transfoming

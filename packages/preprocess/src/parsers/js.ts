@@ -1,23 +1,47 @@
-import { parse, ParseResult } from '@babel/parser';
-import traverse from '@babel/traverse';
-import { visitors, Context } from '../visitors';
+import { parse as babelParse, ParseResult } from '@babel/parser';
+import traverse, { NodePath } from '@babel/traverse';
+import {
+    ImportDeclaration,
+    ObjectProperty,
+    StringLiteral,
+    TemplateLiteral,
+    Context as BaseContext,
+    Text,
+    SourceLocation,
+} from '@i18never/shared';
 import * as t from '@babel/types';
 
-export function parseJs(source: string) {
-    const ast = parse(source, {
+type TextNode = t.StringLiteral | t.TemplateLiteral | t.JSXText;
+export type Entity = NodePath<TextNode>;
+export type Context = BaseContext<TextNode>;
+
+export function parse(source: string, rootLoc?: SourceLocation) {
+    const ast = babelParse(source, {
         sourceType: 'module',
         plugins: ['jsx', 'typescript'],
     });
 
-    return getContext(ast);
+    return getContext(ast, rootLoc).keys;
 }
 
-function getContext(ast: ParseResult<t.File>) {
+function getContext(ast: ParseResult<t.File>, rootLoc?: SourceLocation) {
     const context: Context = {
         keys: [],
+        rootLoc,
     };
 
-    traverse(ast, visitors, undefined, context);
+    traverse(
+        ast,
+        {
+            ImportDeclaration,
+            ObjectProperty,
+            StringLiteral,
+            TemplateLiteral,
+            JSXText: Text<t.JSXText>,
+        },
+        undefined,
+        context
+    );
 
     return context;
 }

@@ -14,6 +14,13 @@ jest.mock('graphql-request', () => {
     };
 });
 
+function mockData(file: string) {
+    MockGraphQLClient.prototype.request =
+        function (): Promise<QueryOrCreateDictsQuery> {
+            return Promise.resolve(require(file));
+        };
+}
+
 fs.writeFile = jest.fn().mockImplementation((source: string, file: string) => {
     console.log(file, source);
     const extname = path.extname(file);
@@ -29,28 +36,20 @@ function resolvePath(p: string) {
 }
 
 test('process js', async () => {
-    MockGraphQLClient.prototype.request =
-        function (): Promise<QueryOrCreateDictsQuery> {
-            return Promise.resolve(require('./assets/test.json'));
-        };
-
+    mockData('./assets/test.json');
     await process(resolvePath('./assets/test.js'));
 });
 
 test('process jsx', async () => {
-    MockGraphQLClient.prototype.request =
-        function (): Promise<QueryOrCreateDictsQuery> {
-            return Promise.resolve(require('./assets/react.json'));
-        };
-
+    mockData('./assets/react.json');
     await process(resolvePath('./assets/react.jsx'));
 });
 
 test('process tsx', async () => {
-    MockGraphQLClient.prototype.request =
-        function (): Promise<QueryOrCreateDictsQuery> {
-            return Promise.resolve(require('./assets/react.json'));
-        };
-
+    mockData('./assets/react.json');
     await process(resolvePath('./assets/testTsx.tsx'));
+});
+
+test('process pug', async () => {
+    await process(resolvePath('./assets/testPug.pug'));
 });

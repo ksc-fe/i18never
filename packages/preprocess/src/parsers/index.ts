@@ -1,5 +1,12 @@
-// import { matchFileType } from '../helpers/utils';
-export { parseJs } from './parseJs';
+import { KeyItem as BaseKeyItem } from '@i18never/shared';
+import { Entity as JsEntity } from './js';
+import { Entity as PugEntity } from './pug';
+import { Entity as VueEntity } from './vue';
+export { parse as jsParse } from './js';
+export { parse as pugParse } from './pug';
+
+export type KeyItem = BaseKeyItem<JsEntity | PugEntity | VueEntity>;
+
 // import { parse as babelParse } from '@babel/parser';
 // import babelGenerate from '@babel/generator';
 // import traverse, { TraverseOptions } from '@babel/traverse';
@@ -57,4 +64,3 @@ export { parseJs } from './parseJs';
 
 //     return keys;
 // }
-

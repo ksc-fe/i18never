@@ -28,16 +28,16 @@ export function transform(source: string) {
 }
 
 function transformKey(item: KeyItem): boolean {
-    const { identifier, path, tags, key } = item;
+    const { identifier, entity, tags, key } = item;
     if (!identifier) return false;
 
-    const node = path.node;
+    const node = entity.node;
 
     if (isIgnore(identifier)) {
         if (t.isTemplateLiteral(node)) {
             node.quasis[0].value.raw = key;
         } else {
-            path.replaceWith(t.stringLiteral(key));
+            entity.replaceWith(t.stringLiteral(key));
         }
         return false;
     }
@@ -52,7 +52,7 @@ function transformKey(item: KeyItem): boolean {
         params.push(tagsParam);
     }
 
-    path.replaceWith(
+    entity.replaceWith(
         t.callExpression(t.identifier(options.clientFunction), params)
     );
 
