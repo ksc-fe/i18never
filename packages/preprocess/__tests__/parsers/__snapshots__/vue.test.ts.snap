@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`static template 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 16,
+      "line": 1,
+      "offset": 15,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`template with props 1`] = `Array []`;
