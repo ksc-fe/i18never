@@ -19,11 +19,14 @@ type Dict = Pick<KeyItem, 'key' | 'tags'> & {
 export async function inquire(dicts: Dict[]) {
     const data = await queryTranslations(dicts);
     const result: InquireResultItem[] = [];
-    // const noTranslations: any = [];
 
     for (const { key, tags } of dicts) {
         const translationDetails: TranslationDetail[] = [];
         const translations = data[key];
+
+        if (!translations) {
+            throw new Error(`Cannot find any translation for key: "${key}".`);
+        }
 
         result.push({
             key,
@@ -53,34 +56,15 @@ export async function inquire(dicts: Dict[]) {
                             },
                         ])
                         .then((answers) => {
-                            // if (!answers.tag.value) {
-                            //     noTranslations.push({
-                            //         'untranslated sentence': key,
-                            //         'untranslated language': language,
-                            //         loc,
-                            //         'file path': filename,
-                            //     });
-                            // }
                             translationDetails.push({
                                 language,
                                 tag: answers.tag,
-                                // isAnswer: true,
                             });
                         });
                 } else if (tags.length === 1) {
-                    // use the only one translation as the result
-                    // if (!tags[0].value) {
-                    //     noTranslations.push({
-                    //         'untranslated sentence': key,
-                    //         'untranslated language': language,
-                    //         loc,
-                    //         'file path': filename,
-                    //     });
-                    // }
                     translationDetails.push({
                         language,
                         tag: tags[0],
-                        // isAnswer: true,
                     });
                 } else {
                     throw new Error(
@@ -108,10 +92,6 @@ export async function inquire(dicts: Dict[]) {
             }
         }
     }
-
-    // if (noTranslations.length !== 0) {
-    //     console.table(noTranslations);
-    // }
 
     return result;
 }

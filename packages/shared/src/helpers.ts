@@ -86,13 +86,21 @@ export function matched(value: string) {
     return value && options.matchRegexp.test(value);
 }
 
-export function getLoc(loc: SourceLocation, rootLoc?: SourceLocation, startColumn: number = 0) {
+export function getLoc(
+    loc: SourceLocation,
+    rootLoc?: SourceLocation,
+    startColumn = 0
+) {
     if (!rootLoc) return loc;
 
     const { line, column } = loc;
+    const { line: rootLine, column: rootColumn } = rootLoc;
 
     return {
-        line: rootLoc.line + line - 1,
-        column: rootLoc.column + column - startColumn,
+        line: rootLine + line - 1,
+        column:
+            rootLine === line
+                ? rootColumn + column - startColumn
+                : column + (startColumn === 0 ? 1 : 0),
     };
 }

@@ -1,5 +1,5 @@
 import { isIgnore, options } from '@i18never/shared';
-import { jsParse, pugParse, KeyItem } from './parsers';
+import { jsParse, pugParse, vueParse, KeyItem } from './parsers';
 import fs from 'fs/promises';
 import path from 'path';
 import { inquire } from './inquire';
@@ -30,6 +30,9 @@ function getKeys(source: string, extname: string) {
             break;
         case '.pug':
             keys = pugParse(source);
+            break;
+        case '.vue':
+            keys = vueParse(source);
             break;
         default:
             throw new Error(`${extname} file is not supported.`);

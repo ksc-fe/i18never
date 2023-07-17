@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`jsx 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 19,
+      "line": 1,
+    },
+    "tags": null,
+  },
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 23,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`string literal 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 12,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`template literal 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试{0}",
+    "loc": Object {
+      "column": 12,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;

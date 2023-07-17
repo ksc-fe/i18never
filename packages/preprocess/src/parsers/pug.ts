@@ -22,7 +22,7 @@ export function parse(source: string, rootLoc?: SourceLocation) {
     pugWalk(ast, function before(node: Node) {
         switch (node.type) {
             case 'Text':
-                keys.push(...parseTemplate(node.val, node));
+                keys.push(...parseTemplate(node.val, getLoc(node, rootLoc, 1)));
                 break;
             case 'Tag':
                 node.attrs.forEach((node: AttrNode) => {

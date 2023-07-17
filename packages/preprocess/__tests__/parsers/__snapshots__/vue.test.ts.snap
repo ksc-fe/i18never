@@ -1,18 +1,132 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`static template 1`] = `
+exports[`interpolation 1`] = `
 Array [
   Object {
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 16,
+      "column": 30,
       "line": 1,
-      "offset": 15,
     },
     "tags": null,
   },
 ]
 `;
 
-exports[`template with props 1`] = `Array []`;
+exports[`pug template 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 26,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`script 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 20,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`script setup 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 26,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`static template 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 26,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`template with expression props 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 31,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`template with newline 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "        ",
+    "loc": Object {
+      "column": 21,
+      "line": 1,
+    },
+    "tags": null,
+  },
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 24,
+      "line": 2,
+    },
+    "tags": null,
+  },
+  Object {
+    "identifier": null,
+    "key": "
+    ",
+    "loc": Object {
+      "column": 32,
+      "line": 2,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`template with props 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 28,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;

@@ -92,6 +92,20 @@
                     ]
                 }
             ]
+        },
+        {
+            "key": "测试一次",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "default",
+                            "value": "test one time"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

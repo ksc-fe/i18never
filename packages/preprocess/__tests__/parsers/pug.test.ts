@@ -1,14 +1,7 @@
 import { parse } from '../../src/parsers/pug';
+import { getToMatchSnapshot } from './toMatchSnapshot';
 
-function toMatchSnapshot(source: string) {
-    const keys = parse(source);
-    // remove entity property
-    keys.forEach((key) => {
-        // @ts-ignore
-        delete key.entity;
-    });
-    expect(keys).toMatchSnapshot();
-}
+const toMatchSnapshot = getToMatchSnapshot(parse);
 
 test('with vue expression', () => {
     toMatchSnapshot(`div {{ a + '测试' }}`);

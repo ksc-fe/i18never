@@ -8,21 +8,17 @@ import { QueryOrCreateDictsQuery } from '@i18never/shared';
 function MockGraphQLClient() {
     // emtpy
 }
+MockGraphQLClient.prototype.request =
+    function (): Promise<QueryOrCreateDictsQuery> {
+        return Promise.resolve(require('./assets/data.json'));
+    };
 jest.mock('graphql-request', () => {
     return {
         GraphQLClient: MockGraphQLClient,
     };
 });
 
-function mockData(file: string) {
-    MockGraphQLClient.prototype.request =
-        function (): Promise<QueryOrCreateDictsQuery> {
-            return Promise.resolve(require(file));
-        };
-}
-
 fs.writeFile = jest.fn().mockImplementation((source: string, file: string) => {
-    console.log(file, source);
     const extname = path.extname(file);
     writeFileSync(
         `${file.slice(0, -extname.length)}.result${extname}`,
@@ -36,20 +32,25 @@ function resolvePath(p: string) {
 }
 
 test('process js', async () => {
-    mockData('./assets/test.json');
     await process(resolvePath('./assets/test.js'));
 });
 
 test('process jsx', async () => {
-    mockData('./assets/react.json');
     await process(resolvePath('./assets/react.jsx'));
 });
 
 test('process tsx', async () => {
-    mockData('./assets/react.json');
     await process(resolvePath('./assets/testTsx.tsx'));
 });
 
 test('process pug', async () => {
     await process(resolvePath('./assets/testPug.pug'));
+});
+
+test('process vue', async () => {
+    await process(resolvePath('./assets/testVue.vue'));
+});
+
+test('process pug in vue', async () => {
+    await process(resolvePath('./assets/testPugInVue.vue'));
 });

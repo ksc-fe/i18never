@@ -8,7 +8,7 @@
                 :label="istest ? '测试一次' : '购买'"
                 :test="`购买${a}台`"
             >
-                <Input placeholder="请输入"></Input>
+                <Input placeholder="购买"></Input>
             </FormItem>
             <span>[$_:ignore]测试</span>
         </Form>
@@ -19,12 +19,12 @@ export default {
     props: {
         value: {
             type: String,
-            default: '测试结果',
+            default: '测试',
         },
     },
     data() {
         return {
-            test: '测试1' + aaa + '测试2' + bbb + '购买',
+            test: '测试' + aaa + '测试' + bbb + '购买',
         };
     },
 };

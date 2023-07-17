@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "test": "jest",
+    "snapshots": "jest --updateSnapshot",
     "codegen": "graphql-codegen --config codegen.yml",
     "build": "run-p build:**",
     "rollup": "lerna exec -- node ../../scripts/build.js",
