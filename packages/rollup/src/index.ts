@@ -94,7 +94,7 @@ function generateScript(version, options: Options) {
     }
     return `
     <script>
-        let lang = ${lang};
+        var lang = ${lang};
         document.write('<scr'+'ipt src="http://i18never.ksyun.com/dict/'+lang+'/${version}"></scr'+'ipt>');
     </script>
     `;
