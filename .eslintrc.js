@@ -20,5 +20,6 @@ module.exports = {
         'prettier/prettier': 'error',
         '@typescript-eslint/no-var-requires': 1,
         '@typescript-eslint/ban-ts-comment': 1,
+        // 'space-before-function-paren': ['error', 'never'],
     },
 };

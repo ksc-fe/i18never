@@ -97,7 +97,7 @@ export async function inquire(dicts: Dict[]) {
 }
 
 async function queryTranslations(dicts: Dict[]) {
-    const sdk = getSdk(options.uri, process.env.I18NEVER_TOKEN);
+    const sdk = getSdk(options.uri);
     const { dicts: data } = await sdk.QueryOrCreateDicts({
         source: options.source,
         values: dicts.map(({ key, tags }) => {

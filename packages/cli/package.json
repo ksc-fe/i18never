@@ -31,7 +31,7 @@
         "url": "https://github.com/ksc-fe/i18never/issues"
     },
     "dependencies": {
-        "@i18never/parse": "^1.0.23",
+        "@i18never/preprocess": "^1.0.23",
         "chalk": "^4.1.1",
         "commander": "^8.0.0",
         "glob": "^10.3.3",

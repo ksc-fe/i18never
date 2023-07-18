@@ -4,19 +4,27 @@ import {
     KeyItem,
     InquireResultItem,
 } from '@i18never/preprocess';
-import ora from 'ora';
+import ora, { Ora } from 'ora';
 import chalk from 'chalk';
 import { glob } from 'glob';
-import { SourceLocation } from '@i18never/shared';
+import { getSourceByLoc } from '@i18never/shared';
+import fs from 'fs/promises';
 
 const supportExts = Object.keys(extParserMap);
 
-export async function tag(dir: string) {
-    const spinner = ora(`Starting process from directory: ${dir}`).start();
+export async function tag(path: string) {
+    let spinner: Ora;
+    let files: string[];
+
+    if ((await fs.stat(path)).isDirectory()) {
+        spinner = ora(`Starting process directory: ${path}`).start();
+        files = [path];
+    } else {
+        spinner = ora(`Starting process file: ${path}`).start();
+        files = await glob(`${path}/**/*{${supportExts.join(',')}}`);
+    }
 
     try {
-        const files = await glob(`${dir}/**/*{${supportExts.join(',')}}`);
-
         for (const file of files) {
             const { keys, translations, source } = await process(file);
             warnUnTranslatedKeys(keys, translations, source, file);
@@ -50,49 +58,4 @@ function warnUnTranslatedKeys(
             }
         });
     });
-}
-
-function getSourceByLoc(source: string, loc: SourceLocation) {
-    const lines = source.split('\n');
-    const { line, column } = loc;
-    const lineNumbers = getNearNumbers(line, lines.length);
-    const numberWidth = String(lineNumbers[lineNumbers.length - 1]).length;
-
-    return lineNumbers
-        .map((num) => {
-            let code = `${strPad(num, numberWidth)} | ${lines[num - 1]}`;
-            if (num === line) {
-                code += `\n${whitespaces(numberWidth)} | ${whitespaces(
-                    column
-                )}^`;
-            }
-
-            return code;
-        })
-        .join('\n');
-}
-
-function getNearNumbers(num: number, max: number) {
-    const nums: number[] = [];
-
-    for (let i = num - 1; i > Math.max(num - 3, 0); i--) {
-        nums.unshift(i);
-    }
-    for (let i = num; i <= Math.min(num + 3, max); i++) {
-        nums.push(i);
-    }
-
-    return nums;
-}
-
-function whitespaces(length: number) {
-    return new Array(length + 1).join(' ');
-}
-
-function strPad(str: string | number, length: number) {
-    const strLength = String(str).length;
-
-    if (strLength >= length) return str;
-
-    return `${whitespaces(length - strLength)}${str}`;
 }

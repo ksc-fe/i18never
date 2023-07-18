@@ -29,12 +29,15 @@ export const options = {
     // the module providing the translation function, namely $_
     clientModule: '@i18never/client',
     clientFunction: '$_',
+
+    // the token to request graphql api
+    token: '',
 };
 
 export type Options = typeof options;
 
 let parseRegexp = generateParseRegexp(options.prefix);
-export function set<T extends Options = Options>(opt: Partial<T>) {
+export function setOptions<T extends Options = Options>(opt: Partial<T>) {
     if (opt.prefix) {
         parseRegexp = generateParseRegexp(opt.prefix);
     }
@@ -66,7 +69,8 @@ export function parseString(str: string): KeyWithTags {
     return { key, tags, identifier: identifier };
 }
 
-export function getSdk(uri = options.uri, token?: string) {
+export function getSdk(uri = options.uri) {
+    const token = options.token;
     const client = new GraphQLClient(uri, {
         headers: token
             ? {
@@ -105,4 +109,49 @@ export function getLoc(
     const { line, column } = loc;
 
     return { line, column: column - startColumn };
+}
+
+export function getSourceByLoc(source: string, loc: SourceLocation) {
+    const lines = source.split('\n');
+    const { line, column } = loc;
+    const lineNumbers = getNearNumbers(line, lines.length);
+    const numberWidth = String(lineNumbers[lineNumbers.length - 1]).length;
+
+    return lineNumbers
+        .map((num) => {
+            let code = `${strPad(num, numberWidth)} | ${lines[num - 1]}`;
+            if (num === line) {
+                code += `\n${whitespaces(numberWidth)} | ${whitespaces(
+                    column
+                )}^`;
+            }
+
+            return code;
+        })
+        .join('\n');
+}
+
+function getNearNumbers(num: number, max: number) {
+    const nums: number[] = [];
+
+    for (let i = num - 1; i > Math.max(num - 3, 0); i--) {
+        nums.unshift(i);
+    }
+    for (let i = num; i <= Math.min(num + 3, max); i++) {
+        nums.push(i);
+    }
+
+    return nums;
+}
+
+function whitespaces(length: number) {
+    return new Array(length + 1).join(' ');
+}
+
+function strPad(str: string | number, length: number) {
+    const strLength = String(str).length;
+
+    if (strLength >= length) return str;
+
+    return `${whitespaces(length - strLength)}${str}`;
 }
