@@ -63,24 +63,27 @@ export default function i18never(options: Options = {}) {
 }
 
 function generateScript(version: string, options: Options) {
-    let lang = '';
-    const { langKey = '', storageType = '' } = options;
+    const { langKey = 'ksc_lang', storageType = '' } = options;
+
+    let lang: string;
     switch (storageType) {
         case 'cookie':
-            lang = `document.cookie.replace(/(?:(?:^|.*;\\s*)${langKey}\\s*\=\\s*([^;]*).*$)|^.*$/, "$1");`;
+            // lang = `document.cookie.replace(/(?:(?:^|.*;\\s*)${langKey}\\s*\=\\s*([^;]*).*$)|^.*$/, "$1");`;
+            // @reference: https://stackoverflow.com/questions/10730362/get-cookie-by-name?page=1&tab=scoredesc
+            lang = `('; '+document.cookie).split('; ${langKey}=').pop().split(';').shift();`;
             break;
         case 'localStorage':
         case 'sessionStorage':
             lang = `${storageType}.getItem('${langKey}')`;
             break;
         default:
-            lang = `document.cookie.replace(/(?:(?:^|.*;\\s*)ksc_lang\\s*\=\\s*([^;]*).*$)|^.*$/, "$1");`;
-            break;
+            throw new Error(`storageType: ${storageType} is not supported`);
     }
+
     return `
     <script>
         var lang = ${lang};
-        document.write('<scr'+'ipt src="http://i18never.ksyun.com/dict/'+lang+'/${version}"></scr'+'ipt>');
+        document.write('<scr'+'ipt src="//i18never.ksyun.com/dict/'+lang+'/${version}"></scr'+'ipt>');
     </script>
     `;
 }
