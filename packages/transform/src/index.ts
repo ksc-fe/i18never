@@ -5,6 +5,8 @@ import traverse from '@babel/traverse';
 import { Tags, options, isIgnore } from '@i18never/shared';
 import { visitors, Context, KeyItem } from './visitors';
 
+export { KeyItem };
+
 export function transform(source: string) {
     const ast = parse(source, { sourceType: 'module' });
     const context = getContext(ast);

@@ -3,7 +3,7 @@ import { program } from 'commander';
 import { tag } from './tag';
 import preCommit from './preCommit';
 import pkg from '../package.json';
-import { setConfig } from './config';
+import { initOptions } from '@i18never/shared';
 
 program.version(pkg.version);
 
@@ -14,7 +14,7 @@ program
     .option('-c, --config [configFile]', 'Specify the config file.')
     .description('Tag the appropriate file under the current file or folder.')
     .action((path, options) => {
-        setConfig(options);
+        initOptions(options);
         tag(path);
     });
 
@@ -27,7 +27,7 @@ program
         'Check the temporary files and perform marking operations before git commit'
     )
     .action((options) => {
-        setConfig(options);
+        initOptions(options);
         preCommit();
     });
 

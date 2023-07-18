@@ -2,53 +2,13 @@ import type { Tags } from './visitors';
 import { GraphQLClient } from 'graphql-request';
 import { getSdk as baseGetSdk } from './graphql';
 import type { SourceLocation } from './visitors';
+import { parseRegexp, options } from './options';
 
 type KeyWithTags = {
     key: string;
     tags: Tags | null;
     identifier: string | null;
 };
-
-export const options = {
-    // match the text that will be translated, inlucde escaped unicode
-    matchRegexp:
-        /([\u4E00-\u9FFF]+)|((\\u\{?(4[EF][\dA-F]{2})|([5-9][\dA-F]{3})\}?)+)/,
-
-    // the graphql api for getting translations
-    uri: 'http://i18never.ksyun.com/graphql',
-
-    // the source to distinguish clients
-    source: 'i18never',
-
-    // the prefix string of identifier
-    prefix: '$_',
-
-    // the ignore tag indicates we shouldn't translate this string
-    ignore: 'ignore',
-
-    // the module providing the translation function, namely $_
-    clientModule: '@i18never/client',
-    clientFunction: '$_',
-
-    // the token to request graphql api
-    token: '',
-};
-
-export type Options = typeof options;
-
-let parseRegexp = generateParseRegexp(options.prefix);
-export function setOptions<T extends Options = Options>(opt: Partial<T>) {
-    if (opt.prefix) {
-        parseRegexp = generateParseRegexp(opt.prefix);
-    }
-    return Object.assign(options, opt);
-}
-
-function generateParseRegexp(prefix: string) {
-    // escape special characters
-    prefix = prefix.replace(/([$\-.*?])/g, '\\$1');
-    return new RegExp(`^\\[(${prefix}:([^\\]]*))\\](.*)`);
-}
 
 export function parseString(str: string): KeyWithTags {
     const matches = str.match(parseRegexp);

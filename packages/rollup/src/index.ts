@@ -1,47 +1,31 @@
 import { TransformResult } from 'rollup';
-import { i18nTrans } from '@i18never/parser';
-import { getSdk } from '@i18never/graphql';
-import { GraphQLClient } from 'graphql-request';
-import { TempKeyItem } from '@i18never/parse/dist/types';
-import { resolve, join } from 'path';
-import { existsSync } from 'fs';
+import { getSdk, Options as BaseOptions, initOptions } from '@i18never/shared';
+import { KeyItem, transform } from '@i18never/transform';
+import { resolve } from 'path';
 
-interface Options {
-    include?: Array<string>;
+type Options = Partial<BaseOptions> & {
+    exclude?: string[];
+    include?: string[];
     langKey?: string;
     storageType?: string;
-    token?: string;
-}
-
-enum EnforceType {
-    PRE = 'pre',
-    POST = 'post',
-}
+};
 
 export default function i18never(options: Options = {}) {
-    const allAppKeys: TempKeyItem[] = [];
+    initOptions(options);
+
+    const allKeys: KeyItem[] = [];
+    const include = options.include || [];
+    const exclude = options.exclude || ['node_modules'];
+
     let i18nVersion = '';
-    const include = Array.from(new Set(['src'].concat(options.include || [])));
+
     return {
         name: 'i18never',
-        enforce: EnforceType.POST,
-        options(inputOptions) {
-            const configPath = join(process.cwd(), '.i18neverrc.js')
-            if (!existsSync(configPath) && !options.token) {
-                throw new Error('Missing permission information. Please configure the. i18neverrc.js file in the root directory.');
-            }
+        enforce: 'post',
 
-            if (options.token) {
-                process.env.I18NEVER_TOKEN = options.token;
-            } else {
-                const configOptions = loadConfigFile(configPath);
-                process.env.I18NEVER_TOKEN = configOptions.token;
-            }
-            return inputOptions;
-        },
         async transform(code: string, id: string) {
             const isIncluded = include.some((path) => {
-                const rootPath = resolve(process.cwd(), path)
+                const rootPath = resolve(process.cwd(), path);
                 return id.startsWith(rootPath);
             });
             if (
@@ -51,17 +35,18 @@ export default function i18never(options: Options = {}) {
             ) {
                 return;
             }
-            const { transCode, allKeys } = await i18nTrans(code, id);
-            allAppKeys.push(...allKeys);
-            return { code: transCode, map: null } as
-                | TransformResult
-                | Promise<TransformResult>;
+            const { code: output, keys } = transform(code);
+            allKeys.push(...keys);
+
+            return { code: output, map: null };
         },
+
         async buildEnd() {
-            const version = await queryVersion(allAppKeys);
+            const version = await queryVersion(allKeys);
             console.log(version);
             i18nVersion = version;
         },
+
         async generateBundle(_, bundle) {
             const entryHtmlFile = bundle['index.html'];
             if (entryHtmlFile) {
@@ -77,7 +62,7 @@ export default function i18never(options: Options = {}) {
     };
 }
 
-function generateScript(version, options: Options) {
+function generateScript(version: string, options: Options) {
     let lang = '';
     const { langKey = '', storageType = '' } = options;
     switch (storageType) {
@@ -100,28 +85,18 @@ function generateScript(version, options: Options) {
     `;
 }
 
-async function queryVersion(allAppKeys) {
-    const client = new GraphQLClient('http://i18never.ksyun.com/graphql/', {
-        headers: {
-            Authorization: process.env.I18NEVER_TOKEN as string,
-        },
-    });
-    const sdk = getSdk(client);
-
+async function queryVersion(keys: KeyItem[]) {
+    const sdk = getSdk();
     const { getVerionId: data } = await sdk.CreateVersion({
         source: 'i18never',
-        values: _sortKeys(allAppKeys),
+        values: _sortKeys(keys),
     });
+
     return data.Id;
 }
 
-function loadConfigFile(filePath) {
-    const config = require(filePath);
-    return config;
-}
-
-function _sortKeys(allAppKeys) {
-    const targetValues = allAppKeys.map(({ key, tags }) => {
+function _sortKeys(keys: KeyItem[]) {
+    const targetValues = keys.map(({ key, tags }) => {
         return {
             key,
             tags: tags
