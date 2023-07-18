@@ -20,7 +20,9 @@ MockGraphQLClient.prototype.request =
 fs.writeFile = jest.fn();
 
 async function toMatchSnapshot(file: string) {
-    expect(await process(path.resolve(__dirname, file))).toMatchSnapshot();
+    expect(
+        (await process(path.resolve(__dirname, file))).newSource
+    ).toMatchSnapshot();
 }
 
 test('process js', async () => {

@@ -1,0 +1,41 @@
+{
+    "dicts": [
+        {
+            "key": "没有翻译",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "default",
+                            "value": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "测试",
+            "translations": [
+                {
+                    "language": "en",
+                    "tags": [
+                        {
+                            "name": "default",
+                            "value": "test"
+                        }
+                    ]
+                },
+                {
+                    "language": "jp",
+                    "tags": [
+                        {
+                            "name": "v",
+                            "value": "test"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

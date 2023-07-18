@@ -1,0 +1,1 @@
+const b: string = '[$_:en,jp=v]测试';

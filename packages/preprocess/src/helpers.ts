@@ -1,16 +1,27 @@
-import { TranslationDetail, InquireResultItem } from './inquire';
+import { TranslationDetail } from './inquire';
 import { options } from '@i18never/shared';
-import { KeyItem } from './parsers';
+import { jsParse, pugParse, vueParse } from './parsers';
 
-// const supportExts = ['.vue', '.js', 'ts', 'tsx', 'jsx', 'mjs', '.pug', '.jade'];
-// export function isSupportExt(ext: string) {
-//     return supportExts.includes(ext);
-// }
-
-export type UnTranslatedKeyItem = {
-    keyItem: KeyItem;
-    translationDetail: TranslationDetail;
+export const extParserMap = {
+    '.vue': vueParse,
+    '.js': jsParse,
+    '.ts': jsParse,
+    '.mjs': jsParse,
+    '.mts': jsParse,
+    '.jsx': jsParse,
+    '.tsx': jsParse,
+    '.pug': pugParse,
+    '.jade': pugParse,
 };
+
+export function getParserByExt(extname: string) {
+    const parser = extParserMap[extname];
+    if (!parser) {
+        throw new Error(`${extname} file is not supported.`);
+    }
+
+    return parser;
+}
 
 export function getIdentifier(translationDetails: TranslationDetail[]) {
     const identifierTags: string[] = [];
@@ -24,24 +35,4 @@ export function getIdentifier(translationDetails: TranslationDetail[]) {
     });
 
     return `${options.prefix}:${identifierTags.join(',')}`;
-}
-
-export function getUnTranslatedKeys(
-    keys: KeyItem[],
-    translations: InquireResultItem[]
-) {
-    const unTranslatedKeys: UnTranslatedKeyItem[] = [];
-    keys.forEach((item, index) => {
-        const translationDetails = translations[index].translationDetails;
-        translationDetails.forEach((translationDetail) => {
-            if (!translationDetail.tag.value) {
-                unTranslatedKeys.push({
-                    keyItem: item,
-                    translationDetail,
-                });
-            }
-        });
-    });
-
-    return unTranslatedKeys;
 }

@@ -1,9 +1,13 @@
 import { isIgnore, options } from '@i18never/shared';
-import { jsParse, pugParse, vueParse, KeyItem } from './parsers';
 import fs from 'fs/promises';
 import path from 'path';
 import { inquire } from './inquire';
 import { generate } from './generate';
+import { getParserByExt } from './helpers';
+
+export * from './parsers';
+export * from './helpers';
+export * from './inquire';
 
 export async function process(file: string) {
     const source = await fs.readFile(file, 'utf-8');
@@ -13,30 +17,14 @@ export async function process(file: string) {
     const translations = await inquire(keys);
     const newSource = generate(source, keys, translations);
 
-    await fs.writeFile(newSource, file, 'utf-8');
+    await fs.writeFile(file, newSource, 'utf-8');
 
-    return newSource;
+    return { source, newSource, keys, translations };
 }
 
 function getKeys(source: string, extname: string) {
-    let keys: KeyItem[];
-    switch (extname) {
-        case '.js':
-        case '.ts':
-        case '.jsx':
-        case '.tsx':
-        case '.mjs':
-            keys = jsParse(source);
-            break;
-        case '.pug':
-            keys = pugParse(source);
-            break;
-        case '.vue':
-            keys = vueParse(source);
-            break;
-        default:
-            throw new Error(`${extname} file is not supported.`);
-    }
+    const parser = getParserByExt(extname);
+    const keys = parser(source);
 
     return keys.filter(({ identifier, key }) => {
         if (identifier) return !isIgnore(identifier);
