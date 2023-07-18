@@ -9,7 +9,7 @@ export function Text<T extends t.StringLiteral | t.JSXText>(
 ) {
     const node = path.node;
     const value = node.value;
-    if (!value) return;
+    if (!value.trim()) return;
 
     path.skip();
 

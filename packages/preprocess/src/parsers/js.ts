@@ -15,13 +15,13 @@ type TextNode = t.StringLiteral | t.TemplateLiteral | t.JSXText;
 export type Entity = NodePath<TextNode>;
 export type Context = BaseContext<TextNode>;
 
-const defaultRootLoc: SourceLocation = { line: 1, column: 1 };
+// const defaultRootLoc: SourceLocation = { line: 1, column: 0 };
 export function parse(
     source: string,
-    // because the column of babel parser starts from 0, but the others, e.g.
+    // because the column of location of babel parser starts from 0, but the others, e.g.
     // Vue/Pug, start from 1. We use a defaultRootLoc starting from 1 to keep
     // consistent with them.
-    rootLoc: SourceLocation = defaultRootLoc
+    rootLoc?: SourceLocation
 ) {
     const ast = babelParse(source, {
         sourceType: 'module',
@@ -31,7 +31,7 @@ export function parse(
     return getContext(ast, rootLoc).keys;
 }
 
-function getContext(ast: ParseResult<t.File>, rootLoc: SourceLocation) {
+function getContext(ast: ParseResult<t.File>, rootLoc?: SourceLocation) {
     const context: Context = {
         keys: [],
         rootLoc,

@@ -88,19 +88,21 @@ export function matched(value: string) {
 
 export function getLoc(
     loc: SourceLocation,
-    rootLoc?: SourceLocation,
+    rootLoc?: SourceLocation | null,
     startColumn = 0
 ) {
-    if (!rootLoc) return loc;
+    if (rootLoc) {
+        const { line, column } = loc;
+        const { line: rootLine, column: rootColumn } = rootLoc;
+
+        loc = {
+            line: rootLine + line - 1,
+            // the first line, e.g. the same line with rootLoc, adds the offset column
+            column: line === 1 ? rootColumn + column : column,
+        };
+    }
 
     const { line, column } = loc;
-    const { line: rootLine, column: rootColumn } = rootLoc;
 
-    return {
-        line: rootLine + line - 1,
-        column:
-            rootLine === line
-                ? rootColumn + column - startColumn
-                : column + (startColumn === 0 ? 1 : 0),
-    };
+    return { line, column: column - startColumn };
 }

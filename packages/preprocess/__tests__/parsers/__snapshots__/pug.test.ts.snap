@@ -6,7 +6,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 10,
+      "column": 9,
       "line": 1,
     },
     "tags": null,
@@ -20,7 +20,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 8,
+      "column": 7,
       "line": 1,
     },
     "tags": null,
@@ -28,13 +28,15 @@ Array [
 ]
 `;
 
+exports[`with props 2`] = `Array []`;
+
 exports[`with text 1`] = `
 Array [
   Object {
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 5,
+      "column": 4,
       "line": 1,
     },
     "tags": null,
@@ -48,7 +50,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 13,
+      "column": 12,
       "line": 1,
     },
     "tags": null,

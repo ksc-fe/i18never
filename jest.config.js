@@ -11,7 +11,7 @@ module.exports = {
     // testMatch: ['**/parser/__tests__/visitors/*.test.ts'],
     // testMatch: ['**/preprocess/__tests__/index.test.ts'],
     testMatch: ['**/preprocess/__tests__/(index).test.ts'],
-    // testMatch: ['**/preprocess/__tests__/parsers/vue.test.ts'],
+    // testMatch: ['**/preprocess/__tests__/parsers/*.test.ts'],
     // testMatch: ['**/(transform|shared)/__tests__/*.test.ts'],
     // testMatch: ['**/parser/__tests__/visitors/stringLiteral.test.ts'],
     // testMatch: ['**/parse/__tests__/**/transform.test.ts'],

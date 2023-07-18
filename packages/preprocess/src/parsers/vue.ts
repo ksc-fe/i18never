@@ -26,19 +26,27 @@ export function parse(source: string) {
     const { template, script, scriptSetup } = descriptor;
 
     if (template) {
+        const rootLoc = getLoc(template.loc.start, null, 1);
         if (template.lang === 'pug') {
-            keys.push(...pugParse(template.content, template.loc.start));
+            keys.push(...pugParse(template.content, rootLoc));
         } else {
-            keys.push(...getTemplateKeys(template.ast, template.loc.start));
+            keys.push(...getTemplateKeys(template.ast, rootLoc));
         }
     }
 
     if (script) {
-        keys.push(...jsParse(script.content, script.loc.start));
+        keys.push(
+            ...jsParse(script.content, getLoc(script.loc.start, null, 1))
+        );
     }
 
     if (scriptSetup) {
-        keys.push(...jsParse(scriptSetup.content, scriptSetup.loc.start));
+        keys.push(
+            ...jsParse(
+                scriptSetup.content,
+                getLoc(scriptSetup.loc.start, null, 1)
+            )
+        );
     }
 
     return keys;
@@ -57,9 +65,21 @@ function getTemplateKeys(ast: VueNode | undefined, rootLoc?: SourceLocation) {
             );
         },
         Text(node) {
+            const content = node.content;
+            if (!content.trim()) return;
+
+            const nodeLoc = node.loc;
+            const loc = getLoc(nodeLoc.start, rootLoc, 1);
+            if (nodeLoc.source !== content) {
+                // if source isn't equal to content, it indicates
+                // the content has quotes, so forward one column
+                // i.e. <div a="测试"></div>
+                loc.column++;
+            }
+
             keys.push({
-                ...parseString(node.content),
-                loc: getLoc(node.loc.start, rootLoc, 1),
+                ...parseString(content),
+                loc,
                 entity: node,
             });
         },

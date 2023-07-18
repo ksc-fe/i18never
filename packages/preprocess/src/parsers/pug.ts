@@ -9,7 +9,7 @@ import { parse as jsParse } from './js';
 type BaseNode = { line: number; column: number };
 type TextNode = BaseNode & { val: string; type: 'Text' };
 type TagNode = BaseNode & { attrs: AttrNode[]; type: 'Tag' };
-type AttrNode = BaseNode & { name: string; val: string };
+type AttrNode = BaseNode & { name: string; val: string | boolean };
 type Node = TextNode | TagNode;
 export type Entity = TextNode | AttrNode;
 
@@ -21,13 +21,21 @@ export function parse(source: string, rootLoc?: SourceLocation) {
 
     pugWalk(ast, function before(node: Node) {
         switch (node.type) {
-            case 'Text':
-                keys.push(...parseTemplate(node.val, getLoc(node, rootLoc, 1)));
+            case 'Text': {
+                const value = node.val;
+                if (!value.trim()) return;
+                keys.push(...parseTemplate(value, getLoc(node, rootLoc, 1)));
                 break;
+            }
             case 'Tag':
                 node.attrs.forEach((node: AttrNode) => {
                     let value = node.val;
-                    if (!value) return;
+                    if (
+                        (typeof value === 'string' && !value.trim()) ||
+                        typeof value === 'boolean'
+                    ) {
+                        return;
+                    }
 
                     // should remove quotes
                     value = value.slice(1, -1);
@@ -39,7 +47,7 @@ export function parse(source: string, rootLoc?: SourceLocation) {
                         column: node.column + name.length + 2, // `${node.name}="`.length,
                     };
                     if (firstChar === ':' || firstChar === '@') {
-                        keys.push(...jsParse(value, loc));
+                        keys.push(...jsParse(value, getLoc(loc, rootLoc, 1)));
                     } else {
                         keys.push({
                             ...parseString(value),

@@ -13,6 +13,7 @@ test('with text', () => {
 
 test('with props', () => {
     toMatchSnapshot(`div(a="测试")`);
+    toMatchSnapshot('input(disabled)');
 });
 
 test('with expression props', () => {

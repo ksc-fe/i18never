@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`process js 1`] = `
+"export default class test {
+    tabs = [
+        {
+            text: '[$_:en]测试',
+            value: 'test',
+        },
+        {
+            text: '[$_:en]测试一次',
+            value: 'test one',
+        },
+    ];
+}
+"
+`;
+
+exports[`process jsx 1`] = `
+"export default function Component() {
+    const a = '[$_:en]测试';
+    const b = '[$_:en]English';
+
+    return () => {
+        <div>
+            <div>{a}</div>
+            <div>{\`[$_:en,jp=v]购买\${a}台\`}</div>
+            <div>[$_:en]购买</div>
+            <Test prop=\\"[$_:en]属性\\" />
+        </div>;
+    };
+}
+
+function Test() {
+    return <div>[$_:en]暂停任务</div>;
+}
+"
+`;
+
+exports[`process pug 1`] = `
+"div
+    | {{ aaa + '[$_:en]测试' + bbb + '[$_:en]购买' }}
+    | {{ \`[$_:en,jp=v]购买\${a}台\` }}
+    | [$_:en]购买{{ a }}[$_:en]测试
+    Form(:hideOnSelect=\\"true\\")
+        FormItem(
+            :label=\\"istest ? '[$_:en]测试一次' : '[$_:en]购买'\\",
+            :test=\\"\`[$_:en,jp=v]购买\${a}台\`\\",
+            name=\\"[$_:en]测试\\") [$_:en]测试一次
+    
+
+"
+`;
+
+exports[`process pug in vue 1`] = `
+"<script>
+  let aa = '[$_:en]测试'
+  let bb = '[$_:ignore]测试'
+  let cc = \`[$_:en,jp=v]购买\${aa}台\`
+</script>
+<template lang=\\"pug\\">
+div
+  | {{ aaa + '[$_:en]测试' + bbb + '[$_:en]购买' }}
+  | {{ \`[$_:en,jp=v]购买\${a}台\` }}
+  Form(:hideOnSelect=\\"true\\")
+      FormItem(
+          :label=\\"istest ? '[$_:en]测试一次' : '[$_:en]购买'\\",
+          :test=\\"\`[$_:en,jp=v]购买\${a}台\`\\",
+          name=\\"[$_:en]测试\\") [$_:en]测试一次
+</template>
+
+"
+`;
+
+exports[`process tsx 1`] = `
+"export default class test {
+    test() {
+        const a: { text: string; value: string }[] = [
+            {
+                text: '[$_:en]测试',
+                value: 'test',
+            },
+        ];
+
+        const b = <div id={\`[$_:en,jp=v]购买\${a}台\` as string}>[$_:en]购买</div>;
+
+        return [a, b];
+    }
+}
+"
+`;
+
+exports[`process vue 1`] = `
+"<template>
+    <div>
+        <p>{{ aaa + '[$_:en]测试' + bbb + '[$_:en]购买' }}</p>
+        <p>{{ \`[$_:en,jp=v]购买\${a}台\` }}</p>
+        <p>[$_:en]测试</p>
+        <Form>
+            <FormItem
+                :label=\\"istest ? '[$_:en]测试一次' : '[$_:en]购买'\\"
+                :test=\\"\`[$_:en,jp=v]购买\${a}台\`\\"
+            >
+                <Input placeholder=\\"[$_:en]购买\\"></Input>
+            </FormItem>
+            <span>[$_:ignore]测试</span>
+        </Form>
+    </div>
+</template>
+<script>
+export default {
+    props: {
+        value: {
+            type: String,
+            default: '[$_:en]测试',
+        },
+    },
+    data() {
+        return {
+            test: '[$_:en]测试' + aaa + '[$_:en]测试' + bbb + '[$_:en]购买',
+        };
+    },
+};
+</script>
+"
+`;

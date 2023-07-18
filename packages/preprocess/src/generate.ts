@@ -29,7 +29,7 @@ export function generate(
                 oldIndentifer ? `[${oldIndentifer}]` : oldIndentifer,
                 lines[line],
                 columnsOffset,
-                loc.column - 1
+                loc.column // column starts from 0
             );
         }
     });

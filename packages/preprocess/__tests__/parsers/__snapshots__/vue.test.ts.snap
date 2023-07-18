@@ -6,8 +6,22 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 30,
+      "column": 29,
       "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
+exports[`multiple lines with props 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 17,
+      "line": 3,
     },
     "tags": null,
   },
@@ -20,7 +34,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 26,
+      "column": 25,
       "line": 1,
     },
     "tags": null,
@@ -34,7 +48,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 20,
+      "column": 19,
       "line": 1,
     },
     "tags": null,
@@ -48,7 +62,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 26,
+      "column": 25,
       "line": 1,
     },
     "tags": null,
@@ -62,7 +76,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 26,
+      "column": 25,
       "line": 1,
     },
     "tags": null,
@@ -76,7 +90,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 31,
+      "column": 30,
       "line": 1,
     },
     "tags": null,
@@ -88,28 +102,9 @@ exports[`template with newline 1`] = `
 Array [
   Object {
     "identifier": null,
-    "key": "        ",
-    "loc": Object {
-      "column": 21,
-      "line": 1,
-    },
-    "tags": null,
-  },
-  Object {
-    "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 24,
-      "line": 2,
-    },
-    "tags": null,
-  },
-  Object {
-    "identifier": null,
-    "key": "
-    ",
-    "loc": Object {
-      "column": 32,
+      "column": 13,
       "line": 2,
     },
     "tags": null,
