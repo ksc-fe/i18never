@@ -10,6 +10,17 @@
     "files": [
         "dist"
     ],
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ksc-fe/i18never.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ksc-fe/i18never/issues"
+    },
     "author": "Javey",
     "license": "MIT",
     "dependencies": {
