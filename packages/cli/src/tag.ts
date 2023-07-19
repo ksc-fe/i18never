@@ -17,10 +17,10 @@ export async function tag(path: string) {
     let files: string[];
 
     if ((await fs.stat(path)).isDirectory()) {
-        spinner = ora(`Starting process directory: ${path}`).start();
+        spinner = ora(`Starting process directory: ${path}\n`).start();
         files = await glob(`${path}/**/*{${supportExts.join(',')}}`);
     } else {
-        spinner = ora(`Starting process file: ${path}`).start();
+        spinner = ora(`Starting process file: ${path}\n`).start();
         files = [path];
     }
 
@@ -28,7 +28,7 @@ export async function tag(path: string) {
         for (const file of files) {
             const { keys, translations, source } = await process(file);
             warnUnTranslatedKeys(keys, translations, source, file);
-            spinner.succeed(`Successfully processed the file: ${file}.`);
+            spinner.succeed(`Successfully processed the file: ${file}\n`);
         }
     } catch (e) {
         console.error(e);
