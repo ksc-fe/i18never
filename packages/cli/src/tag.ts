@@ -4,7 +4,7 @@ import {
     KeyItem,
     InquireResultItem,
 } from '@i18never/preprocess';
-import ora, { Ora } from 'ora';
+import ora from 'ora';
 import chalk from 'chalk';
 import { glob } from 'glob';
 import { getSourceByLoc } from '@i18never/shared';
@@ -13,7 +13,7 @@ import * as fs from 'fs/promises';
 const supportExts = Object.keys(extParserMap);
 
 export async function tag(path: string) {
-    let spinner: Ora;
+    let spinner: ora.Ora;
     let files: string[];
 
     if ((await fs.stat(path)).isDirectory()) {
