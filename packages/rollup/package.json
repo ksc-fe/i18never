@@ -17,6 +17,9 @@
         "access": "public",
         "registry": "https://registry.npmjs.org/"
     },
+    "files": [
+        "dist"
+    ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/ksc-fe/i18never.git"

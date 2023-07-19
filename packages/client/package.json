@@ -11,5 +11,8 @@
         "access": "public",
         "registry": "https://registry.npmjs.org/"
     },
+    "files": [
+        "dist"
+    ],
     "gitHead": "757651ec5007fa6028c69d365bf5caa4e5c48d8d"
 }

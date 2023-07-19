@@ -55,7 +55,6 @@ if (options.replace) {
 
 const format = options.format;
 const external = Object.keys(pkgJson.dependencies || {});
-console.log(external);
 const input = join(cwd, options.entry);
 
 async function build() {
