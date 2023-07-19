@@ -11,8 +11,8 @@ module.exports = {
     // testMatch: ['**/parser/__tests__/visitors/*.test.ts'],
     // testMatch: ['**/preprocess/__tests__/index.test.ts'],
     testMatch: [
-        // '**/(preprocess|shared|transform/client)/__tests__/**/*.test.ts',
-        '**/cli/__tests__/index.test.ts',
+        // '**/(preprocess|shared|transform/client|cli)/__tests__/**/*.test.ts',
+        '**/rollup/__tests__/index.test.ts',
     ],
     // testMatch: ['**/preprocess/__tests__/parsers/*.test.ts'],
     // testMatch: ['**/(transform|shared)/__tests__/*.test.ts'],

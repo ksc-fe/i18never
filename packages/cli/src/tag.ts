@@ -18,10 +18,10 @@ export async function tag(path: string) {
 
     if ((await fs.stat(path)).isDirectory()) {
         spinner = ora(`Starting process directory: ${path}`).start();
-        files = [path];
+        files = await glob(`${path}/**/*{${supportExts.join(',')}}`);
     } else {
         spinner = ora(`Starting process file: ${path}`).start();
-        files = await glob(`${path}/**/*{${supportExts.join(',')}}`);
+        files = [path];
     }
 
     try {
@@ -32,6 +32,7 @@ export async function tag(path: string) {
         }
     } catch (e) {
         console.error(e);
+    } finally {
         spinner.stop();
     }
 }

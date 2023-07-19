@@ -1,4 +1,5 @@
-import { parseString, options } from '../src/helpers';
+import { parseString } from '../src/helpers';
+import { options } from '../src/options';
 
 const { prefix } = options;
 test('should extract tag from string', () => {
