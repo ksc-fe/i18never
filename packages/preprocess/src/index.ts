@@ -1,6 +1,6 @@
 import { isIgnore, options } from '@i18never/shared';
-import * as fs from 'fs/promises';
-import * as path from 'path';
+import fs from 'fs/promises';
+import path from 'path';
 import { inquire } from './inquire';
 import { generate } from './generate';
 import { getParserByExt } from './helpers';

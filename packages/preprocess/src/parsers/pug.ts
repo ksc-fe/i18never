@@ -1,7 +1,12 @@
 import pugParse from 'pug-parser';
 import { Lexer } from 'pug-lexer';
 import pugWalk from 'pug-walk';
-import { parseString, SourceLocation, getLoc, isString } from '@i18never/shared';
+import {
+    parseString,
+    SourceLocation,
+    getLoc,
+    isString,
+} from '@i18never/shared';
 import { KeyItem } from './';
 import { parseTemplate } from './vue';
 import { parse as jsParse } from './js';
