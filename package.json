@@ -11,7 +11,16 @@
     "build": "run-p build:**",
     "rollup": "lerna exec -- node ../../scripts/build.js",
     "build:es": "npm run rollup -- --format=es --ext=esm.js",
-    "build:cjs": "npm run rollup"
+    "build:cjs": "npm run rollup",
+	"_publish": "npm run build && lerna exec -- npm publish",
+	"release": "npm run release-patch",
+    "release-patch": "lerna version patch --force-publish && npm run _publish",
+    "release-minor": "lerna version minor --force-publish && npm run _publish",
+    "release-major": "lerna version major --force-publish && npm run _publish",
+    "prelease": "lerna version prerelease --preid beta --force-publish && npm run _publish -- --tag=beta",
+    "prelease-patch": "lerna version prepatch --preid beta --force-publish && npm run _publish -- --tag=beta",
+    "prelease-minor": "lerna version preminor --preid beta --force-publish && npm run _publish -- --tag=beta",
+    "prelease-major": "lerna version premajor --preid beta --force-publish && npm run _publish -- --tag=beta"
   },
   "workspaces": [
     "packages/*"
