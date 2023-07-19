@@ -26,34 +26,42 @@ export default function i18never(options: Options = {}): Plugin {
     return {
         name: 'i18never',
 
-        async transform(code: string, id: string) {
-            const isIncluded = isMatched(id, include);
-            if (!isIncluded && isMatched(id, exclude)) return;
+        transform: {
+            order: 'post',
+            async handler(code: string, id: string) {
+                const isIncluded = isMatched(id, include);
+                if (!isIncluded && isMatched(id, exclude)) return;
 
-            const { code: output, keys } = transform(code);
-            allKeys.push(...keys);
+                const { code: output, keys } = transform(code);
+                allKeys.push(...keys);
 
-            return { code: output, map: null };
+                return { code: output, map: null };
+            },
         },
 
-        async generateBundle(_, bundle) {
-            const version = await queryVersion(allKeys);
-            const entryHtmlFile = bundle['index.html'] as OutputAsset;
-            if (entryHtmlFile) {
-                const html = entryHtmlFile.source.toString();
+        generateBundle: {
+            order: 'post',
+            async handler(_, bundle) {
+                const version = await queryVersion(allKeys);
+                for (const entryFile in bundle) {
+                    if (entryFile.endsWith('.html')) {
+                        const entryHtmlFile = bundle[entryFile] as OutputAsset;
+                        const html = entryHtmlFile.source.toString();
 
-                const newHtml = html.replace(
-                    '</head>',
-                    `${generateScript(version, options)}</head>`
-                );
-                entryHtmlFile.source = newHtml;
-            }
+                        const newHtml = html.replace(
+                            '</head>',
+                            `${generateScript(version, options)}</head>`
+                        );
+                        entryHtmlFile.source = newHtml;
+                    }
+                }
+            },
         },
     };
 }
 
 function generateScript(version: string, options: Options) {
-    const { langKey = 'ksc_lang', storageType = '' } = options;
+    const { langKey = 'ksc_lang', storageType = 'cookie' } = options;
 
     let lang: string;
     switch (storageType) {

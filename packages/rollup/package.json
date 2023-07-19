@@ -27,12 +27,13 @@
     "author": "Javey",
     "license": "MIT",
     "devDependencies": {
+        "@rollup/plugin-html": "^1.0.2",
         "rollup": "^2.79.0"
     },
     "dependencies": {
+        "@i18never/client": "^1.0.23",
         "@i18never/shared": "^1.0.23",
-        "@i18never/transform": "^1.0.23",
-        "@i18never/client": "^1.0.23"
+        "@i18never/transform": "^1.0.23"
     },
     "gitHead": "9cf17c1522768da3ae6727412f750b74e2508371"
 }
