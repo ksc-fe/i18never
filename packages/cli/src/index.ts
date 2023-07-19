@@ -1,9 +1,10 @@
-#!/usr/bin/env node
 import { program } from 'commander';
 import { tag } from './tag';
-import preCommit from './preCommit';
+import { preCommit } from './preCommit';
 import pkg from '../package.json';
 import { initOptions } from '@i18never/shared';
+
+export { preCommit, tag };
 
 program.version(pkg.version);
 

@@ -54,7 +54,7 @@ if (options.replace) {
 }
 
 const format = options.format;
-const external = Object.keys(pkgJson.dependencies || {});
+const external = Object.keys(pkgJson.dependencies || {}).concat('../package.json');
 const input = join(cwd, options.entry);
 
 async function build() {
