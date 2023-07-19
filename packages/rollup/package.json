@@ -10,7 +10,8 @@
     },
     "keywords": [
         "i18never",
-        "i18n"
+        "i18n",
+        "rollup-plugin"
     ],
     "publishConfig": {
         "access": "public",

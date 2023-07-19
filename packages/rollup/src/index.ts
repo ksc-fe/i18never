@@ -1,60 +1,50 @@
-import { TransformResult } from 'rollup';
-import { getSdk, Options as BaseOptions, initOptions } from '@i18never/shared';
+import { Plugin, OutputAsset } from 'rollup';
+import {
+    getSdk,
+    Options as BaseOptions,
+    initOptions,
+    isString,
+} from '@i18never/shared';
 import { KeyItem, transform } from '@i18never/transform';
 import { resolve } from 'path';
 
+type MatchRule = string | RegExp;
 type Options = Partial<BaseOptions> & {
-    exclude?: string[];
-    include?: string[];
+    include?: MatchRule[]; // include has a higher priority than exclude
+    exclude?: MatchRule[];
     langKey?: string;
-    storageType?: string;
+    storageType?: 'cookie' | 'localStorage' | 'sessionStorage';
 };
 
-export default function i18never(options: Options = {}) {
+export default function i18never(options: Options = {}): Plugin {
     initOptions(options);
 
     const allKeys: KeyItem[] = [];
     const include = options.include || [];
-    const exclude = options.exclude || ['node_modules'];
-
-    let i18nVersion = '';
+    const exclude = options.exclude || [/node_modules/];
 
     return {
         name: 'i18never',
-        enforce: 'post',
 
         async transform(code: string, id: string) {
-            const isIncluded = include.some((path) => {
-                const rootPath = resolve(process.cwd(), path);
-                return id.startsWith(rootPath);
-            });
-            if (
-                !id.match(/\.(pug|vue|tsx|jsx|js|mjs|ts)$/) ||
-                id.includes('@i18never/client') ||
-                !isIncluded
-            ) {
-                return;
-            }
+            const isIncluded = isMatched(id, include);
+            if (!isIncluded && isMatched(id, exclude)) return;
+
             const { code: output, keys } = transform(code);
             allKeys.push(...keys);
 
             return { code: output, map: null };
         },
 
-        async buildEnd() {
-            const version = await queryVersion(allKeys);
-            console.log(version);
-            i18nVersion = version;
-        },
-
         async generateBundle(_, bundle) {
-            const entryHtmlFile = bundle['index.html'];
+            const version = await queryVersion(allKeys);
+            const entryHtmlFile = bundle['index.html'] as OutputAsset;
             if (entryHtmlFile) {
-                const html = entryHtmlFile.source;
+                const html = entryHtmlFile.source.toString();
 
                 const newHtml = html.replace(
                     '</head>',
-                    `${generateScript(i18nVersion, options)}</head>`
+                    `${generateScript(version, options)}</head>`
                 );
                 entryHtmlFile.source = newHtml;
             }
@@ -92,54 +82,51 @@ async function queryVersion(keys: KeyItem[]) {
     const sdk = getSdk();
     const { getVerionId: data } = await sdk.CreateVersion({
         source: 'i18never',
-        values: _sortKeys(keys),
+        values: sortKeys(keys),
     });
 
     return data.Id;
 }
 
-function _sortKeys(keys: KeyItem[]) {
-    const targetValues = keys.map(({ key, tags }) => {
-        return {
-            key,
-            tags: tags
-                ? Object.keys(tags).map((language) => {
-                      const name = tags[language];
-                      return { language, name };
-                  })
-                : undefined,
-        };
+function isMatched(file: string, rules: MatchRule[]) {
+    return rules.some((rule) => {
+        if (isString(rule)) {
+            const path = resolve(process.cwd(), rule);
+            return file.startsWith(path);
+        }
+
+        return rule.test(file);
     });
+}
 
-    targetValues.sort((a, b) => {
-        a.tags.sort((tagA, tagB) => {
-            if (tagA.language < tagB.language) {
-                return -1;
-            } else if (tagA.language > tagB.language) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
+function sortKeys(keys: KeyItem[]) {
+    return sortBy(
+        keys.map(({ key, tags }) => {
+            return {
+                key,
+                tags: tags
+                    ? sortBy(
+                          Object.keys(tags).map((language) => {
+                              const name = tags[language];
+                              return { language, name };
+                          }),
+                          'language'
+                      )
+                    : undefined,
+            };
+        }),
+        'key'
+    );
+}
 
-        b.tags.sort((tagA, tagB) => {
-            if (tagA.language < tagB.language) {
-                return -1;
-            } else if (tagA.language > tagB.language) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
-
-        if (a.key < b.key) {
+function sortBy<T>(list: T[], key: keyof T) {
+    return list.sort((a, b) => {
+        if (a[key] < b[key]) {
             return -1;
-        } else if (a.key > b.key) {
+        } else if (a[key] > b[key]) {
             return 1;
         } else {
             return 0;
         }
     });
-
-    return targetValues;
 }

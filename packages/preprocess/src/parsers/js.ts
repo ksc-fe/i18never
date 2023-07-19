@@ -19,7 +19,7 @@ export type Context = BaseContext<TextNode>;
 export function parse(
     source: string,
     // because the column of location of babel parser starts from 0, but the others, e.g.
-    // Vue/Pug, start from 1. We use a defaultRootLoc starting from 1 to keep
+    // Vue/Pug, start from 1. We use column here starting from 0 to keep
     // consistent with them.
     rootLoc?: SourceLocation
 ) {
@@ -52,31 +52,3 @@ function getContext(ast: ParseResult<t.File>, rootLoc?: SourceLocation) {
 
     return context;
 }
-
-// function formatJsLocLine(jsKey: TempKeyItem, rootLine: number) {
-//     // - 2 is script index ande template index
-//     const line = jsKey.loc.line + rootLine - 2;
-//     const column = jsKey.jsx ? jsKey.loc.column : jsKey.loc.column + 1;
-
-//     return {
-//         line,
-//         column,
-//     };
-// }
-
-// function getAllKeysLoc(ast, filename: string) {
-//     const allKeys: TempKeyItem[] = [];
-
-//     traverse(ast, visitor, undefined, {
-//         keys: allKeys,
-//         filename,
-//     });
-
-//     // const code = generate(ast, {
-//     //     // concise: true,
-//     //     jsescOption: { minimal: true },
-//     //     retainLines: true,
-//     // }).code;
-//     // console.log('log', code);
-//     return allKeys;
-// }

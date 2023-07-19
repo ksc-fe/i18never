@@ -115,3 +115,7 @@ function strPad(str: string | number, length: number) {
 
     return `${whitespaces(length - strLength)}${str}`;
 }
+
+export function isString(str: unknown): str is string {
+    return typeof str === 'string';
+}

@@ -1,7 +1,7 @@
 import pugParse from 'pug-parser';
 import { Lexer } from 'pug-lexer';
 import pugWalk from 'pug-walk';
-import { parseString, SourceLocation, getLoc } from '@i18never/shared';
+import { parseString, SourceLocation, getLoc, isString } from '@i18never/shared';
 import { KeyItem } from './';
 import { parseTemplate } from './vue';
 import { parse as jsParse } from './js';
@@ -31,7 +31,7 @@ export function parse(source: string, rootLoc?: SourceLocation) {
                 node.attrs.forEach((node: AttrNode) => {
                     let value = node.val;
                     if (
-                        (typeof value === 'string' && !value.trim()) ||
+                        (isString(value) && !value.trim()) ||
                         typeof value === 'boolean'
                     ) {
                         return;
