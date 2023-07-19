@@ -24,11 +24,11 @@ function mock(data: QueryOrCreateDictsQuery) {
 mock(require('./assets/data.json'));
 
 fs.writeFile = jest.fn().mockImplementation((file: string, source: string) => {
-    writeFileSync(file.replace('/assets/', '/results/'), source, 'utf-8');
+    writeFileSync(file.replace('/assets/', '/dist/'), source, 'utf-8');
 });
 
 test(`test`, async () => {
-    const results = path.resolve(__dirname, './results');
+    const results = path.resolve(__dirname, './dist');
     await fs.rm(results, { recursive: true, force: true });
     await fs.mkdir(results, { recursive: true });
 

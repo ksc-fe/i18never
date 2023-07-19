@@ -5,7 +5,7 @@ module.exports = {
     testEnvironment: 'node',
     testMatch: [
         // '**/(preprocess|shared|transform/client|cli)/__tests__/**/*.test.ts',
-        // '**/rollup/__tests__/index.test.ts',
+        // '**/preprocess/__tests__/index.test.ts',
         '**/__tests__/**/*.test.ts',
     ],
     moduleNameMapper: {

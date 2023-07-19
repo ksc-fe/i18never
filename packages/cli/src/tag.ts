@@ -8,7 +8,7 @@ import ora, { Ora } from 'ora';
 import chalk from 'chalk';
 import { glob } from 'glob';
 import { getSourceByLoc } from '@i18never/shared';
-import fs from 'fs/promises';
+import * as fs from 'fs/promises';
 
 const supportExts = Object.keys(extParserMap);
 

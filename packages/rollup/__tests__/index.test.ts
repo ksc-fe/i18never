@@ -1,9 +1,9 @@
 import i18never from '../src';
 import { RollupOptions, rollup } from 'rollup';
-import path from 'path';
+import * as path from 'path';
 import { CreateVersionQuery } from '@i18never/shared';
 import html from '@rollup/plugin-html';
-import fs from 'fs/promises';
+import * as fs from 'fs/promises';
 
 function MockGraphQLClient() {
     // emtpy
