@@ -13,22 +13,20 @@ import * as fs from 'fs/promises';
 const supportExts = Object.keys(extParserMap);
 
 export async function tag(path: string) {
-    let spinner: ora.Ora;
-    let files: string[];
-
-    if ((await fs.stat(path)).isDirectory()) {
-        spinner = ora(`Starting process directory: ${path}`).start();
-        files = await glob(`${path}/**/*{${supportExts.join(',')}}`);
-    } else {
-        spinner = ora(`Starting process file: ${path}`).start();
-        files = [path];
-    }
+    const spinner = ora().start();
+    const files: string[] = (await fs.stat(path)).isDirectory()
+        ? await glob(`${path}/**/*{${supportExts.join(',')}}`)
+        : [path];
 
     try {
         for (const file of files) {
+            spinner.text = `Processing file: ${file}\n`;
+
             const { keys, translations, source } = await process(file);
             warnUnTranslatedKeys(keys, translations, source, file);
-            spinner.succeed(`Successfully processed the file: ${file}.`);
+
+            spinner.text = `Processed file: ${file}\n`;
+            spinner.succeed();
         }
     } catch (e) {
         console.error(e);
