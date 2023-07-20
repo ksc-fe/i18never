@@ -20,16 +20,17 @@ export async function tag(path: string) {
 
     try {
         for (const file of files) {
-            spinner.text = `Processing file: ${file}\n`;
+            spinner.text = `Processing file: ${chalk.gray(file)}\n`;
 
             const { keys, translations, source } = await process(file);
             warnUnTranslatedKeys(keys, translations, source, file);
 
-            spinner.text = `Processed file: ${file}\n`;
+            spinner.text = `Processed file: ${chalk.green(file)}\n`;
             spinner.succeed();
         }
     } catch (e) {
         console.error(e);
+        spinner.fail();
     } finally {
         spinner.stop();
     }
