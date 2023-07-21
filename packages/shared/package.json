@@ -1,6 +1,6 @@
 {
     "name": "@i18never/shared",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "description": "Base graphQL for i18never",
     "keywords": [
         "graphql",
