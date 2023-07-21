@@ -44,3 +44,9 @@ test(`multiple lines with props`, () => {
     </div>
 </template>`);
 });
+
+test('prop with object value', () => {
+    toMatchSnapshot(
+        `<template><div :a="{a: '测试', b: true}"></div></template>`
+    );
+});

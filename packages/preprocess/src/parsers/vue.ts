@@ -56,12 +56,23 @@ export function parseTemplate(value: string, rootLoc?: SourceLocation) {
     return getTemplateKeys(vueBaseParse(value), rootLoc);
 }
 
+export function parseSimpleExpression(
+    value: string,
+    loc: SourceLocation,
+    rootLoc?: SourceLocation
+) {
+    // we must use a pair of bracket to wrap the value, so that the js parser
+    // can parse it. The startNumber should also add 1 (1 + 1 = 2)
+    // i.e.: { a: true } => ({ a: true })
+    return jsParse(`(${value})`, getLoc(loc, rootLoc, 2));
+}
+
 function getTemplateKeys(ast: VueNode | undefined, rootLoc?: SourceLocation) {
     const keys: KeyItem[] = [];
     walkTemplateNode(ast, {
         SimpleExpression(node) {
             keys.push(
-                ...jsParse(node.content, getLoc(node.loc.start, rootLoc, 1))
+                ...parseSimpleExpression(node.content, node.loc.start, rootLoc)
             );
         },
         Text(node) {

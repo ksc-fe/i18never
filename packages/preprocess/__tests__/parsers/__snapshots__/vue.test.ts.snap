@@ -28,6 +28,20 @@ Array [
 ]
 `;
 
+exports[`prop with object value 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 34,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
 exports[`pug template 1`] = `
 Array [
   Object {
