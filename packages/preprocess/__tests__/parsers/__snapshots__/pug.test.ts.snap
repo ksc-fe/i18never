@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`prop with object value 1`] = `
+Array [
+  Object {
+    "identifier": null,
+    "key": "测试",
+    "loc": Object {
+      "column": 13,
+      "line": 1,
+    },
+    "tags": null,
+  },
+]
+`;
+
 exports[`with expression props 1`] = `
 Array [
   Object {

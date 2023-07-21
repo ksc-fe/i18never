@@ -94,7 +94,7 @@ export function getSourceByLoc(source: string, loc: SourceLocation) {
 function getNearNumbers(num: number, max: number) {
     const nums: number[] = [];
 
-    for (let i = num - 1; i > Math.max(num - 3, 0); i--) {
+    for (let i = num - 1; i > Math.max(num - 2, 0); i--) {
         nums.unshift(i);
     }
     for (let i = num; i <= Math.min(num + 3, max); i++) {

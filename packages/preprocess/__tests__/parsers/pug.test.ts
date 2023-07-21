@@ -19,3 +19,7 @@ test('with props', () => {
 test('with expression props', () => {
     toMatchSnapshot(`div(:a="'测试' + a")`);
 });
+
+test('prop with object value', () => {
+    toMatchSnapshot(`div(:a="{a: '测试', b: true}")`);
+});

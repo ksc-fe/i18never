@@ -52,7 +52,12 @@ export function parse(source: string, rootLoc?: SourceLocation) {
                         column: node.column + name.length + 2, // `${node.name}="`.length,
                     };
                     if (firstChar === ':' || firstChar === '@') {
-                        keys.push(...jsParse(value, getLoc(loc, rootLoc, 1)));
+                        // we must use a pair of bracket to wrap the value, so that the js parser
+                        // can parse it. The startNumber should also add 1 (1 + 1 = 2)
+                        // i.e.: { a: true } => ({ a: true })
+                        keys.push(
+                            ...jsParse(`(${value})`, getLoc(loc, rootLoc, 2))
+                        );
                     } else {
                         keys.push({
                             ...parseString(value),
