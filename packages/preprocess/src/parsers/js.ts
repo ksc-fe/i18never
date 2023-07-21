@@ -5,6 +5,8 @@ import {
     ObjectProperty,
     StringLiteral,
     TemplateLiteral,
+    MemberExpression,
+    TSTypeLiteral,
     Context as BaseContext,
     Text,
     SourceLocation,
@@ -45,6 +47,8 @@ function getContext(ast: ParseResult<t.File>, rootLoc?: SourceLocation) {
             StringLiteral,
             TemplateLiteral,
             JSXText: Text<t.JSXText>,
+            MemberExpression,
+            TSTypeLiteral,
         },
         undefined,
         context

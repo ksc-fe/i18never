@@ -23,6 +23,8 @@ Array [
 ]
 `;
 
+exports[`should not treat property key path as key 1`] = `Array []`;
+
 exports[`string literal 1`] = `
 Array [
   Object {

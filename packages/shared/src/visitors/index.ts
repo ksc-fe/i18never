@@ -1,10 +1,13 @@
-import { ImportDeclaration } from './ImportDeclaration';
-import { ObjectProperty } from './ObjectProperty';
-import { Text } from './Text';
-import { TemplateLiteral } from './TemplateLiteral';
 import { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 import { StringLiteral } from 'typescript';
+import { Text } from './Text';
+
+export { ImportDeclaration } from './ImportDeclaration';
+export { ObjectProperty } from './ObjectProperty';
+export { TemplateLiteral } from './TemplateLiteral';
+export { MemberExpression } from './MemberExpression';
+export { TSTypeLiteral } from './TSTypeLiteral';
 
 export type Tags = Record<string, string>;
 export type SourceLocation = {
@@ -33,10 +36,4 @@ export type Context<T extends t.Node = t.Node> = {
 
 const StringLiteral = Text<t.StringLiteral>;
 
-export {
-    ImportDeclaration,
-    ObjectProperty,
-    StringLiteral,
-    TemplateLiteral,
-    Text,
-};
+export { StringLiteral, Text };

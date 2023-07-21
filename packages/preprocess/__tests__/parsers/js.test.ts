@@ -14,3 +14,7 @@ test('template literal', () => {
 test('jsx', () => {
     toMatchSnapshot(`const a = <div a="测试">测试</div>`);
 });
+
+test('should not treat property key path as key', () => {
+    toMatchSnapshot(`const a = b['测试']`);
+});

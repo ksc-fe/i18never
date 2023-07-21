@@ -1,4 +1,4 @@
-import { isIgnore, options } from '@i18never/shared';
+import { isIgnore, options, matched } from '@i18never/shared';
 import fs from 'fs/promises';
 import path from 'path';
 import { inquire } from './inquire';
@@ -29,6 +29,6 @@ function getKeys(source: string, extname: string) {
     return keys.filter(({ identifier, key }) => {
         if (identifier) return !isIgnore(identifier);
 
-        return options.matchRegexp.test(key);
+        return matched(key);
     });
 }
