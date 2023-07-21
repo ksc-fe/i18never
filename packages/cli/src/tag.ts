@@ -48,9 +48,8 @@ function warnUnTranslatedKeys(
             if (!tag.value) {
                 const info = [
                     chalk.yellow(
-                        `There is no translation for key: "${key}" in language: "${language}" with tag: "${tag.name}".`
+                        `\nThere is no translation for key: "${key}" in language: "${language}" with tag: "${tag.name}".\n`
                     ),
-                    '',
                     `File: ${chalk.gray(file)}`,
                     chalk.gray(getSourceByLoc(source, loc)),
                 ];
