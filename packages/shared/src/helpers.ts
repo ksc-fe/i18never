@@ -97,7 +97,7 @@ function getNearNumbers(num: number, max: number) {
     for (let i = num - 1; i > Math.max(num - 2, 0); i--) {
         nums.unshift(i);
     }
-    for (let i = num; i <= Math.min(num + 3, max); i++) {
+    for (let i = num; i <= Math.min(num + 2, max); i++) {
         nums.push(i);
     }
 
@@ -105,7 +105,7 @@ function getNearNumbers(num: number, max: number) {
 }
 
 function whitespaces(length: number) {
-    return new Array(length + 1).join(' ');
+    return ' '.repeat(length);
 }
 
 function strPad(str: string | number, length: number) {

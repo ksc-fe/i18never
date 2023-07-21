@@ -21,12 +21,11 @@ export async function tag(path: string) {
     try {
         for (const file of files) {
             spinner.text = `Processing file: ${chalk.gray(file)}\n`;
-
             const { keys, translations, source } = await process(file);
-            warnUnTranslatedKeys(keys, translations, source, file);
-
             spinner.text = `Processed file: ${chalk.green(file)}\n`;
             spinner.succeed();
+
+            warnUnTranslatedKeys(keys, translations, source, file);
         }
     } catch (e) {
         console.error(e);
@@ -48,10 +47,11 @@ function warnUnTranslatedKeys(
             if (!tag.value) {
                 const info = [
                     chalk.yellow(
-                        `\nThere is no translation for key: "${key}" in language: "${language}" with tag: "${tag.name}".\n`
+                        `There is no translation for key: "${key}" in language: "${language}" with tag: "${tag.name}".`
                     ),
-                    `File: ${chalk.gray(file)}`,
+                    `File: ${file}`,
                     chalk.gray(getSourceByLoc(source, loc)),
+                    '',
                 ];
                 console.log(info.join('\n'));
             }
