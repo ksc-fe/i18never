@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [
         vue(),
         i18never({
-            exclude: ['node_modules'],
+            exclude: [/node_modules/],
         }),
     ],
 });
