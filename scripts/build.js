@@ -66,6 +66,7 @@ async function build() {
             file: `dist/${basename(input, '.ts')}.${options.ext}`,
             format,
             // interop: 'esModule',
+            interop: 'compat',
         });
     } catch (e) {
         console.error(e.message);
