@@ -1,12 +1,14 @@
 import { Plugin, OutputAsset } from 'rollup';
-import { initOptions } from '@i18never/shared';
+import {
+    initOptions,
+    PluginOptions,
+    queryVersion,
+    generateScript,
+} from '@i18never/shared';
 import { KeyItem, transform } from '@i18never/transform';
 import { createFilter } from '@rollup/pluginutils';
-import { Options, queryVersion, generateScript } from './helpers';
 
-export * from './helpers';
-
-export default function i18never(options: Options = {}): Plugin {
+export default function i18never(options: PluginOptions = {}): Plugin {
     initOptions(options);
 
     const allKeys: KeyItem[] = [];
@@ -38,7 +40,10 @@ export default function i18never(options: Options = {}): Plugin {
 
                         const newHtml = html.replace(
                             '</head>',
-                            `${generateScript(version, options)}</head>`
+                            `<script>${generateScript(
+                                version,
+                                options
+                            )}</script></head>`
                         );
                         entryHtmlFile.source = newHtml;
                     }

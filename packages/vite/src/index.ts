@@ -1,10 +1,14 @@
-import { Options, queryVersion, generateScript } from '@i18never/rollup';
 import { Plugin } from 'vite';
-import { initOptions } from '@i18never/shared';
+import {
+    initOptions,
+    PluginOptions,
+    queryVersion,
+    generateScript,
+} from '@i18never/shared';
 import { createFilter } from '@rollup/pluginutils';
 import { KeyItem, transform } from '@i18never/transform';
 
-export default function i18never(options: Options = {}): Plugin {
+export default function i18never(options: PluginOptions = {}): Plugin {
     initOptions(options);
 
     const allKeys: KeyItem[] = [];
