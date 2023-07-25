@@ -19,12 +19,10 @@ exports[`should generate file correctly 2`] = `
     <meta charset=\\"utf-8\\">
     <title>Rollup Bundle</title>
     
-  
-    <script>
-        var lang = ('; '+document.cookie).split('; ksc_lang=').pop().split(';').shift();;
+  <script>
+        var lang = ('; '+document.cookie).split('; ksc_lang=').pop().split(';').shift() || 'zh';
         document.write('<scr'+'ipt src=\\"//i18never.ksyun.com/dict/'+lang+'/fake_id\\"></scr'+'ipt>');
-    </script>
-    </head>
+    </script></head>
   <body>
     <script src=\\"bundle.js\\" type=\\"module\\"></script>
   </body>

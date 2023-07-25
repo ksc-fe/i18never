@@ -5,8 +5,8 @@ module.exports = {
     testEnvironment: 'node',
     testMatch: [
         // '**/(preprocess|shared|transform/client|cli)/__tests__/**/*.test.ts',
-        '**/vite/__tests__/index.test.ts',
-        // '**/__tests__/**/*.test.ts',
+        // '**/vite/__tests__/index.test.ts',
+        '**/__tests__/**/*.test.ts',
     ],
     moduleNameMapper: {
         '@i18never/(.*)$': `<rootDir>/packages/$1/src`,

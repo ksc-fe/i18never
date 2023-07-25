@@ -150,6 +150,24 @@ describe('ignore', () => {
     });
 });
 
+describe('keys', () => {
+    test('should get all tagged keys', () => {
+        expect(transform(`const a = \`[${prefix}:]测试\`;`).keys).toHaveLength(
+            1
+        );
+    });
+
+    test('should not get un-tagged keys', () => {
+        expect(transform(`const a = \`测试\`;`).keys).toHaveLength(0);
+    });
+
+    test('should not get ignored keys', () => {
+        expect(
+            transform(`const a = \`[${prefix}:ignore]测试\`;`).keys
+        ).toHaveLength(0);
+    });
+});
+
 // should not exist jsx file
 // describe('jsx', () => {
 //     test('should transform tsx correctly', async () => {

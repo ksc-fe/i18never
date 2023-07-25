@@ -9,16 +9,12 @@ export { KeyItem };
 
 export function transform(source: string) {
     const ast = parse(source, { sourceType: 'module' });
-    const context = getContext(ast);
-    const keys = context.keys;
-    let hasImportedClient = context.hasImportedModule;
+    const { keys, hasImportedModule } = getContext(ast);
+    const taggedKeys = keys.filter(transformKey);
 
-    keys.forEach((item) => {
-        if (transformKey(item) && !hasImportedClient) {
-            importClient(ast);
-            hasImportedClient = true;
-        }
-    });
+    if (taggedKeys.length && !hasImportedModule) {
+        importClient(ast);
+    }
 
     const code = generate(ast, {
         // concise: true,
@@ -26,7 +22,7 @@ export function transform(source: string) {
         retainLines: true,
     }).code;
 
-    return { code, keys };
+    return { code, keys: taggedKeys };
 }
 
 function transformKey(item: KeyItem): boolean {
