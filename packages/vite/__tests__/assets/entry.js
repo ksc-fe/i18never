@@ -1,4 +1,5 @@
 import Component from './test.vue';
+import './test.css';
 
 const a = '[$_:en]测试';
 const b = '[$_:ignore]忽略';

@@ -1,8 +1,10 @@
 import { TranslationDetail } from './inquire';
-import { options } from '@i18never/shared';
+import { options, SupportExt } from '@i18never/shared';
 import { jsParse, pugParse, vueParse } from './parsers';
 
-export const extParserMap = {
+export const extParserMap: {
+    [key in SupportExt]: typeof jsParse | typeof pugParse | typeof vueParse;
+} = {
     '.vue': vueParse,
     '.js': jsParse,
     '.ts': jsParse,

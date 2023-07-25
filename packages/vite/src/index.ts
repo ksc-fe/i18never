@@ -4,9 +4,11 @@ import {
     PluginOptions,
     queryVersion,
     generateScript,
+    supportExts,
 } from '@i18never/shared';
 import { createFilter } from '@rollup/pluginutils';
 import { KeyItem, transform } from '@i18never/transform';
+import { extname } from 'path';
 
 const concat = Array.prototype.concat;
 
@@ -22,7 +24,14 @@ export default function i18never(options: PluginOptions = {}): Plugin {
         transform: {
             // order: 'post',
             async handler(code, id) {
-                if (!filter(id) || id.endsWith('.html')) return;
+                if (
+                    !filter(id) ||
+                    !(supportExts as ReadonlyArray<string>).includes(
+                        extname(id)
+                    )
+                ) {
+                    return;
+                }
 
                 const { code: output, keys } = transform(code);
                 if (keys.length) {

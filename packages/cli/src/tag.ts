@@ -1,16 +1,9 @@
-import {
-    process,
-    extParserMap,
-    KeyItem,
-    InquireResultItem,
-} from '@i18never/preprocess';
+import { process, KeyItem, InquireResultItem } from '@i18never/preprocess';
 import ora from 'ora';
 import chalk from 'chalk';
 import { glob } from 'glob';
-import { getSourceByLoc } from '@i18never/shared';
+import { getSourceByLoc, supportExts } from '@i18never/shared';
 import fs from 'fs/promises';
-
-const supportExts = Object.keys(extParserMap);
 
 export async function tag(path: string) {
     const spinner = ora().start();

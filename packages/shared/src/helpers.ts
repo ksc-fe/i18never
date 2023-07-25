@@ -10,6 +10,20 @@ type KeyWithTags = {
     identifier: string | null;
 };
 
+export const supportExts = [
+    '.vue',
+    '.js',
+    '.ts',
+    '.mjs',
+    '.mts',
+    '.jsx',
+    '.tsx',
+    '.pug',
+    '.jade',
+] as const;
+
+export type SupportExt = (typeof supportExts)[number];
+
 export function parseString(str: string): KeyWithTags {
     const matches = str.match(parseRegexp);
     if (!matches) return { key: str, tags: null, identifier: null };
