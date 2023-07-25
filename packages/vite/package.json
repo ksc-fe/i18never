@@ -1,7 +1,7 @@
 {
-    "name": "rollup-plugin-i18never",
+    "name": "vite-plugin-i18never",
     "version": "1.1.6",
-    "description": "A rollup plugin based on i18never",
+    "description": "i18never plugin for vite",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
     "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
     "keywords": [
         "i18never",
         "i18n",
-        "rollup-plugin"
+        "vite-plugin"
     ],
     "publishConfig": {
         "access": "public",
@@ -29,18 +29,16 @@
     },
     "author": "Javey",
     "license": "MIT",
-    "devDependencies": {
-        "@rollup/plugin-html": "^1.0.2",
-        "rollup": "^3.26.3"
-    },
-    "peerDependencies": {
-        "rollup": "^3.26.3"
-    },
     "dependencies": {
         "@i18never/client": "^1.1.6",
         "@i18never/shared": "^1.1.6",
         "@i18never/transform": "^1.1.6",
         "@rollup/pluginutils": "^5.0.2"
     },
-    "gitHead": "9cf17c1522768da3ae6727412f750b74e2508371"
+    "peerDependencies": {
+        "vite": "^4.4.6"
+    },
+    "devDependencies": {
+        "vite": "^4.4.6"
+    }
 }
