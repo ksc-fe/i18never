@@ -27,7 +27,7 @@ export default function i18never(options: PluginOptions = {}): Plugin {
                 if (
                     !filter(id) ||
                     !(supportExts as ReadonlyArray<string>).includes(
-                        extname(id)
+                        extname(removeQueryString(id))
                     )
                 ) {
                     return;
@@ -60,4 +60,15 @@ export default function i18never(options: PluginOptions = {}): Plugin {
             },
         },
     };
+}
+
+/**
+ * Vue will add querystring to path
+ */
+function removeQueryString(file: string) {
+    const index = file.indexOf('?');
+    if (index > -1) {
+        return file.substring(0, index);
+    }
+    return file;
 }
