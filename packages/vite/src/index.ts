@@ -27,7 +27,7 @@ export default function i18never(options: PluginOptions = {}): Plugin {
                 if (
                     !filter(id) ||
                     !(supportExts as ReadonlyArray<string>).includes(
-                        extname(removeQueryString(id))
+                        getExtname(id)
                     )
                 ) {
                     return;
@@ -64,11 +64,18 @@ export default function i18never(options: PluginOptions = {}): Plugin {
 
 /**
  * Vue will add querystring to path
+ * e.g. /home/javey/Workspaces/i18never/packages/vite/__tests__/assets/test.vue?vue&type=style&index=0&lang.css
  */
-function removeQueryString(file: string) {
-    const index = file.indexOf('?');
+function getExtname(id: string) {
+    let ext = extname(id);
+
+    const index = id.indexOf('?');
     if (index > -1) {
-        return file.substring(0, index);
+        const realExt = extname(id.substring(0, index));
+        if (realExt !== '.vue') {
+            ext = realExt;
+        }
     }
-    return file;
+
+    return ext;
 }
