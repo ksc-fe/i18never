@@ -49,5 +49,5 @@
         "@types/babel__traverse": "^7.14.2",
         "@types/inquirer": "^8.2.4"
     },
-    "gitHead": "9cf17c1522768da3ae6727412f750b74e2508371"
+    "gitHead": "31c79d3631356a018822f934d2e7b64d42f29eb2"
 }

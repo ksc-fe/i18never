@@ -42,5 +42,5 @@
         "@i18never/transform": "^1.1.10",
         "@rollup/pluginutils": "^5.0.2"
     },
-    "gitHead": "9cf17c1522768da3ae6727412f750b74e2508371"
+    "gitHead": "31c79d3631356a018822f934d2e7b64d42f29eb2"
 }
