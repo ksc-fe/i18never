@@ -7,7 +7,7 @@ export const options = {
         /([\u4E00-\u9FFF]+)|((\\u\{?((4[EF][\dA-F]{2})|([5-9][\dA-F]{3}))\}?)+)/,
 
     // the graphql api for getting translations
-    uri: 'http://i18never.ksyun.com/graphql',
+    uri: 'https://i18never.ksyun.com/graphql',
 
     // the source to distinguish clients
     source: 'i18never',
