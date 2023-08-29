@@ -30,7 +30,7 @@ export function parse(source: string) {
         if (template.lang === 'pug') {
             keys.push(...pugParse(template.content, rootLoc));
         } else {
-            keys.push(...getTemplateKeys(template.ast, rootLoc));
+            keys.push(...getTemplateKeys(template.ast));
         }
     }
 

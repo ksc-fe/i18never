@@ -90,6 +90,12 @@ test('should transform escaped unicode', () => {
     );
 });
 
+test('should transform escaped unicode for template', () => {
+    manipulate(`const a = \`[${prefix}:]\\u{4F60}\\u597D \${true ? "[${prefix}:]测试" : ""}\``).toBe(
+        `${client}const a = ${clientFunction}("\u{4F60}\u597D {0}", [true ? ${clientFunction}("测试") : ""]);`
+    );
+});
+
 describe('template literal', () => {
     test('should obtain parameters', () => {
         manipulate(`\`[${prefix}:]\${a}测试\${a.b}\``).toBe(

@@ -6,6 +6,8 @@ module.exports = {
     testMatch: [
         // '**/(preprocess|shared|transform/client|cli)/__tests__/**/*.test.ts',
         // '**/vite/__tests__/index.test.ts',
+        // '**/preprocess/__tests__/parsers/vue.test.ts',
+        // '**/transform/__tests__/index.test.ts',
         '**/__tests__/**/*.test.ts',
     ],
     moduleNameMapper: {
