@@ -1,6 +1,6 @@
 {
     "name": "rollup-plugin-i18never",
-    "version": "1.1.11",
+    "version": "1.1.12",
     "description": "A rollup plugin based on i18never",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
@@ -38,8 +38,8 @@
     },
     "dependencies": {
         "@i18never/client": "^1.1.9",
-        "@i18never/shared": "^1.1.11",
-        "@i18never/transform": "^1.1.11",
+        "@i18never/shared": "^1.1.12",
+        "@i18never/transform": "^1.1.12",
         "@rollup/pluginutils": "^5.0.2"
     },
     "gitHead": "31c79d3631356a018822f934d2e7b64d42f29eb2"

@@ -1,6 +1,6 @@
 {
     "name": "vite-plugin-i18never",
-    "version": "1.1.11",
+    "version": "1.1.12",
     "description": "i18never plugin for vite",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
@@ -31,8 +31,8 @@
     "license": "MIT",
     "dependencies": {
         "@i18never/client": "^1.1.9",
-        "@i18never/shared": "^1.1.11",
-        "@i18never/transform": "^1.1.11",
+        "@i18never/shared": "^1.1.12",
+        "@i18never/transform": "^1.1.12",
         "@rollup/pluginutils": "^5.0.2"
     },
     "peerDependencies": {
