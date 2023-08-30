@@ -19,26 +19,26 @@ export function TemplateLiteral(
     let identifier: string | null = null;
     for (let i = 0; i < quasis.length; i++) {
         const elem = quasis[i];
-        let raw = elem.value.raw;
-        if (raw) {
+        let value = elem.value.cooked;
+        if (value) {
             if (i === 0) {
                 // if this is the first quasi, check whether it has tag or not
                 const {
                     key,
                     tags: _tags,
                     identifier: _identifier,
-                } = parseString(raw);
+                } = parseString(value);
                 if (_identifier) {
-                    raw = key;
+                    value = key;
                     tags = _tags;
                     identifier = _identifier;
                     if (isIgnore(_identifier)) {
-                        strings.push(raw);
+                        strings.push(value);
                         break;
                     }
                 }
             }
-            strings.push(raw);
+            strings.push(value);
         }
         if (index < expressions.length) {
             strings.push(`{${index++}}`);

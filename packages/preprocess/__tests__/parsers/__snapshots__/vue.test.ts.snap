@@ -6,7 +6,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 29,
+      "column": 19,
       "line": 1,
     },
     "tags": null,
@@ -34,7 +34,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 34,
+      "column": 24,
       "line": 1,
     },
     "tags": null,
@@ -90,7 +90,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 25,
+      "column": 15,
       "line": 1,
     },
     "tags": null,
@@ -104,7 +104,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 30,
+      "column": 20,
       "line": 1,
     },
     "tags": null,
@@ -132,7 +132,7 @@ Array [
     "identifier": null,
     "key": "测试",
     "loc": Object {
-      "column": 28,
+      "column": 18,
       "line": 1,
     },
     "tags": null,

@@ -50,3 +50,18 @@ test('prop with object value', () => {
         `<template><div :a="{a: '测试', b: true}"></div></template>`
     );
 });
+
+test('Multi line coordinate actual value verification', () => {
+    let keys =  parse(
+        `<script setup>
+            const a = test
+        </script>
+        <template>
+            <div :a="{a: '测试', b: true}"></div>
+        </template>`
+    );
+    expect(keys[0].loc).toStrictEqual({
+        'line': 5,
+        'column': 26
+    })
+});
