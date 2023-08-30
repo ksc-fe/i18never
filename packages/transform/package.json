@@ -1,6 +1,6 @@
 {
     "name": "@i18never/transform",
-    "version": "1.1.12",
+    "version": "1.1.13",
     "description": "Transform all tagged keyword to translate function",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
@@ -28,7 +28,7 @@
         "@babel/parser": "^7.22.7",
         "@babel/traverse": "^7.22.8",
         "@babel/types": "^7.22.5",
-        "@i18never/shared": "^1.1.12"
+        "@i18never/shared": "^1.1.13"
     },
     "gitHead": "31c79d3631356a018822f934d2e7b64d42f29eb2"
 }
