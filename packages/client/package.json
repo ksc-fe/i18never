@@ -1,6 +1,6 @@
 {
     "name": "@i18never/client",
-    "version": "1.1.14",
+    "version": "1.1.15",
     "description": "Retrieve translation from dicts.",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
