@@ -7,6 +7,7 @@
             <FormItem
                 :label="istest ? '测试一次' : '购买'"
                 :test="`购买${a}台`"
+                v-if="showColumn('test', '测试', 200)"
             >
                 <Input placeholder="购买"></Input>
             </FormItem>

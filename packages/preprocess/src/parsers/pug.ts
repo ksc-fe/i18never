@@ -51,7 +51,7 @@ export function parse(source: string, rootLoc?: SourceLocation) {
                         line: node.line,
                         column: node.column + name.length + 2, // `${node.name}="`.length,
                     };
-                    if (firstChar === ':' || firstChar === '@') {
+                    if (firstChar === ':' || firstChar === '@' || name.startsWith('v-')) {
                         keys.push(
                             ...parseSimpleExpression(value, loc, rootLoc)
                         );

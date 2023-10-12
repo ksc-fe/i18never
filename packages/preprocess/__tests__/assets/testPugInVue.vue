@@ -11,6 +11,8 @@ div
       FormItem(
           :label="istest ? '测试一次' : '购买'",
           :test="`购买${a}台`",
+          v-if="showColumn('test', '测试', 200)",
+          v-auth
           name="测试") 测试一次
 </template>
 

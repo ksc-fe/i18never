@@ -46,6 +46,7 @@ exports[`process pug 1`] = `
         FormItem(
             :label=\\"istest ? '[$_:en]测试一次' : '[$_:en]购买'\\",
             :test=\\"\`[$_:en,jp=v]购买\${a}台\`\\",
+            v-if=\\"showColumn('test', '[$_:en]测试', 200)\\",
             name=\\"[$_:en]测试\\") [$_:en]测试一次
     
 
@@ -66,6 +67,8 @@ div
       FormItem(
           :label=\\"istest ? '[$_:en]测试一次' : '[$_:en]购买'\\",
           :test=\\"\`[$_:en,jp=v]购买\${a}台\`\\",
+          v-if=\\"showColumn('test', '[$_:en]测试', 200)\\",
+          v-auth
           name=\\"[$_:en]测试\\") [$_:en]测试一次
 </template>
 
@@ -100,6 +103,7 @@ exports[`process vue 1`] = `
             <FormItem
                 :label=\\"istest ? '[$_:en]测试一次' : '[$_:en]购买'\\"
                 :test=\\"\`[$_:en,jp=v]购买\${a}台\`\\"
+                v-if=\\"showColumn('test', '[$_:en]测试', 200)\\"
             >
                 <Input placeholder=\\"[$_:en]购买\\"></Input>
             </FormItem>
