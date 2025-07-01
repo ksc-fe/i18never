@@ -1,6 +1,6 @@
 {
     "name": "@i18never/preprocess",
-    "version": "1.1.15",
+    "version": "1.1.16",
     "description": "Parse pug/vue2/vue3/tsx template for i18never ",
     "author": "zhangbing4 <zhangbing4@kingsoft.com>",
     "homepage": "https://github.com/ksc-fe/i18never#readme",
@@ -36,7 +36,7 @@
         "@babel/parser": "^7.17.8",
         "@babel/traverse": "7.17.3",
         "@babel/types": "^7.17.0",
-        "@i18never/shared": "^1.1.15",
+        "@i18never/shared": "^1.1.16",
         "@vue/compiler-core": "^3.3.4",
         "@vue/compiler-sfc": "^3.3.4",
         "inquirer": "^8.2.4",
