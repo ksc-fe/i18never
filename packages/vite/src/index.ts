@@ -45,6 +45,8 @@ export default function i18never(options: PluginOptions = {}): Plugin {
         transformIndexHtml: {
             order: 'post',
             async handler(html) {
+                if (options.injectScript === false) return html;
+
                 const version = await queryVersion(
                     concat.apply([], Object.values(idKeysMap))
                 );

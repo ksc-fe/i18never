@@ -8,6 +8,7 @@ export type PluginOptions = Partial<Options> & {
     exclude?: FilterPattern;
     langKey?: string;
     storageType?: 'cookie' | 'localStorage' | 'sessionStorage';
+    injectScript?: boolean;
 };
 
 export function generateScript(version: string, options: PluginOptions) {

@@ -20,7 +20,7 @@ export const options = {
 
     // the module providing the translation function, namely $_
     clientModule: '@i18never/client',
-    
+
     clientFunction: '$_',
 
     // the token to request graphql api

@@ -1,6 +1,7 @@
 import i18never from '../src';
 import { CreateVersionQuery } from '@i18never/shared';
-import { createServer } from 'vite';
+import { createServer, build } from 'vite';
+import vue from '@vitejs/plugin-vue';
 
 function MockGraphQLClient() {
     // emtpy
@@ -29,4 +30,13 @@ test('vite test', async () => {
     // });
     // await server.listen();
     // server.printUrls();
+});
+
+test('build', async () => {
+    const result = await build({
+        configFile: false,
+        root: __dirname,
+        plugins: [vue(), i18never({ injectScript: false })],
+    });
+    console.log(result);
 });

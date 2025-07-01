@@ -32,6 +32,8 @@ export default function i18never(options: PluginOptions = {}): Plugin {
         generateBundle: {
             order: 'post',
             async handler(_, bundle) {
+                if (options.injectScript === false) return;
+
                 const version = await queryVersion(allKeys);
                 for (const entryFile in bundle) {
                     if (entryFile.endsWith('.html')) {
